@@ -6,7 +6,7 @@ Warden::Manager.serialize_into_session do |user|
 end
 
 Warden::Manager.serialize_from_session do |uid|
-  User.find_by_uid(uid)
+  GDS::SSO.user_klass.find_by_uid(uid)
 end
 
 Warden::Strategies.add(:signonotron) do
@@ -26,7 +26,7 @@ Warden::Strategies.add(:signonotron) do
   private
 
   def prep_user(auth_hash)
-    user = User.find_for_gds_oauth(auth_hash)
+    user = GDS::SSO.user_klass.find_for_gds_oauth(auth_hash)
     fail!("Couldn't process credentials") unless user
     user
   end

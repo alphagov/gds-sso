@@ -1,9 +1,16 @@
 require 'rails'
+require 'active_support/ordered_options'
 
 module GDS
   module SSO
     autoload :FailureApp, 'gds-sso/failure_app'
 
+    def self.config
+      @config ||= ActiveSupport::OrderOptions.new
+      yield @config if block_given?
+      @config
+    end
+    
     class Engine < ::Rails::Engine
       # config.gds = # that ordered hash map config thingy
 
@@ -58,6 +65,10 @@ module GDS
         manager.default_strategies :signonotron
         manager.failure_app = GDS::SSO::FailureApp
       end
+    end
+    
+    def self.user_klass
+      @config.user.constantize
     end
   end
 end
