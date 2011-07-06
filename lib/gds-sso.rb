@@ -1,14 +1,19 @@
 require 'rails'
 require 'active_support/ordered_options'
 
+require 'gds-sso/warden_config'
+require 'gds-sso/omniauth_strategy'
+require 'gds-sso/user'
+require 'gds-sso/controller_methods'
+require 'gds-sso/config'
+
 module GDS
   module SSO
     autoload :FailureApp, 'gds-sso/failure_app'
 
+
     def self.config
-      @config ||= ActiveSupport::OrderOptions.new
-      yield @config if block_given?
-      @config
+      yield GDS::SSO::Config if block_given?
     end
     
     class Engine < ::Rails::Engine
@@ -57,7 +62,7 @@ module GDS
     #   manager.failure_app = FailureApp
     # end
 
-      config.app_middleware.use OmniAuth::Builder do
+      config.app_middleware.use ::OmniAuth::Builder do
         provider :gds, 'abcdefgh12345678', 'secret'
       end
 
@@ -66,14 +71,5 @@ module GDS
         manager.failure_app = GDS::SSO::FailureApp
       end
     end
-    
-    def self.user_klass
-      @config.user.constantize
-    end
   end
 end
-
-require 'gds-sso/warden_config'
-require 'gds-sso/omniauth_strategy'
-require 'gds-sso/user'
-require 'gds-sso/controller_methods'
