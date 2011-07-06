@@ -5,7 +5,7 @@ require 'multi_json'
 # basic user information.
 #
 # @example Basic Usage
-#     use GdsOauth, 'API Key', 'Secret Key'
+#     use OmniAuth::Builder :gds, 'API Key', 'Secret Key'
 
 class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   # @param [Rack Application] app standard middleware application parameter
@@ -13,9 +13,9 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   # @param [String] secret_key the application secret as [provided by Bitly]
   def initialize(app, api_key = nil, secret_key = nil, options = {}, &block)
     client_options = {
-      :site => 'http://local.alphagov.co.uk:3001/',
-      :authorize_url => 'http://local.alphagov.co.uk:3001/oauth/authorize',
-      :access_token_url => 'http://local.alphagov.co.uk:3001/oauth/access_token'
+      :site => "#{GDS::SSO::Config.oauth_root_url}/",
+      :authorize_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/authorize",
+      :access_token_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token"
     }
 
     super(app, :gds, api_key, secret_key, client_options, options, &block)
