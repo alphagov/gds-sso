@@ -16,7 +16,7 @@ module GDS
       @@oauth_root_url = "http://localhost:3001"
 
       def self.user_klass
-        user.to_s.constantize
+        user_model.to_s.constantize
       end
     end
   end

@@ -24,7 +24,7 @@ module GDS
       end
 
       config.app_middleware.use Warden::Manager do |manager|
-        manager.default_strategies :signonotron
+        manager.default_strategies :gds_sso
         manager.failure_app = GDS::SSO::FailureApp
       end
     end

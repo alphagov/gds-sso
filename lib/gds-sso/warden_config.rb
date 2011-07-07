@@ -9,7 +9,7 @@ Warden::Manager.serialize_from_session do |uid|
   GDS::SSO::Config.user_klass.find_by_uid(uid)
 end
 
-Warden::Strategies.add(:signonotron) do
+Warden::Strategies.add(:gds_sso) do
   def valid?
     true
   end
