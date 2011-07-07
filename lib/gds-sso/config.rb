@@ -2,8 +2,8 @@ module GDS
   module SSO
     module Config
       # Name of the User class
-      mattr_accessor :user
-      @@user = "User"
+      mattr_accessor :user_model
+      @@user_model = "User"
 
       # OAuth ID
       mattr_accessor :oauth_id
