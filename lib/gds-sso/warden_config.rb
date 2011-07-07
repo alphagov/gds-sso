@@ -31,3 +31,13 @@ Warden::Strategies.add(:gds_sso) do
     user
   end
 end
+
+Warden::Strategies.add(:mock_gds_sso) do
+  def valid?
+    true
+  end
+
+  def authenticate!
+    success!(GDS::SSO::Config.user_klass.first)
+  end
+end

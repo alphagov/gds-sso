@@ -24,7 +24,7 @@ module GDS
       end
 
       config.app_middleware.use Warden::Manager do |manager|
-        manager.default_strategies :gds_sso
+        manager.default_strategies Rails.env.production? ? :gds_sso : :mock_gds_sso
         manager.failure_app = GDS::SSO::FailureApp
       end
     end

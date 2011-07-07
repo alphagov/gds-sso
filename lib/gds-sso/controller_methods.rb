@@ -2,7 +2,7 @@ module GDS
   module SSO
     module ControllerMethods
       def authenticate_user!
-        request.env['warden'].authenticate!(:gds_sso)
+        request.env['warden'].authenticate!
       end
 
       def user_signed_in?
