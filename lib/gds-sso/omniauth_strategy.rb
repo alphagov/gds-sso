@@ -1,7 +1,7 @@
 require 'omniauth/oauth'
 require 'multi_json'
 
-# Authenticate to Bitly utilizing OAuth 2.0 and retrieve
+# Authenticate to GDS with OAuth 2.0 and retrieve
 # basic user information.
 #
 # @example Basic Usage
@@ -23,11 +23,19 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
 
   protected
 
+  def fetch_user_data
+    @access_token.get('/user.json')
+  end
+
   def user_hash
-    @user_hash ||= MultiJson.decode(@access_token.get('/user.json'))['user']
+    @user_hash ||= MultiJson.decode(fetch_user_data)['user']
+  end
+
+  def build_auth_hash
+    {'uid' => user_hash['uid'], 'user_info' => {'name' => user_hash['name'], 'email' => user_hash['email']}, 'extra' => {'user_hash' => user_hash}}
   end
 
   def auth_hash
-    OmniAuth::Utils.deep_merge(super, {'uid' => user_hash['uid'], 'name' => user_hash['name'], 'version' => user_hash['version'], 'email' => user_hash['email']})
+    OmniAuth::Utils.deep_merge(super, build_auth_hash)
   end
 end

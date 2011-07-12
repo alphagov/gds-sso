@@ -13,7 +13,15 @@ module GDS
     def self.config
       yield GDS::SSO::Config
     end
-    
+
+    def self.default_strategy
+      if ['development', 'test'].include?(Rails.env) && ENV['GDS_SSO_STRATEGY'] != 'real'
+        :mock_gds_sso
+      else
+        :gds_sso
+      end
+    end
+
     class Engine < ::Rails::Engine
       # Force routes to be loaded if we are doing any eager load.
       # TODO - check this one - Stolen from Devise because it looked sensible...
@@ -24,7 +32,7 @@ module GDS
       end
 
       config.app_middleware.use Warden::Manager do |manager|
-        manager.default_strategies Rails.env.production? ? :gds_sso : :mock_gds_sso
+        manager.default_strategies GDS::SSO.default_strategy
         manager.failure_app = GDS::SSO::FailureApp
       end
     end
