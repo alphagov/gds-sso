@@ -3,6 +3,7 @@ require 'rails'
 require 'gds-sso/config'
 require 'gds-sso/omniauth_strategy'
 require 'gds-sso/warden_config'
+require 'gds-sso/routes'
 
 module GDS
   module SSO
