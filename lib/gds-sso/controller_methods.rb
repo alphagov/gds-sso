@@ -2,15 +2,23 @@ module GDS
   module SSO
     module ControllerMethods
       def authenticate_user!
-        request.env['warden'].authenticate!
+        warden.authenticate!
       end
 
       def user_signed_in?
-        request.env['warden'].authenticated?
+        warden.authenticated?
       end
 
       def current_user
-        request.env['warden'].authenticated? ? request.env['warden'].user : nil
+        warden.user if user_signed_in?
+      end
+
+      def log_out
+        warden.log_out
+      end
+
+      def warden
+        request.env['warden']
       end
 
       def self.included(base)
