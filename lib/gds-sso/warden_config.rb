@@ -38,6 +38,6 @@ Warden::Strategies.add(:mock_gds_sso) do
   end
 
   def authenticate!
-    success!(GDS::SSO::Config.user_klass.first)
+    success!(GDS::SSO.test_user || GDS::SSO::Config.user_klass.first)
   end
 end

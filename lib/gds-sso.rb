@@ -11,6 +11,9 @@ module GDS
     autoload :ControllerMethods, 'gds-sso/controller_methods'
     autoload :User,              'gds-sso/user'
 
+    # User to return as logged in during tests
+    mattr_accessor :test_user
+
     def self.config
       yield GDS::SSO::Config
     end
