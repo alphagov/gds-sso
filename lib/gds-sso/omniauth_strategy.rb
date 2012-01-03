@@ -16,7 +16,10 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
       :site => "#{GDS::SSO::Config.oauth_root_url}/",
       :authorize_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/authorize",
       :token_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token",
-      :access_token_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token"
+      :access_token_url => "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token",
+      :ssl => {
+        :verify => false
+      }
     }
 
     super(app, :gds, api_key, secret_key, client_options, options, &block)
