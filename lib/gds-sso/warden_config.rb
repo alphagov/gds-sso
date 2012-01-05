@@ -38,6 +38,11 @@ Warden::Strategies.add(:mock_gds_sso) do
   end
 
   def authenticate!
-    success!(GDS::SSO.test_user || GDS::SSO::Config.user_klass.first)
+    test_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
+    if test_user
+      success!(test_user)
+    else
+      raise "GDS-SSO running in mock mode and no test user found. Normally we'd load the first user in the database. Create a user in the database."
+    end
   end
 end

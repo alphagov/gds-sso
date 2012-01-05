@@ -1,8 +1,13 @@
 # -*- encoding: utf-8 -*-
 
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
+require 'gds-sso/version'
+
 Gem::Specification.new do |s|
   s.name        = "gds-sso"
-  s.version     = "0.2.0"
+  s.version     = GDS::SSO::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Matt Patterson", "James Stewart"]
   s.email       = ["matt@constituentparts.com", "james.stewart@digital.cabinet-office.gov.uk"]
