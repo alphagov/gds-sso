@@ -9,14 +9,13 @@ module GDS
       include ActionController::RackDelegation
       include ActionController::UrlFor
       include ActionController::Redirecting
+      include ActionController::HttpAuthentication::Basic::ControllerMethods
       include Rails.application.routes.url_helpers
 
       def self.call(env)
-        action(:respond).call(env)
-      end
-
-      def respond
-        redirect
+        if ! ::GDS::SSO::ApiAccess.api_call?(env)
+          action(:redirect).call(env)
+        end
       end
 
       def redirect
@@ -33,6 +32,7 @@ module GDS
       def store_location!
         session["return_to"] = env['warden.options'][:attempted_path] if request.get?
       end
+      
     end
   end
 end
