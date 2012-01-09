@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'rails', '>= 3.0.0'
-  s.add_dependency 'warden'
+  s.add_dependency 'warden', '1.0.6'
   s.add_dependency 'oauth2', '0.4.1'
   s.add_dependency 'oa-oauth', '0.2.6'
   s.add_dependency 'oa-core', '0.2.6'
