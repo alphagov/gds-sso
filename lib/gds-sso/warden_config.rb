@@ -41,6 +41,11 @@ Warden::Strategies.add(:gds_sso_api_access) do
   
   def authenticate!
     Rails.logger.debug("Authenticating with gds_sso_api_access strategy")
+
+    if ! basic_auth_configured?
+      Rails.logger.debug("Basic auth not configured, not requiring authentication")
+      success!('api')
+    end
     
     auth = Rack::Auth::Basic::Request.new(env)
 
@@ -52,6 +57,10 @@ Warden::Strategies.add(:gds_sso_api_access) do
     else
       custom!(unauthorized)
     end
+  end
+  
+  def basic_auth_configured?
+    ! ::GDS::SSO::Config.basic_auth_user.nil?
   end
   
   def valid_api_user?(username, password)
