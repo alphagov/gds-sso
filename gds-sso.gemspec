@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "gds-sso"
 
   s.files         = Dir[
+    'app/**/*',
+    'config/**/*',
     'lib/**/*',
     'README.md',
     'Gemfile',
