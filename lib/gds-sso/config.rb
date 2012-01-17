@@ -21,7 +21,7 @@ module GDS
       mattr_accessor :basic_auth_password
       mattr_accessor :basic_auth_realm
       @@basic_auth_realm = "API Access"
-      
+
       def self.user_klass
         user_model.to_s.constantize
       end
