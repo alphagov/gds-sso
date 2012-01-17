@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'oa-oauth', '0.2.6'
   s.add_dependency 'oa-core', '0.2.6'
   s.add_dependency 'rack-accept', '~> 0.4.4'
+  s.add_dependency 'plek'
 
   s.add_development_dependency 'rake',  '~> 0.9.2'
   s.add_development_dependency 'mocha', '~> 0.9.0'
