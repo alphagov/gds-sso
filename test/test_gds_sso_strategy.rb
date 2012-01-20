@@ -14,6 +14,6 @@ class TestOmniAuthStrategy < Test::Unit::TestCase
   end
 
   def setup
-    post '/auth/gds_sso/callback', :user => { 'name' => 'Dylan', 'id' => '445' }
+    # post '/auth/gds_sso/callback', :user => { 'name' => 'Dylan', 'id' => '445' }
   end
 end
