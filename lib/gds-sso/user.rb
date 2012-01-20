@@ -2,6 +2,16 @@ require 'active_support/concern'
 
 module GDS
   module SSO
+    class ApiUser
+      def uid
+        0
+      end
+
+      def name
+        'API User'
+      end
+    end
+
     module User
       def self.user_params_from_auth_hash(auth_hash)
         {'uid' => auth_hash['uid'], 'email' => auth_hash['user_info']['email'], 'name' => auth_hash['user_info']['name'], 'version' => auth_hash['extra']['user_hash']['version']}
