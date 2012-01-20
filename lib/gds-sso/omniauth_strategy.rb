@@ -8,7 +8,7 @@ require 'multi_json'
 #     use OmniAuth::Builder :gds, 'API Key', 'Secret Key'
 
 class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
-  
+
   # @param [Rack Application] app standard middleware application parameter
   # @param [String] api_key the application id as [provided by GDS]
   # @param [String] secret_key the application secret as [provided by Bitly]
@@ -33,7 +33,7 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
       super
     end
   end
-    
+
   protected
 
   def fetch_user_data

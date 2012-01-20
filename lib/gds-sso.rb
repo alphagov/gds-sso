@@ -23,7 +23,7 @@ module GDS
       # Force routes to be loaded if we are doing any eager load.
       # TODO - check this one - Stolen from Devise because it looked sensible...
       config.before_eager_load { |app| app.reload_routes! }
-      
+
       config.app_middleware.use ::OmniAuth::Builder do
         provider :gds, GDS::SSO::Config.oauth_id, GDS::SSO::Config.oauth_secret
       end
@@ -31,7 +31,7 @@ module GDS
       def self.use_mock_strategies?
         ['development', 'test'].include?(Rails.env) && ENV['GDS_SSO_STRATEGY'] != 'real'
       end
-      
+
       def self.default_strategies
         use_mock_strategies? ? [:mock_gds_sso, :mock_gds_sso_api_access] : [:gds_sso, :gds_sso_api_access]
       end

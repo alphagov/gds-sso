@@ -18,7 +18,7 @@ Warden::Strategies.add(:gds_sso) do
     Rails.logger.debug("Authenticating with gds_sso strategy")
 
     if request.env['omniauth.auth'].nil?
-      fail!("No credentials, bub") 
+      fail!("No credentials, bub")
     else
       user = prep_user(request.env['omniauth.auth'])
       success!(user)
@@ -38,7 +38,7 @@ Warden::Strategies.add(:gds_sso_api_access) do
   def valid?
     ::GDS::SSO::ApiAccess.api_call?(env)
   end
-  
+
   def authenticate!
     Rails.logger.debug("Authenticating with gds_sso_api_access strategy")
 
@@ -46,30 +46,30 @@ Warden::Strategies.add(:gds_sso_api_access) do
       Rails.logger.debug("Basic auth not configured, not requiring authentication")
       success!('api')
     end
-    
+
     auth = Rack::Auth::Basic::Request.new(env)
 
     return custom!(unauthorized) unless auth.provided?
     return fail!(:bad_request) unless auth.basic?
-  
+
     if valid_api_user?(*auth.credentials)
       success!(auth.credentials[0])
     else
       custom!(unauthorized)
     end
   end
-  
+
   def basic_auth_configured?
     ! ::GDS::SSO::Config.basic_auth_user.nil?
   end
-  
+
   def valid_api_user?(username, password)
-    username.to_s.strip != '' && 
-      password.to_s.strip != '' && 
+    username.to_s.strip != '' &&
+      password.to_s.strip != '' &&
       username == ::GDS::SSO::Config.basic_auth_user &&
       password == ::GDS::SSO::Config.basic_auth_password
   end
-  
+
   def unauthorized
     [
       401,
@@ -103,7 +103,7 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
   def valid?
     ::GDS::SSO::ApiAccess.api_call?(env)
   end
-  
+
   def authenticate!
     Rails.logger.debug("Authenticating with mock_gds_sso_api_access strategy")
     success!(GDS::SSO.test_user || GDS::SSO::Config.user_klass.first)

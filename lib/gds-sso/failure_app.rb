@@ -2,7 +2,7 @@ require "action_controller/metal"
 require 'rails'
 
 # Failure application that will be called every time :warden is thrown from
-# any strategy or hook. 
+# any strategy or hook.
 module GDS
   module SSO
     class FailureApp < ActionController::Metal
@@ -32,7 +32,7 @@ module GDS
       def store_location!
         session["return_to"] = env['warden.options'][:attempted_path] if request.get?
       end
-      
+
     end
   end
 end
