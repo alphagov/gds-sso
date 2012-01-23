@@ -4,7 +4,7 @@ require 'gds-sso'
 require 'gds-sso/omniauth_strategy'
 require 'capybara/dsl'
 
-class TestOmniAuthStrategy < Test::Unit::TestCase
+class TestGdsSsoStrategy < Test::Unit::TestCase
   include OmniAuth::Test::StrategyTestCase
   include Capybara::DSL
 
