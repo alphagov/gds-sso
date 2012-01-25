@@ -46,11 +46,6 @@ Warden::Strategies.add(:gds_sso_api_access) do
   def authenticate!
     Rails.logger.debug("Authenticating with gds_sso_api_access strategy")
 
-    if ! basic_auth_configured?
-      Rails.logger.debug("Basic auth not configured, not requiring authentication")
-      success!(api_user)
-    end
-
     auth = Rack::Auth::Basic::Request.new(env)
 
     return custom!(unauthorized) unless auth.provided?
@@ -61,10 +56,6 @@ Warden::Strategies.add(:gds_sso_api_access) do
     else
       custom!(unauthorized)
     end
-  end
-
-  def basic_auth_configured?
-    ! ::GDS::SSO::Config.basic_auth_user.nil?
   end
 
   def valid_api_user?(username, password)
@@ -93,7 +84,7 @@ Warden::Strategies.add(:mock_gds_sso) do
   end
 
   def authenticate!
-    Rails.logger.debug("Authenticating with mock_gds_sso strategy")
+    Rails.logger.warn("Authenticating with mock_gds_sso strategy")
     test_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
     if test_user
       success!(test_user)
