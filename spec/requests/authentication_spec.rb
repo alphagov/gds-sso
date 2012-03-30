@@ -36,35 +36,9 @@ describe "authenticating with sign-on-o-tron" do
           builder.adapter :net_http
         end
 
-        auth_request, sign_in_location, cookie =    do_auth_request(auth_path)
-        sign_in_request, sign_in_location, cookie = do_sign_in_request(sign_in_location, cookie)
+        authz_return_location = do_auth_request(auth_path)
 
-        authenticity_token = Nokogiri.parse(sign_in_request.body).xpath("//input[@name='authenticity_token']").first.attributes['value'].text
-        sign_in_post, authz_location, cookie =      do_sign_in_post(sign_in_location, cookie, authenticity_token)
-
-        authz_request, authz_return_location, authz_confirm_location, cookie = do_authz_request(authz_location, cookie)
-
-        if authz_confirm_location
-          puts "confirming auth request"
-          authenticity_token = Nokogiri.parse(authz_request.body).xpath("//input[@name='authenticity_token']").first.attributes['value'].text
-          authz_confirm_request, authz_return_location, cookie = do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
-        end
-
-        # client = Faraday.new(:url => "#{return_uri.scheme}://#{return_uri.host}:#{return_uri.port}") do |builder|
-        #   builder.request :url_encoded
-        #   builder.adapter :net_http
-        # end
-
-        # puts "AUTH REQUEST RESULT:\n=========================\n"
-        # puts "GET #{post_path}\n\n"
-        # puts authz_request.headers.inspect
-        # puts authz_request.body
-        # puts authz_request.headers['location']
-        # puts client_cookies.inspect
-
-        return_path = authz_return_location.path + '?' + authz_return_location.query
-
-        puts return_uri
+        return_path = authz_return_location.path + '?' + (authz_return_location.query || '')
 
         get return_path, { }, { 'Cookie' => client_cookies }
 
@@ -85,22 +59,27 @@ describe "authenticating with sign-on-o-tron" do
       def do_auth_request(auth_path)
         auth_request = @signonotron.get(auth_path)
 
+        debug_request('Auth Request', 'GET', auth_path, auth_request, '')
+
         sign_in_location = URI.parse(auth_request.headers['location']).path
         cookie = auth_request.headers['Set-Cookie'].split('; ')[0]
 
-        return [auth_request, sign_in_location, cookie]
+        return do_sign_in_request(sign_in_location, cookie)
       end
 
       def do_sign_in_request(sign_in_location, cookie)
-       sign_in_request = @signonotron.get do |req|
-         req.url sign_in_location
-         req.headers['Cookie'] = cookie
-       end
+        sign_in_request = @signonotron.get do |req|
+          req.url sign_in_location
+          req.headers['Cookie'] = cookie
+        end
 
-       cookie = sign_in_request.headers['Set-Cookie'].split('; ')[0]
-       sign_in_location =  Nokogiri.parse(sign_in_request.body).xpath("//form").first.attributes['action'].text
+        debug_request('Sign In', 'GET', sign_in_location, sign_in_request, cookie)
 
-       return [sign_in_request, sign_in_location ,cookie]
+        cookie = sign_in_request.headers['Set-Cookie'].split('; ')[0]
+        sign_in_location =  Nokogiri.parse(sign_in_request.body).xpath("//form").first.attributes['action'].text
+        authenticity_token = Nokogiri.parse(sign_in_request.body).xpath("//input[@name='authenticity_token']").first.attributes['value'].text
+
+        return do_sign_in_post(sign_in_location, cookie, authenticity_token)
       end
 
       def do_sign_in_post(sign_in_location, cookie, authenticity_token)
@@ -112,29 +91,34 @@ describe "authenticating with sign-on-o-tron" do
           req.headers['Cookie'] = cookie
         end
 
+        debug_request('Sign In', 'POST', sign_in_location, sign_in_post, cookie)
+
         cookie = sign_in_post.headers['Set-Cookie'].split('; ')[0]
         authz_location = URI.parse(sign_in_post.headers['location'])
 
-
-        return [sign_in_post, authz_location, cookie]
+        return do_authz_request(authz_location, cookie)
       end
 
       def do_authz_request(authz_location, cookie)
         authz_request = @signonotron.get do |req|
-          req.url authz_location.path + "?" + authz_location.query
+          req.url authz_location
           req.headers['Content-Type'] = 'text/html'
           req.headers['Cookie'] = cookie
         end
 
+        debug_request('Authz', 'GET', authz_location, authz_request, cookie)
+
         cookie = authz_request.headers['Set-Cookie'].split('; ')[0]
 
         if authz_request.headers['location']
-          authz_return_location = URI.parse(authz_request.headers['location'])
+          puts "RETURNING #{authz_request.headers['location']}"
+          return URI.parse(authz_request.headers['location'])
         else
           authz_confirm_location = Nokogiri.parse(authz_request.body).xpath("//form").first.attributes['action'].text
-        end
+          authenticity_token = Nokogiri.parse(authz_request.body).xpath("//input[@name='authenticity_token']").first.attributes['value'].text
 
-        return [authz_request, authz_return_location, authz_confirm_location, cookie]
+          return do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
+        end
       end
 
       def do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
@@ -144,13 +128,23 @@ describe "authenticating with sign-on-o-tron" do
           req.headers['Cookie'] = cookie
         end
 
+        debug_request('Authz Confirm', 'POST', authz_confirm_location, authz_confirm_request, cookie)
+
         cookie = authz_confirm_request.headers['Set-Cookie'].split('; ')[0]
-        authz_return_location = URI.parse(authz_confirm_request.headers['location'])
 
-        puts authz_return_location
-        puts authz_confirm_request.headers['location']
+        puts "RETURNING #{authz_confirm_request.headers['location']}"
+        return URI.parse(authz_confirm_request.headers['location'])
+      end
 
-        return [authz_confirm_request, authz_return_location, cookie]
+      def debug_request(name, method, path, response, cookie)
+        puts "#{name} REQUEST RESULT:\n=========================\n"
+        puts "#{method} #{path}"
+        puts "#{cookie}"
+
+        puts "\n\n"
+
+        puts response.headers.inspect
+        puts response.body
       end
     end
 
