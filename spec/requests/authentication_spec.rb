@@ -124,7 +124,7 @@ describe "authenticating with sign-on-o-tron" do
       def do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
         authz_confirm_request = @signonotron.post do |req|
           req.url authz_confirm_location
-          req.body = { :commit => 'Yes', :auth_token => authenticity_token }
+          req.body = { :commit => 'Yes', :authenticity_token => authenticity_token }
           req.headers['Cookie'] = cookie
         end
 
