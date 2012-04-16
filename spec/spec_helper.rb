@@ -15,5 +15,6 @@ require 'rspec/rails'
 require 'capybara/rails'
 
 require 'mechanize'
+require 'capybara/mechanize'
 
 include Warden::Test::Helpers
