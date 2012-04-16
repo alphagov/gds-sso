@@ -39,3 +39,14 @@ Create a `config/initializers/gds-sso.rb` that looks like:
 The user model needs to respond to klass.find_by_uid(uid), and must include the GDS::SSO::User module.
 
 You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController
+
+## Use in development mode
+
+In development, you generally want to be able to run an application without needing to run your own SSO server to be running as well. GDS-SSO facilitates this by using a 'mock' mode in development. Mock mode loads an arbitrary user from the local application's user tables:
+
+    GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
+
+To make it use a real strategy (e.g. if you're testing an app against the signon server), set an environment variable when you run your app:
+
+    GDS_SSO_STRATEGY=real bundle exec rails s 
+
