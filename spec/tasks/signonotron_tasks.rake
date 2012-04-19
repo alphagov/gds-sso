@@ -1,7 +1,7 @@
 namespace :signonotron do
   desc "Start signonotron (for integration tests)"
   task :start => :stop do
-    gem_root = Pathname.new(File.dirname(__FILE__))
+    gem_root = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
     FileUtils.mkdir_p(gem_root + 'tmp')
     Dir.chdir gem_root + 'tmp'
     if File.exist? "signonotron2"
