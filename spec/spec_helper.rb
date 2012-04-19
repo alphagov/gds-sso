@@ -18,3 +18,5 @@ require 'mechanize'
 require 'capybara/mechanize'
 
 include Warden::Test::Helpers
+
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
