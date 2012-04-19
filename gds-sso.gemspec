@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'warden', '1.0.6'
   s.add_dependency 'oauth2', '0.5.2'
   s.add_dependency 'oa-oauth', '~> 0.3.2'
-  s.add_dependency 'ruby-debug19'
   s.add_dependency 'oa-core', '~> 0.3.2'
   s.add_dependency 'rack-accept', '~> 0.4.4'
   s.add_dependency "rack", '1.3.5'
