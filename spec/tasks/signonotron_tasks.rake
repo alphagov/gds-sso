@@ -3,29 +3,29 @@ namespace :signonotron do
   task :start => :stop do
     gem_root = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
     FileUtils.mkdir_p(gem_root + 'tmp')
-    Dir.chdir gem_root + 'tmp'
-    if File.exist? "signonotron2"
-      Dir.chdir "signonotron2"
-      puts `git clean -fdx`
-      puts `git fetch origin`
-      puts `git reset --hard origin/master`
-    else
-      puts `git clone git@github.com:alphagov/signonotron2`
-      Dir.chdir "signonotron2"
+    Dir.chdir gem_root + 'tmp' do
+      if File.exist? "signonotron2"
+        Dir.chdir "signonotron2" do
+          puts `git clean -fdx`
+          puts `git fetch origin`
+          puts `git reset --hard origin/master`
+        end
+      else
+        puts `git clone git@github.com:alphagov/signonotron2`
+      end
     end
-    ENV.delete('BUNDLE_GEMFILE')
-    ENV.delete('BUNDLE_BIN_PATH')
-    ENV.delete('RUBYOPT')
-    ENV['RAILS_ENV'] = 'test'
 
-    puts `bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
-    FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', 'signonotron2_database.yml'), File.join('config', 'database.yml')
-    puts `bundle exec rake db:drop db:create db:schema:load`
+    Dir.chdir gem_root + 'tmp' + 'signonotron2' do
+      env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT RAILS_ENV=test'
+      puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
+      FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', 'signonotron2_database.yml'), File.join('config', 'database.yml')
+      puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
 
-    puts "Starting signonotron instance in the background"
-    fork do
-      Process.daemon(true)
-      exec "bundle exec rails s -p 4567"
+      puts "Starting signonotron instance in the background"
+      fork do
+        Process.daemon(true)
+        exec "#{env_stuff} bundle exec rails s -p 4567"
+      end
     end
   end
 
