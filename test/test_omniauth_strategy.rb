@@ -8,14 +8,12 @@ class TestOmniAuthStrategy < Test::Unit::TestCase
     @app = stub("app")
     @strategy = OmniAuth::Strategies::Gds.new(@app, :gds, 'client_id', 'client_secret')
     @strategy.stubs(:fetch_user_data).returns({
-      'user' => {
-        'uid' => 'abcde',
-        'version' => 1,
-        'name' => 'Matt Patterson',
-        'email' => 'matt@alphagov.co.uk',
-        'github' => 'fidothe',
-        'twitter' => 'fidothe'
-      }
+      'uid' => 'abcde',
+      'version' => 1,
+      'name' => 'Matt Patterson',
+      'email' => 'matt@alphagov.co.uk',
+      'github' => 'fidothe',
+      'twitter' => 'fidothe'
     }.to_json)
   end
 
