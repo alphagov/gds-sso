@@ -26,16 +26,19 @@ namespace :signonotron do
       puts `git clone git@github.com:alphagov/signonotron2`
       Dir.chdir "signonotron2"
     end
-    env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT'
+    ENV.delete('BUNDLE_GEMFILE')
+    ENV.delete('BUNDLE_BIN_PATH')
+    ENV.delete('RUBYOPT')
     ENV['RAILS_ENV'] = 'test'
-    puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
+
+    puts `bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
     FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', 'so2_database.yml'), File.join('config', 'database.yml')
-    puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
+    puts `bundle exec rake db:drop db:create db:schema:load`
 
     puts "Starting signonotron instance in the background"
     fork do
       Process.daemon(true)
-      exec "#{env_stuff} bundle exec rails s -p 4567"
+      exec "bundle exec rails s -p 4567"
     end
   end
 
