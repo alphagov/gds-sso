@@ -13,7 +13,7 @@ task :default => :test
 
 namespace :signonotron do
   desc "Start signonotron (for integration tests)"
-  task :start do
+  task :start => :stop do
     gem_root = Pathname.new(File.dirname(__FILE__))
     FileUtils.mkdir_p(gem_root + 'tmp')
     Dir.chdir gem_root + 'tmp'
@@ -44,10 +44,10 @@ namespace :signonotron do
 
   desc "Stop running signonotron (for integration tests)"
   task :stop do
-    so2_pid_file = Pathname.new(File.dirname(__FILE__)) + 'tmp' + 'signonotron2' + 'tmp' + 'pids' + 'server.pid'
-    if File.exist?(so2_pid_file)
-      pid = File.read(so2_pid_file).chomp.to_i
-      Process.kill(:INT, pid)
+    pid_output = `lsof -Fp -i :4567`.chomp
+    if pid_output =~ /\Ap(\d+)\z/
+      puts "Stopping running instance of Signonotron (pid #{$1})"
+      Process.kill(:INT, $1.to_i)
     end
   end
 end
