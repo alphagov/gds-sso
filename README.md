@@ -12,7 +12,7 @@ For more details on OmniAuth and oAuth2 integration see https://github.com/intri
 
 ## Integration with a Rails 3+ app
 
-To use gds-sso tou will need an oauth client ID and secret for sign-on-o-tron or a compatible system.
+To use gds-sso you will need an oauth client ID and secret for sign-on-o-tron or a compatible system.
 These can be provided by one of the team with admin access to sign-on-o-tron.
 
 Then include the gem in your Gemfile:
