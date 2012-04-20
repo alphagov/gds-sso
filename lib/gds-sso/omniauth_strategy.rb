@@ -37,11 +37,11 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   protected
 
   def fetch_user_data
-    @access_token.get('/user.json')
+    @access_token.get('/user.json').body
   end
 
   def user_hash
-    @user_hash ||= MultiJson.decode(fetch_user_data)['user']
+    @user_hash ||= MultiJson.decode(fetch_user_data)
   end
 
   def build_auth_hash
