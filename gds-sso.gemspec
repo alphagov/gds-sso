@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
     'Gemfile',
     'Rakefile'
   ]
-  s.test_files    = Dir['test/**/*']
+  s.test_files    = Dir['test/**/*', 'spec/**/*']
   s.executables   = []
   s.require_paths = ["lib"]
 
