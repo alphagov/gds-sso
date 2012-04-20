@@ -30,6 +30,6 @@ module Signonotron2IntegrationHelpers
     fixtures_path = Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/integration'))
     db = YAML.load_file(fixtures_path + 'signonotron2_database.yml')['test']
     cmd = "mysql -u#{db['username']} -p#{db['password']} #{db['database']} < #{fixtures_path + 'signonotron2.sql'}"
-    puts `#{cmd} 2>&1`
+    system cmd or raise "Error loading signonotron fixture"
   end
 end
