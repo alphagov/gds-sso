@@ -63,5 +63,15 @@ describe "Integration of client using GDS-SSO with signonotron" do
       page.driver.header 'accept', 'application/json'
     end
 
+    specify "access to a restricted page for an api client requires basic auth" do
+      visit "http://#{@client_host}/restricted"
+      page.driver.response.status.should == 401
+      page.driver.response.headers["WWW-Authenticate"].should == 'Basic realm="API Access"'
+
+      page.driver.browser.authorize 'test_api_user', 'api_user_password'
+      visit "http://#{@client_host}/restricted"
+
+      page.should have_content('restricted kablooie')
+    end
   end
 end
