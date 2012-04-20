@@ -1,13 +1,12 @@
 class ExampleController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :only => [:restricted]
 
   def index
-    #redirect_to "http://google.com/"
-    # require 'ruby-debug'
-    # debugger
-    #render nothing: true
     render :text => "jabberwocky"
   end
 
+  def restricted
+    render :text => "restricted kablooie"
+  end
 end
