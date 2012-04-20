@@ -16,7 +16,7 @@ namespace :signonotron do
     end
 
     Dir.chdir gem_root + 'tmp' + 'signonotron2' do
-      env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT RAILS_ENV=test'
+      env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT -u GEM_HOME -u GEM_PATH RAILS_ENV=test'
       puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
       FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', 'signonotron2_database.yml'), File.join('config', 'database.yml')
       puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
