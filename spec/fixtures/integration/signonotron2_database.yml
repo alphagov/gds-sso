@@ -4,5 +4,4 @@ test:
   reconnect: false
   pool: 5
   username: signonotron2
-  password: signonotron2
   database: signonotron2_integration_test
