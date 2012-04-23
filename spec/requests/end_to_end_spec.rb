@@ -28,7 +28,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
       visit "http://#{@client_host}/restricted"
       page.should have_content("Sign in")
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       click_on "Authorize"
@@ -40,7 +40,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
       # First we login to authorise the app
       visit "http://#{@client_host}/restricted"
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
       click_on "Authorize"
 
@@ -51,7 +51,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
       visit "http://#{@client_host}/restricted"
       page.should have_content("Sign in")
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       page.should have_content('restricted kablooie')
