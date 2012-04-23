@@ -7,14 +7,14 @@ class TestOmniAuthStrategy < Test::Unit::TestCase
   def setup
     @app = stub("app")
     @strategy = OmniAuth::Strategies::Gds.new(@app, :gds, 'client_id', 'client_secret')
-    @strategy.stubs(:fetch_user_data).returns({
+    @strategy.stubs(:fetch_user_data).returns({ 'user' => {
       'uid' => 'abcde',
       'version' => 1,
       'name' => 'Matt Patterson',
       'email' => 'matt@alphagov.co.uk',
       'github' => 'fidothe',
       'twitter' => 'fidothe'
-    }.to_json)
+    }}.to_json)
   end
 
   def test_build_auth_hash_returns_name_and_email

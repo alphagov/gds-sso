@@ -41,7 +41,7 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   end
 
   def user_hash
-    @user_hash ||= MultiJson.decode(fetch_user_data)
+    @user_hash ||= MultiJson.decode(fetch_user_data)['user']
   end
 
   def build_auth_hash
