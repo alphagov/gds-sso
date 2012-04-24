@@ -7,7 +7,7 @@ module Signonotron2IntegrationHelpers
     puts "Waiting for signonotron to start at #{url}"
     while ! signonotron_started?(url)
       print '.'
-      if retries > 10
+      if retries > 20
         raise "Signonotron is not running at #{url}. Please start with 'bundle exec rake signonotron:start'. Under jenkins this should have been run automatically"
       end
       retries += 1
