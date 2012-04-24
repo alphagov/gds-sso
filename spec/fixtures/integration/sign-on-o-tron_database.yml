@@ -1,0 +1,7 @@
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  username: signonotron
+  database: signonotron_integration_test
