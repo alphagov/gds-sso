@@ -32,7 +32,6 @@ describe "Integration of client using GDS-SSO with signonotron" do
       click_on "Sign in"
 
       click_authorize
-      puts page.body
 
       page.should have_content('restricted kablooie')
     end
