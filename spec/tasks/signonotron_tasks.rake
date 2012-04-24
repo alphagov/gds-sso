@@ -1,24 +1,30 @@
 namespace :signonotron do
   desc "Start signonotron (for integration tests)"
   task :start => :stop do
+
+    @app_to_launch = ENV['SIGNONOTRON_VERSION'] == "1" ? "sign-on-o-tron" : "signonotron2"
+
+    puts "ENV version: #{ENV['SIGNONOTRON_VERSION']}"
+    puts "Launching: #{@app_to_launch}"
+
     gem_root = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
     FileUtils.mkdir_p(gem_root + 'tmp')
     Dir.chdir gem_root + 'tmp' do
-      if File.exist? "signonotron2"
-        Dir.chdir "signonotron2" do
+      if File.exist? @app_to_launch
+        Dir.chdir @app_to_launch do
           puts `git clean -fdx`
           puts `git fetch origin`
           puts `git reset --hard origin/master`
         end
       else
-        puts `git clone git@github.com:alphagov/signonotron2`
+        puts `git clone git@github.com:alphagov/#{@app_to_launch}`
       end
     end
 
-    Dir.chdir gem_root + 'tmp' + 'signonotron2' do
+    Dir.chdir gem_root + 'tmp' + @app_to_launch do
       env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT -u GEM_HOME -u GEM_PATH RAILS_ENV=test'
-      puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + 'signonotron2_bundle'}`
-      FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', 'signonotron2_database.yml'), File.join('config', 'database.yml')
+      puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + "#{@app_to_launch}_bundle"}`
+      FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', "#{@app_to_launch}_database.yml"), File.join('config', 'database.yml')
       puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
 
       puts "Starting signonotron instance in the background"
