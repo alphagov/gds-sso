@@ -31,7 +31,8 @@ describe "Integration of client using GDS-SSO with signonotron" do
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
-      click_on "Authorize"
+      click_authorize
+      puts page.body
 
       page.should have_content('restricted kablooie')
     end
@@ -42,7 +43,8 @@ describe "Integration of client using GDS-SSO with signonotron" do
       fill_in "Email", :with => "test@example-client.com"
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
-      click_on "Authorize"
+
+      click_authorize
 
       # At this point the app should be authorised, we reset the session to simulate a new browser visit.
       reset_session!
@@ -73,5 +75,9 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
       page.should have_content('restricted kablooie')
     end
+  end
+
+  def click_authorize
+    click_on( page.has_button?("Authorize") ? "Authorize" : "Yes" )
   end
 end
