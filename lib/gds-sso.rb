@@ -35,8 +35,6 @@ module GDS
         use_mock_strategies? ? [:mock_gds_sso, :mock_gds_sso_api_access] : [:gds_sso, :gds_sso_api_access]
       end
 
-      puts "Loading Warden!"
-
       config.app_middleware.use Warden::Manager do |config|
         config.default_strategies *self.default_strategies
         config.failure_app = GDS::SSO::FailureApp
