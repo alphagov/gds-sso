@@ -44,4 +44,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara-mechanize', '~> 0.3.0'
   s.add_development_dependency 'combustion', '~> 0.3.2'
   s.add_development_dependency 'gem_publisher', '~> 1.0.0'
+  s.add_development_dependency 'thor', '0.14.6'
 end
