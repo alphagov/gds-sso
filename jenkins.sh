@@ -15,3 +15,5 @@ SIGNONOTRON_VERSION=1 bundle exec rake signonotron:stop
 
 SIGNONOTRON_VERSION=2 bundle exec rake signonotron:start
 SIGNONOTRON_VERSION=2 bundle exec rake spec
+
+bundle exec rake publish_gem

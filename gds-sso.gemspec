@@ -43,4 +43,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '~> 2.9.0'
   s.add_development_dependency 'capybara-mechanize', '~> 0.3.0'
   s.add_development_dependency 'combustion', '~> 0.3.1'
+  s.add_development_dependency 'gem_publisher', '~> 1.0.0'
 end
