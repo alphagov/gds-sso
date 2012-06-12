@@ -7,7 +7,7 @@ class TestUser < Test::Unit::TestCase
       'provider' => 'gds',
       'uid' => 'abcde',
       'credentials' => {'token' => 'abcdefg', 'secret' => 'abcdefg'},
-      'user_info' => {'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk'},
+      'info' => {'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk'},
       'extra' => {'user_hash' => {'uid' => 'abcde', 'version' => 1, 'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk', 'github' => 'fidothe', 'twitter' => 'fidothe'}}
     }
   end

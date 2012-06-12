@@ -14,7 +14,7 @@ module GDS
 
     module User
       def self.user_params_from_auth_hash(auth_hash)
-        {'uid' => auth_hash['uid'], 'email' => auth_hash['user_info']['email'], 'name' => auth_hash['user_info']['name'], 'version' => auth_hash['extra']['user_hash']['version']}
+        {'uid' => auth_hash['uid'], 'email' => auth_hash['info']['email'], 'name' => auth_hash['info']['name'], 'version' => auth_hash['extra']['user_hash']['version']}
       end
 
       extend ActiveSupport::Concern
