@@ -2,6 +2,7 @@ require 'rails'
 
 require 'gds-sso/config'
 require 'gds-sso/warden_config'
+require 'omniauth-gds'
 
 module GDS
   module SSO
@@ -23,10 +24,11 @@ module GDS
       config.before_eager_load { |app| app.reload_routes! }
 
       config.app_middleware.use ::OmniAuth::Builder do
-        provider :gds, GDS::SSO::Config.oauth_id, GDS::SSO::Config.oauth_secret, {
+        provider :gds, GDS::SSO::Config.oauth_id, GDS::SSO::Config.oauth_secret,
+          client_options: {
             site: GDS::SSO::Config.oauth_root_url,
-            authorize_url: "/oauth/authorize",
-            token_url: "/oauth/access_token",
+            authorize_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/authorize",
+            token_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token",
             ssl: { verify: false }
           }
       end
