@@ -8,7 +8,7 @@ describe "authenticating with sign-on-o-tron" do
 
     describe "a protected page" do
       it "redirects to /auth/gds" do
-        get "/"
+        get "/restricted"
 
         response.code.should == "302"
         response.location.should == "http://www.example.com/auth/gds"
@@ -20,7 +20,7 @@ describe "authenticating with sign-on-o-tron" do
         get "/auth/gds"
 
         response.code.should == "302"
-        response.location.should =~ /^http:\/\/localhost:3000\/oauth\/authorize/
+        response.location.should =~ /^http:\/\/localhost:4567\/oauth\/authorize/
       end
 
       it "authenticates with a username and password and redirects back to the app" do
