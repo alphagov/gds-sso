@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'warden', '~> 1.2'
   s.add_dependency 'omniauth-gds', '0.0.2'
   s.add_dependency 'rack-accept', '~> 0.4.4'
-  s.add_dependency "rack", '1.3.5'
 
   s.add_development_dependency 'rake',  '~> 0.9.2'
   s.add_development_dependency 'mocha', '~> 0.9.0'
