@@ -2,9 +2,8 @@ namespace :signonotron do
   desc "Start signonotron (for integration tests)"
   task :start => :stop do
 
-    @app_to_launch = ENV['SIGNONOTRON_VERSION'] == "1" ? "sign-on-o-tron" : "signonotron2"
+    @app_to_launch = "signonotron2"
 
-    puts "ENV version: #{ENV['SIGNONOTRON_VERSION']}"
     puts "Launching: #{@app_to_launch}"
 
     gem_root = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
