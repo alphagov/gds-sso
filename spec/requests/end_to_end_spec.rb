@@ -6,6 +6,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
   before :all do
     wait_for_signonotron_to_start
   end
+
   before :each do
     @client_host = 'www.example-client.com'
     Capybara.current_driver = :mechanize

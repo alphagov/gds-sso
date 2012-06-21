@@ -1,6 +1,21 @@
 module GDS
   module SSO
     module ControllerMethods
+      class PermissionDeniedException < StandardError
+      end
+
+      def authorise_user!(scope, permission)
+        if not current_user.has_permission?(scope, permission)
+          raise PermissionDeniedException
+        end
+      end
+
+      def require_signin_permission!
+        authorise_user!(GDS::SSO::Config.default_scope, 'signin')
+      rescue PermissionDeniedException
+        redirect_to cant_signin_url
+      end
+
       def authenticate_user!
         warden.authenticate!
       end

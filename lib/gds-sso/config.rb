@@ -20,6 +20,10 @@ module GDS
       mattr_accessor :basic_auth_user
       mattr_accessor :basic_auth_password
       mattr_accessor :basic_auth_realm
+
+      # default_scope, usually the app, e.g. Publisher
+      mattr_accessor :default_scope
+
       @@basic_auth_realm = "API Access"
 
       def self.user_klass

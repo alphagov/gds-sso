@@ -1,4 +1,4 @@
-class User
+class User < OpenStruct
   include GDS::SSO::User
 
   def self.find_by_uid(something)
@@ -11,8 +11,9 @@ class User
   end
 
   def self.stub_user
-    OpenStruct.new({ :uid => '1', :name => "User" })
+    User.new({ :uid => '1', :name => "User" })
   end
 
-
+  def update_attributes(*args)
+  end
 end
