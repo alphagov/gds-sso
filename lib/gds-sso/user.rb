@@ -14,9 +14,6 @@ module GDS
 
     module User
       def has_permission?(scope, permission)
-        # NOTE: this line is a temporary helper until we have migrated users over to having permissions.
-        return true if permissions.has_key?("everything") && permissions["everything"][0] == "signin"
-
         if permissions.has_key?(scope)
           permissions[scope].include?(permission) || permissions[scope].include?("admin")
         end
