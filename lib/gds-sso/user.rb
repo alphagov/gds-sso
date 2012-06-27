@@ -14,7 +14,7 @@ module GDS
 
     module User
       def has_permission?(scope, permission)
-        if permissions.has_key?(scope)
+        if permissions && permissions.has_key?(scope)
           permissions[scope].include?(permission) || permissions[scope].include?("admin")
         end
       end
