@@ -13,6 +13,7 @@ module GDS
       def require_signin_permission!
         authorise_user!(GDS::SSO::Config.default_scope, 'signin')
       rescue PermissionDeniedException
+        headers["X-Slimmer-Skip"] = "1" # If slimmer used, without this you would see a generic 400 error page
         render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden
       end
 
