@@ -13,7 +13,7 @@ module GDS
       def require_signin_permission!
         authorise_user!(GDS::SSO::Config.default_scope, 'signin')
       rescue PermissionDeniedException
-        render "authorisations/cant_signin", layout: false, status: :forbidden
+        render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden
       end
 
       def authenticate_user!
