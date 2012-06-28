@@ -13,6 +13,10 @@ module GDS
     end
 
     module User
+      def included(base)
+        attr_accessible :uid, :email, :name, :permissions, as: :oauth
+      end
+
       def has_permission?(scope, permission)
         if permissions && permissions.has_key?(scope)
           permissions[scope].include?(permission) || permissions[scope].include?("admin")
