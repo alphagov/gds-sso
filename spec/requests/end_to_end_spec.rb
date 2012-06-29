@@ -58,6 +58,28 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
       page.should have_content('restricted kablooie')
     end
+
+    specify "access to a page that requires signin permission granted " do
+      # First we login to authorise the app
+      visit "http://#{@client_host}/this_requires_signin_permission"
+      fill_in "Email", :with => "test@example-client.com"
+      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      click_on "Sign in"
+
+      click_authorize
+
+      # At this point the app should be authorised, we reset the session to simulate a new browser visit.
+      reset_session!
+      page.driver.header 'accept', 'text/html'
+
+      visit "http://#{@client_host}/this_requires_signin_permission"
+      page.should have_content("Sign in")
+      fill_in "Email", :with => "test@example-client.com"
+      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      click_on "Sign in"
+
+      page.should have_content('you have signin permission')
+    end
   end
 
   describe "API client accesses" do

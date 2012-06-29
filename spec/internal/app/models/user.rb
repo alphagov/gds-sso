@@ -11,7 +11,7 @@ class User < OpenStruct
   end
 
   def self.stub_user
-    User.new({ :uid => '1', :name => "User" })
+    User.new({ :uid => '1', :name => "User", :permissions => { "GDS_SSO integration test" => ["signin"] } })
   end
 
   def update_attributes(*args)
