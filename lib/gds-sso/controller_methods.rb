@@ -5,8 +5,10 @@ module GDS
       end
 
       def authorise_user!(scope, permission)
-        if not current_user.has_permission?(scope, permission)
-          raise PermissionDeniedException
+        if not GDS::SSO::ApiAccess.api_call?(request.env)
+          if not current_user.has_permission?(scope, permission)
+            raise PermissionDeniedException
+          end
         end
       end
 
