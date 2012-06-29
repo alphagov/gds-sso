@@ -104,6 +104,6 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
 
   def authenticate!
     Rails.logger.debug("Authenticating with mock_gds_sso_api_access strategy")
-    success!(GDS::SSO.test_user || GDS::SSO::Config.user_klass.first)
+    success!(GDS::SSO::ApiUser.new)
   end
 end
