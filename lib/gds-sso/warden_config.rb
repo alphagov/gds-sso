@@ -1,4 +1,5 @@
 require 'warden'
+require 'gds-sso/user'
 
 Warden::Manager.serialize_into_session do |user|
   user.respond_to?(:uid) ? user.uid : nil

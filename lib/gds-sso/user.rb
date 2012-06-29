@@ -10,6 +10,10 @@ module GDS
       def name
         'API User'
       end
+
+      def has_permission?(scope, permission)
+        true
+      end
     end
 
     module User
