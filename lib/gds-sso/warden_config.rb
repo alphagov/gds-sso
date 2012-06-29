@@ -51,7 +51,7 @@ Warden::Strategies.add(:gds_sso_api_access) do
     return fail!(:bad_request) unless auth.basic?
 
     if valid_api_user?(*auth.credentials)
-      success!(auth.credentials[0])
+      success!(api_user)
     else
       custom!(unauthorized)
     end
