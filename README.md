@@ -46,7 +46,11 @@ In development, you generally want to be able to run an application without need
 
     GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
 
-To make it use a real strategy (e.g. if you're testing an app against the signon server), set an environment variable when you run your app:
+To make it use a real strategy (e.g. if you're testing an app against the signon server), you will need to ensure that your signonotron2 database has got OAuth config that matches what the apps use in development mode. To do this, run this in signonotron2:
+
+    bundle exec ./script/make_oauth_work_in_dev
+
+Once that's done, set an environment variable when you run your app. e.g.:
 
     GDS_SSO_STRATEGY=real bundle exec rails s 
 
