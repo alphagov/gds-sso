@@ -4,9 +4,18 @@ module GDS
       class PermissionDeniedException < StandardError
       end
 
+      def self.included(base)
+        base.rescue_from PermissionDeniedException do |e|
+          render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: e.message }
+        end
+        base.helper_method :user_signed_in?
+        base.helper_method :current_user
+      end
+
+
       def authorise_user!(scope, permission)
         if not current_user.has_permission?(scope, permission)
-          raise PermissionDeniedException
+          raise PermissionDeniedException, "Sorry, you don't seem to have the #{permission} permission for #{scope}."
         end
       end
 
@@ -35,11 +44,6 @@ module GDS
 
       def warden
         request.env['warden']
-      end
-
-      def self.included(base)
-        base.helper_method :user_signed_in?
-        base.helper_method :current_user
       end
     end
   end
