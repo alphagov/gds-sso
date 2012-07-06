@@ -85,8 +85,14 @@ Warden::Strategies.add(:mock_gds_sso) do
 
   def authenticate!
     Rails.logger.warn("Authenticating with mock_gds_sso strategy")
+
     test_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
     if test_user
+      # Brute force ensure test user has correct perms to signin
+      if ! test_user.has_permission?(GDS::SSO::Config.default_scope, "signin")
+        permissions = test_user.permissions || {}
+        test_user.update_attribute(:permissions, permissions.merge({ GDS::SSO::Config.default_scope => ["signin"] }))
+      end
       success!(test_user)
     else
       if Rails.env.test? and ENV['GDS_SSO_MOCK_INVALID'] == '1'
