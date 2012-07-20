@@ -28,6 +28,9 @@ Create a `config/initializers/gds-sso.rb` that looks like:
       config.oauth_id     = ENV['OAUTH_ID']
       config.oauth_secret = ENV['OAUTH_SECRET']
 
+      # Application name as per signonotron2's database, used for permissions
+      config.default_scope = "Need-o-Tron"
+
       # optional config for location of sign-on-o-tron
       config.oauth_root_url = "http://localhost:3001"
 
@@ -37,6 +40,10 @@ Create a `config/initializers/gds-sso.rb` that looks like:
     end
 
 The user model needs to respond to klass.find_by_uid(uid), and must include the GDS::SSO::User module.
+
+It also needs to specify the below (or an equivalent):
+
+    attr_accessible :uid, :email, :name, :permissions, as: :oauth
 
 You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController
 
