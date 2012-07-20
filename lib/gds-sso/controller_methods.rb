@@ -14,6 +14,10 @@ module GDS
 
 
       def authorise_user!(scope, permission)
+        # Ensure that we're authenticated (and by extension that current_user is set).
+        # Otherwise current_user might be nil, and we'd error out
+        authenticate_user!
+
         if not current_user.has_permission?(scope, permission)
           raise PermissionDeniedException, "Sorry, you don't seem to have the #{permission} permission for #{scope}."
         end
