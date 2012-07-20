@@ -39,7 +39,8 @@ describe Api::UserController, type: :controller do
 
     it "should create/update the user record in the same way as the OAuth callback" do
       # Test that it authenticates
-      request.env['warden'] = mock("stub warden", :authenticate! => true, authenticated?: true, user: GDS::SSO::ApiUser.new)
+      request.env['warden'] = mock("stub warden", authenticated?: true, user: GDS::SSO::ApiUser.new)
+      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
 
       @user_to_update.expects(:update_attributes).with({ 
           "uid" => "a1s2d3",
