@@ -6,7 +6,7 @@ class Api::UserController < ApplicationController
     user_json = JSON.parse(request.body.read)['user']
     oauth_hash = build_gds_oauth_hash(user_json)
     GDS::SSO::Config.user_klass.find_for_gds_oauth(oauth_hash)
-    head :success
+    head :ok
   end
 
   private
