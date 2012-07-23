@@ -3,7 +3,7 @@ require "spec_helper"
 def user_update_json
   {
     "user" => { 
-      "uid" => "a1s2d3", 
+      "uid" => @user_to_update.uid, 
       "name" => "Joshua Marshall", 
       "email" => "user@domain.com", 
       "permissions" => {
@@ -16,10 +16,12 @@ end
 describe Api::UserController, type: :controller do
 
   before :each do
-    @user_to_update = User.new({ 
-        :uid => 'a1s2d3', 
+    @user_to_update = User.create!({ 
+        :uid => "a1s2d3#{rand(10000)}", 
+        :email => "old@domain.com",
         :name => "Moshua Jarshall", 
-        :permissions => { "GDS_SSO integration test" => ["signin"] } })
+        :permissions => { "GDS_SSO integration test" => ["signin"] } }, 
+        as: :oauth)
   end
 
   describe "PUT update" do
@@ -42,16 +44,14 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = mock("stub warden", authenticated?: true, user: GDS::SSO::ApiUser.new)
       request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
 
-      @user_to_update.expects(:update_attributes).with({ 
-          "uid" => "a1s2d3",
-          "name" => "Joshua Marshall", 
-          "email" => "user@domain.com", 
-          "permissions" => { "GDS_SSO integration test" => ["signin", "new permission"] }}, as: :oauth)
-
-      User.expects(:find_by_uid).with("a1s2d3").returns(@user_to_update)
-
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
+
+      @user_to_update.reload
+      assert_equal "Joshua Marshall", @user_to_update.name
+      assert_equal "user@domain.com", @user_to_update.email
+      expected_permissions = { "GDS_SSO integration test" => ["signin", "new permission"] }
+      assert_equal expected_permissions, @user_to_update.permissions
     end
   end
 end
