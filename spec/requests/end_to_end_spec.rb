@@ -59,7 +59,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
       page.should have_content('restricted kablooie')
     end
 
-    specify "access to a page that requires signin permission granted " do
+    specify "access to a page that requires signin permission granted" do
       # First we login to authorise the app
       visit "http://#{@client_host}/this_requires_signin_permission"
       fill_in "Email", :with => "test@example-client.com"
