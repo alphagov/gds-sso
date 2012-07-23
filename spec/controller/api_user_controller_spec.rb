@@ -32,7 +32,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update
+      put :update, uid: @user_to_update.uid
       
       assert_equal 403, response.status
     end
@@ -51,7 +51,7 @@ describe Api::UserController, type: :controller do
       User.expects(:find_by_uid).with("a1s2d3").returns(@user_to_update)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update
+      put :update, uid: @user_to_update.uid
     end
   end
 end
