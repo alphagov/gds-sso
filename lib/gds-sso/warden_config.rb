@@ -1,6 +1,13 @@
 require 'warden'
 require 'gds-sso/user'
 
+
+Warden::Manager.after_authentication do |user, auth, opts|
+  # We've successfully signed in. 
+  # If they were remotely signed out, clear the flag as they're no longer suspended
+  user.clear_remotely_signed_out!
+end
+
 Warden::Manager.serialize_into_session do |user|
   user.respond_to?(:uid) ? user.uid : nil
 end

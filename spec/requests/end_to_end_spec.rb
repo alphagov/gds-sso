@@ -65,7 +65,6 @@ describe "Integration of client using GDS-SSO with signonotron" do
       fill_in "Email", :with => "test@example-client.com"
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
-
       click_authorize
 
       # At this point the app should be authorised, we reset the session to simulate a new browser visit.
@@ -79,6 +78,41 @@ describe "Integration of client using GDS-SSO with signonotron" do
       click_on "Sign in"
 
       page.should have_content('you have signin permission')
+    end
+
+    describe "remotely signed out" do
+      specify "should prevent all access to the application until successful signin" do
+        # First we login and authorise the app
+        visit "http://#{@client_host}/restricted"
+        fill_in "Email", :with => "test@example-client.com"
+        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        click_on "Sign in"
+        click_authorize
+
+        page.driver.header 'accept', 'text/html'
+        page.should have_content('restricted kablooie')
+
+        # Simulate a POST to /auth/gds/api/users/:uid/reauth by SOOT
+        # This is already tested in api_user_controller_spec.rb
+        user = User.find_by_uid("integration-uid")
+        user.set_remotely_signed_out!
+
+        page.driver.header 'accept', 'text/html'
+
+        # check we can't visit
+        visit "http://#{@client_host}/restricted"
+        page.should have_content('You have been remotely signed out')
+
+        # signin
+        visit "http://#{@client_host}/auth/gds/sign_out" # want to be redirected to SOOT, and then back again
+        fill_in "Email", :with => "test@example-client.com"
+        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        click_on "Sign in"
+
+        # check we can visit
+        visit "http://#{@client_host}/restricted"
+        page.should have_content('restricted kablooie')
+      end
     end
   end
 

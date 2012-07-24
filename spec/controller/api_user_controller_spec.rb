@@ -41,8 +41,10 @@ describe Api::UserController, type: :controller do
 
     it "should create/update the user record in the same way as the OAuth callback" do
       # Test that it authenticates
-      request.env['warden'] = mock("stub warden", authenticated?: true, user: GDS::SSO::ApiUser.new)
+      request.env['warden'] = mock("mock warden")
       request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
+      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
+      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
 
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
@@ -52,6 +54,34 @@ describe Api::UserController, type: :controller do
       assert_equal "user@domain.com", @user_to_update.email
       expected_permissions = { "GDS_SSO integration test" => ["signin", "new permission"] }
       assert_equal expected_permissions, @user_to_update.permissions
+    end
+  end
+
+  describe "POST reauth" do
+    it "should deny access to anybody but the API user (or a user with 'user_update_permission')" do
+      malicious_user = User.new({ 
+          :uid => '2', 
+          :name => "User", 
+          :permissions => { "GDS_SSO integration test" => ["signin"] } })
+
+      request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
+
+      post :reauth, uid: @user_to_update.uid
+      
+      assert_equal 403, response.status
+    end
+
+    it "should set remotely_signed_out to true on the user" do
+      # Test that it authenticates
+      request.env['warden'] = mock("mock warden")
+      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
+      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
+      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
+
+      post :reauth, uid: @user_to_update.uid
+
+      @user_to_update.reload
+      assert_equal true,  @user_to_update.remotely_signed_out
     end
   end
 end

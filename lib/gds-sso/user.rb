@@ -14,6 +14,16 @@ module GDS
       def has_permission?(scope, permission)
         true
       end
+
+      def clear_remotely_signed_out!
+      end
+
+      def set_remotely_signed_out!
+      end
+
+      def remotely_signed_out?
+        false
+      end
     end
 
     module User
@@ -34,6 +44,14 @@ module GDS
           'name'        => auth_hash['info']['name'],
           'permissions' => auth_hash['extra']['user']['permissions']
         }
+      end
+
+      def clear_remotely_signed_out!
+        self.update_attribute(:remotely_signed_out, false)
+      end
+
+      def set_remotely_signed_out!
+        self.update_attribute(:remotely_signed_out, true)
       end
 
       extend ActiveSupport::Concern

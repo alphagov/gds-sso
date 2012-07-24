@@ -9,6 +9,15 @@ class Api::UserController < ApplicationController
     head :ok
   end
 
+  def reauth
+    user = GDS::SSO::Config.user_klass.find_by_uid(params[:uid])
+    if user.set_remotely_signed_out!
+      head :ok
+    else
+      head 500
+    end
+  end
+
   private
     # This should mirror the object created by the omniauth-gds strategy/gem
     # By doing this, we can reuse the code for creating/updating the user
