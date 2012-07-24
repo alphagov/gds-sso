@@ -28,4 +28,4 @@ task :publish_gem do |t|
   puts "Published #{gem}" if gem
 end
 
-task :default => [:test, :spec]
+task :default => [:test, :"signonotron:start", :spec]
