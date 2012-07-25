@@ -26,13 +26,14 @@ module GDS
       def require_signin_permission!
         authorise_user!(GDS::SSO::Config.default_scope, 'signin')
       rescue PermissionDeniedException
-        headers["X-Slimmer-Skip"] = "1" # If slimmer used, without this you would see a generic 400 error page
+        skip_slimmer
         render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden
       end
 
       def authenticate_user!
         if current_user && current_user.remotely_signed_out?
           message = "You have been remotely signed out."
+          skip_slimmer
           render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: message }
         end
         warden.authenticate!
@@ -52,6 +53,11 @@ module GDS
 
       def warden
         request.env['warden']
+      end
+
+      def skip_slimmer
+        # If slimmer used, without this you would see a generic 400 error page
+        headers["X-Slimmer-Skip"] = "1"
       end
     end
   end
