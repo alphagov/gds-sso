@@ -26,6 +26,9 @@ module GDS
 
       @@basic_auth_realm = "API Access"
 
+      mattr_accessor :auth_valid_for
+      @@auth_valid_for = 20 * 3600
+
       def self.user_klass
         user_model.to_s.constantize
       end

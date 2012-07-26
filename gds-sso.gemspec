@@ -43,4 +43,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'gem_publisher', '~> 1.0.0'
   s.add_development_dependency 'thor', '0.14.6'
   s.add_development_dependency 'sqlite3', '1.3.6'
+  s.add_development_dependency 'timecop', '~> 0.3.5'
 end
