@@ -17,7 +17,7 @@ These can be provided by one of the team with admin access to sign-on-o-tron.
 
 Then include the gem in your Gemfile:
 
-gem 'gds-sso', :git => 'https://github.com/alphagov/gds-sso.git'
+    gem 'gds-sso', :git => 'https://github.com/alphagov/gds-sso.git'
 
 Create a `config/initializers/gds-sso.rb` that looks like:
 
