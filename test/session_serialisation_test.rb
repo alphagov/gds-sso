@@ -24,6 +24,13 @@ class SessionSerialisationTest < Test::Unit::TestCase
     assert_equal [1234, Time.now.utc], result
   end
 
+  def test_serializing_a_user_without_a_uid_returns_nil
+    @user.stubs(:uid).returns(nil)
+    result = @serializer.serialize(@user)
+
+    assert_equal nil, result
+  end
+
   def test_deserializing_a_user_and_in_date_timestamp_returns_the_user
     User.expects(:find_by_uid).with(1234).returns(:a_user)
 

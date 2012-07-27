@@ -9,7 +9,11 @@ Warden::Manager.after_authentication do |user, auth, opts|
 end
 
 Warden::Manager.serialize_into_session do |user|
-  user.respond_to?(:uid) ? [user.uid, Time.now.utc] : nil
+  if user.respond_to?(:uid) and user.uid
+    [user.uid, Time.now.utc]
+  else
+    nil
+  end
 end
 
 Warden::Manager.serialize_from_session do |tuple|
