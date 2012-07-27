@@ -133,6 +133,25 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
         page.driver.request.referrer.should =~ %r(\Ahttp://#{@client_host}/auth/gds/callback)
       end
+
+
+      it "should not require re-authentication with signonotron fewer than N hours after login" do
+        visit "http://#{@client_host}/restricted"
+        page.should have_content("Sign in")
+        fill_in "Email", :with => "test@example-client.com"
+        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        click_on "Sign in"
+
+        click_authorize
+
+        page.should have_content('restricted kablooie')
+
+        Timecop.travel(Time.now.utc + GDS::SSO::Config.auth_valid_for - 5.minutes) do
+          visit "http://#{@client_host}/restricted"
+        end
+
+        page.driver.request.referrer.should =~ %r(\Ahttp://#{@client_host}/restricted)
+      end
     end
   end
 
