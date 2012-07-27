@@ -1,5 +1,8 @@
 require 'bundler'
-Bundler.setup :default, :development, :test
-
 require 'test/unit'
+
+Bundler.require :default, :development, :test
+
 require 'mocha'
+
+require 'gds-sso'

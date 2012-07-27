@@ -9,11 +9,17 @@ Warden::Manager.after_authentication do |user, auth, opts|
 end
 
 Warden::Manager.serialize_into_session do |user|
-  user.respond_to?(:uid) ? user.uid : nil
+  user.respond_to?(:uid) ? [user.uid, Time.now.utc] : nil
 end
 
-Warden::Manager.serialize_from_session do |uid|
-  GDS::SSO::Config.user_klass.find_by_uid(uid)
+Warden::Manager.serialize_from_session do |tuple|
+  # This will reject old sessions that don't have an auth_set time
+  uid, auth_set = tuple
+  if auth_set and (auth_set + GDS::SSO::Config.auth_valid_for) > Time.now.utc
+    GDS::SSO::Config.user_klass.find_by_uid(uid)
+  else
+    nil
+  end
 end
 
 Warden::Strategies.add(:gds_sso) do
