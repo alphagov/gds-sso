@@ -27,7 +27,7 @@ namespace :signonotron do
       when "Darwin"
         env_to_clear.map { |e| "unset #{e}" }.join(" && ") + " && "
       else
-        "usr/bin/env " + env_to_clear.map { |e| "-u #{e}" }.join(" ")
+        "/usr/bin/env " + env_to_clear.map { |e| "-u #{e}" }.join(" ")
       end
       env_stuff += " RAILS_ENV=test"
 
