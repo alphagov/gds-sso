@@ -3,7 +3,7 @@ require 'gds-sso/user'
 
 
 Warden::Manager.after_authentication do |user, auth, opts|
-  # We've successfully signed in. 
+  # We've successfully signed in.
   # If they were remotely signed out, clear the flag as they're no longer suspended
   user.clear_remotely_signed_out!
 end
@@ -103,7 +103,8 @@ Warden::Strategies.add(:mock_gds_sso) do
   def authenticate!
     Rails.logger.warn("Authenticating with mock_gds_sso strategy")
 
-    test_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
+    test_user = GDS::SSO.test_user
+    test_user ||= ENV['GDS_SSO_MOCK_INVALID'].present? ? nil : GDS::SSO::Config.user_klass.first
     if test_user
       # Brute force ensure test user has correct perms to signin
       if ! test_user.has_permission?(GDS::SSO::Config.default_scope, "signin")
@@ -112,7 +113,7 @@ Warden::Strategies.add(:mock_gds_sso) do
       end
       success!(test_user)
     else
-      if Rails.env.test? and ENV['GDS_SSO_MOCK_INVALID'] == '1'
+      if Rails.env.test? && ENV['GDS_SSO_MOCK_INVALID'].present?
         fail!(:invalid)
       else
         raise "GDS-SSO running in mock mode and no test user found. Normally we'd load the first user in the database. Create a user in the database."
