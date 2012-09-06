@@ -13,4 +13,11 @@ class ApiAccessTest < Test::Unit::TestCase
     assert GDS::SSO::ApiAccess.api_call?('HTTP_ACCEPT' => 'application/json')
   end
 
+  def test_request_with_authorization_header_is_oauth_api_call
+    assert GDS::SSO::ApiAccess.oauth_api_call?('Authorization' => 'Bearer blahblahblah')
+  end
+
+  def test_request_with_empty_authorization_header_is_not_oauth_api_call
+    refute GDS::SSO::ApiAccess.oauth_api_call?('Authorization' => '')
+  end
 end
