@@ -155,7 +155,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     end
   end
 
-  describe "API client accesses" do
+  describe "Old-style (HTTP Basic) API client accesses" do
     before :each do
       page.driver.header 'accept', 'application/json'
     end
