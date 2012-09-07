@@ -30,6 +30,10 @@ module Signonotron2IntegrationHelpers
     load_signonotron_fixture("signonotron2.sql")
   end
 
+  def authorize_signonotron_api_user
+    load_signonotron_fixture("authorize_api_users.sql")
+  end
+
   def load_signonotron_fixture(fixture_sql_file)
     fixtures_path = Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/integration'))
     app = "signonotron2"

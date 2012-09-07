@@ -9,7 +9,7 @@ module GDS
       end
 
       def self.has_bearer_token?(env)
-        env['Authorization'] && env['Authorization'].match(/^Bearer /)
+        env['HTTP_AUTHORIZATION'] && env['HTTP_AUTHORIZATION'].match(/^Bearer /)
       end
 
       def self.oauth_api_call?(env)
