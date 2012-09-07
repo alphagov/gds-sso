@@ -26,13 +26,17 @@ module Signonotron2IntegrationHelpers
     conn.try(:finish)
   end
 
-  def load_signonotron_fixture
+  def load_signonotron_setup_fixture
+    load_signonotron_fixture("signonotron2.sql")
+  end
+
+  def load_signonotron_fixture(fixture_sql_file)
     fixtures_path = Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/integration'))
     app = "signonotron2"
     path_to_app = Rails.root.join('..','..','tmp',app)
 
     db = YAML.load_file(fixtures_path + "#{app}_database.yml")['test']
-    cmd = "sqlite3 #{path_to_app + db['database']} < #{fixtures_path + "#{app}.sql"}"
+    cmd = "sqlite3 #{path_to_app + db['database']} < #{fixtures_path + "#{fixture_sql_file}"}"
     system cmd or raise "Error loading signonotron fixture"
   end
 end

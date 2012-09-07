@@ -12,7 +12,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     Capybara.current_driver = :mechanize
     Capybara::Mechanize.local_hosts << @client_host
 
-    load_signonotron_fixture
+    load_signonotron_setup_fixture
   end
 
   describe "Web client accesses" do
