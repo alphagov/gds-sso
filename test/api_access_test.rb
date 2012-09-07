@@ -17,6 +17,10 @@ class ApiAccessTest < Test::Unit::TestCase
     assert GDS::SSO::ApiAccess.oauth_api_call?('Authorization' => 'Bearer blahblahblah')
   end
 
+  def test_request_with_http_basic_authorization_header_is_not_oauth_api_call
+    refute GDS::SSO::ApiAccess.oauth_api_call?('Authorization' => 'Basic Some basic credentials')
+  end
+
   def test_request_with_empty_authorization_header_is_not_oauth_api_call
     refute GDS::SSO::ApiAccess.oauth_api_call?('Authorization' => '')
   end

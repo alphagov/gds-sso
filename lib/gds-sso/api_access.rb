@@ -8,8 +8,12 @@ module GDS
         request.best_media_type(%w{text/html application/json}) == 'application/json'
       end
 
+      def self.has_bearer_token?(env)
+        env['Authorization'] && env['Authorization'].match(/^Bearer /)
+      end
+
       def self.oauth_api_call?(env)
-        env['Authorization'] && env['Authorization'].strip != ''
+        has_bearer_token?(env)
       end
     end
   end
