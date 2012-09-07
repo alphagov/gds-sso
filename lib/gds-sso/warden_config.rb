@@ -67,7 +67,7 @@ Warden::Strategies.add(:gds_bearer_token) do
       user = prep_user(user_details)
       success!(user)
     rescue OAuth2::Error
-      fail!("Invald token")
+      custom!(unauthorized)
     end
   end
 
@@ -91,7 +91,7 @@ Warden::Strategies.add(:gds_bearer_token) do
   # There may be a way to simplify matters by having this
   # strategy work via omniauth too but I've not worked out how
   # to wire that up yet.
-  def omniauth_style_response(response)
+  def omniauth_style_response(response_body)
     input = MultiJson.decode(response_body)['user']
 
     {
@@ -110,8 +110,20 @@ Warden::Strategies.add(:gds_bearer_token) do
 
   def prep_user(auth_hash)
     user = GDS::SSO::Config.user_klass.find_for_gds_oauth(auth_hash)
-    fail!("Couldn't process credentials") unless user
+    custom!(anauthorized) unless user
     user
+  end
+
+  def unauthorized
+    [
+      401,
+      {
+        'Content-Type' => 'text/plain',
+        'Content-Length' => '0',
+        'WWW-Authenticate' => %(Bearer realm="#{GDS::SSO::Config.basic_auth_realm}", error="invalid_token")
+      },
+      []
+    ]
   end
 end
 
