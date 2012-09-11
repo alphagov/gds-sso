@@ -21,7 +21,16 @@ namespace :signonotron do
     end
 
     Dir.chdir gem_root + 'tmp' + @app_to_launch do
-      env_stuff = '/usr/bin/env -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u RUBYOPT -u GEM_HOME -u GEM_PATH RAILS_ENV=test'
+      env_to_clear = %w(BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYOPT GEM_HOME GEM_PATH)
+
+      env_stuff = case `uname`.strip
+      when "Darwin"
+        env_to_clear.map { |e| "unset #{e}" }.join(" && ") + " && "
+      else
+        "/usr/bin/env " + env_to_clear.map { |e| "-u #{e}" }.join(" ")
+      end
+      env_stuff += " RAILS_ENV=test"
+
       puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + "#{@app_to_launch}_bundle"}`
       FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', "#{@app_to_launch}_database.yml"), File.join('config', 'database.yml')
       puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
