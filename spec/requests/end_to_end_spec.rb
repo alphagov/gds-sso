@@ -12,7 +12,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     Capybara.current_driver = :mechanize
     Capybara::Mechanize.local_hosts << @client_host
 
-    load_signonotron_fixture
+    load_signonotron_setup_fixture
   end
 
   describe "Web client accesses" do
@@ -155,7 +155,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     end
   end
 
-  describe "API client accesses" do
+  describe "Old-style (HTTP Basic) API client accesses" do
     before :each do
       page.driver.header 'accept', 'application/json'
     end
@@ -175,6 +175,32 @@ describe "Integration of client using GDS-SSO with signonotron" do
       page.driver.browser.authorize 'test_api_user', 'api_user_password'
       visit "http://#{@client_host}/this_requires_signin_permission"
 
+      page.should have_content('you have signin permission')
+    end
+  end
+
+  describe "OAuth based API client accesses" do
+    before :each do
+      page.driver.header 'accept', 'application/json'
+      authorize_signonotron_api_user
+
+      token = "caaeb53be5c7277fb0ef158181bfd1537b57f9e3b83eb795be3cd0af6e118b28"
+      page.driver.header 'authorization', "Bearer #{token}"
+    end
+
+    specify "access to a restricted page for an api client requires auth" do
+      page.driver.header 'authorization', 'Bearer Bad Token'
+      visit "http://#{@client_host}/restricted"
+      page.driver.response.status.should == 401
+    end
+
+    specify "setting a correct bearer token allows sign in" do
+      visit "http://#{@client_host}/restricted"
+      page.should have_content('restricted kablooie')
+    end
+
+    specify "setting a correct bearer token picks up permissions" do
+      visit "http://#{@client_host}/this_requires_signin_permission"
       page.should have_content('you have signin permission')
     end
   end

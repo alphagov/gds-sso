@@ -38,7 +38,7 @@ module GDS
       end
 
       def self.default_strategies
-        use_mock_strategies? ? [:mock_gds_sso, :mock_gds_sso_api_access] : [:gds_sso, :gds_sso_api_access]
+        use_mock_strategies? ? [:mock_gds_sso, :mock_gds_sso_api_access] : [:gds_sso, :gds_bearer_token, :gds_sso_api_access]
       end
 
       config.app_middleware.use Warden::Manager do |config|
