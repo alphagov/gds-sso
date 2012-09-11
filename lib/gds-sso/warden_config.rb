@@ -51,6 +51,82 @@ Warden::Strategies.add(:gds_sso) do
   end
 end
 
+Warden::Strategies.add(:gds_bearer_token) do
+  def valid?
+    ::GDS::SSO::ApiAccess.api_call?(env) && 
+      ::GDS::SSO::ApiAccess.oauth_api_call?(env)
+  end
+
+  def authenticate!
+    Rails.logger.debug("Authenticating with gds_bearer_token strategy")
+
+    begin
+      access_token = OAuth2::AccessToken.new(oauth_client, token_from_authorization_header)
+      response_body = access_token.get('/user.json').body
+      user_details = omniauth_style_response(response_body)
+      user = prep_user(user_details)
+      success!(user)
+    rescue OAuth2::Error
+      custom!(unauthorized)
+    end
+  end
+
+  def oauth_client
+    @oauth_client ||= OAuth2::Client.new(
+      GDS::SSO::Config.oauth_id,
+      GDS::SSO::Config.oauth_secret,
+      :site => GDS::SSO::Config.oauth_root_url
+    )
+  end
+
+  def token_from_authorization_header
+    env['HTTP_AUTHORIZATION'].gsub(/Bearer /, '')
+  end
+
+  # Our User code assumes we're getting our user data back
+  # via omniauth and so receiving it in omniauth's preferred
+  # structure. Here we're addressing signonotron directly so
+  # we need to transform the response ourselves.
+  #
+  # There may be a way to simplify matters by having this
+  # strategy work via omniauth too but I've not worked out how
+  # to wire that up yet.
+  def omniauth_style_response(response_body)
+    input = MultiJson.decode(response_body)['user']
+
+    {
+      'uid' => input['uid'],
+      'info' => {
+        'email' => input['email'],
+        'name' => input['name']
+      },
+      'extra' => {
+        'user' => {
+          'permissions' => input['permissions']
+        }
+      }
+    }
+  end
+
+  def prep_user(auth_hash)
+    user = GDS::SSO::Config.user_klass.find_for_gds_oauth(auth_hash)
+    custom!(anauthorized) unless user
+    user
+  end
+
+  def unauthorized
+    [
+      401,
+      {
+        'Content-Type' => 'text/plain',
+        'Content-Length' => '0',
+        'WWW-Authenticate' => %(Bearer realm="#{GDS::SSO::Config.basic_auth_realm}", error="invalid_token")
+      },
+      []
+    ]
+  end
+end
+
 Warden::Strategies.add(:gds_sso_api_access) do
   def api_user
     @api_user ||= GDS::SSO::ApiUser.new
