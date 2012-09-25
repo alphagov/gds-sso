@@ -40,7 +40,7 @@ module GDS
       end
 
       def user_signed_in?
-        warden.authenticated?
+        warden.authenticated? && ! current_user.remotely_signed_out?
       end
 
       def current_user
