@@ -1,6 +1,13 @@
 require 'warden'
 require 'gds-sso/user'
 
+def logger
+  if Rails.logger # if we are actually running in a rails app
+    Rails.logger
+  else
+    env['rack.logger']
+  end
+end
 
 Warden::Manager.after_authentication do |user, auth, opts|
   # We've successfully signed in.
@@ -32,7 +39,7 @@ Warden::Strategies.add(:gds_sso) do
   end
 
   def authenticate!
-    Rails.logger.debug("Authenticating with gds_sso strategy")
+    logger.debug("Authenticating with gds_sso strategy")
 
     if request.env['omniauth.auth'].nil?
       fail!("No credentials, bub")
@@ -58,7 +65,7 @@ Warden::Strategies.add(:gds_bearer_token) do
   end
 
   def authenticate!
-    Rails.logger.debug("Authenticating with gds_bearer_token strategy")
+    logger.debug("Authenticating with gds_bearer_token strategy")
 
     begin
       access_token = OAuth2::AccessToken.new(oauth_client, token_from_authorization_header)
@@ -137,7 +144,7 @@ Warden::Strategies.add(:gds_sso_api_access) do
   end
 
   def authenticate!
-    Rails.logger.debug("Authenticating with gds_sso_api_access strategy")
+    logger.debug("Authenticating with gds_sso_api_access strategy")
 
     auth = Rack::Auth::Basic::Request.new(env)
 
@@ -177,7 +184,7 @@ Warden::Strategies.add(:mock_gds_sso) do
   end
 
   def authenticate!
-    Rails.logger.warn("Authenticating with mock_gds_sso strategy")
+    logger.warn("Authenticating with mock_gds_sso strategy")
 
     test_user = GDS::SSO.test_user
     test_user ||= ENV['GDS_SSO_MOCK_INVALID'].present? ? nil : GDS::SSO::Config.user_klass.first
@@ -204,7 +211,7 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
   end
 
   def authenticate!
-    Rails.logger.debug("Authenticating with mock_gds_sso_api_access strategy")
+    logger.debug("Authenticating with mock_gds_sso_api_access strategy")
     success!(GDS::SSO::ApiUser.new)
   end
 end
