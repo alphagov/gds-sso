@@ -1,10 +1,10 @@
 ## Introduction
 
-GDS-SSO provides everything needed to integrate an application with the sign-on-o-tron single-sign-on
-(https://github.com/alphagov/sign-on-o-tron) as used by the Government Digital Service, though it
+GDS-SSO provides everything needed to integrate an application with the signonotron2 single-sign-on
+(https://github.com/alphagov/signonotron2) as used by the Government Digital Service, though it
 will probably also work with a range of other oauth2 providers.
 
-It is a wrapper around omniauth that adds a 'strategy' for oAuth2 integration against sign-on-o-tron,
+It is a wrapper around omniauth that adds a 'strategy' for oAuth2 integration against signonotron2,
 and the necessary controller to support that request flow.
 
 For more details on OmniAuth and oAuth2 integration see https://github.com/intridea/omniauth
@@ -12,8 +12,8 @@ For more details on OmniAuth and oAuth2 integration see https://github.com/intri
 
 ## Integration with a Rails 3+ app
 
-To use gds-sso you will need an oauth client ID and secret for sign-on-o-tron or a compatible system.
-These can be provided by one of the team with admin access to sign-on-o-tron.
+To use gds-sso you will need an oauth client ID and secret for signonotron2 or a compatible system.
+These can be provided by one of the team with admin access to signonotron2.
 
 Then include the gem in your Gemfile:
 
@@ -31,7 +31,7 @@ Create a `config/initializers/gds-sso.rb` that looks like:
       # Application name as per signonotron2's database, used for permissions
       config.default_scope = "Need-o-Tron"
 
-      # optional config for location of sign-on-o-tron
+      # optional config for location of signonotron2
       config.oauth_root_url = "http://localhost:3001"
 
       # optional config for API Access (requests which accept application/json)
