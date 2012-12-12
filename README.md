@@ -41,9 +41,12 @@ Create a `config/initializers/gds-sso.rb` that looks like:
 
 The user model needs to respond to klass.find_by_uid(uid), and must include the GDS::SSO::User module.
 
-It also needs to specify the below (or an equivalent):
-
-    attr_accessible :uid, :email, :name, :permissions, as: :oauth
+It should have the following fields:
+    string   "name"
+    string   "email"
+    string   "uid"
+    text     "permissions"
+    boolean  "remotely_signed_out", :default => false
 
 You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController
 
