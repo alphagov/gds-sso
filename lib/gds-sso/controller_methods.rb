@@ -13,18 +13,18 @@ module GDS
       end
 
 
-      def authorise_user!(scope, permission)
+      def authorise_user!(permission)
         # Ensure that we're authenticated (and by extension that current_user is set).
         # Otherwise current_user might be nil, and we'd error out
         authenticate_user!
 
-        if not current_user.has_permission?(scope, permission)
-          raise PermissionDeniedException, "Sorry, you don't seem to have the #{permission} permission for #{scope}."
+        if not current_user.has_permission?(permission)
+          raise PermissionDeniedException, "Sorry, you don't seem to have the #{permission} permission for this app."
         end
       end
 
       def require_signin_permission!
-        authorise_user!(GDS::SSO::Config.default_scope, 'signin')
+        authorise_user!('signin')
       rescue PermissionDeniedException
         skip_slimmer
         render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden

@@ -35,6 +35,6 @@ class Api::UserController < ApplicationController
     end
 
     def require_user_update_permission
-      authorise_user!(GDS::SSO::Config.default_scope, "user_update_permission")
+      authorise_user!("user_update_permission")
     end
 end
