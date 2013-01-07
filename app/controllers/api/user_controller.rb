@@ -3,6 +3,7 @@ class Api::UserController < ApplicationController
   before_filter :require_user_update_permission
 
   def update
+    GDS::SSO::Config.default_scope = "banana"
     user_json = JSON.parse(request.body.read)['user']
     oauth_hash = build_gds_oauth_hash(user_json)
     GDS::SSO::Config.user_klass.find_for_gds_oauth(oauth_hash)
