@@ -28,9 +28,6 @@ Create a `config/initializers/gds-sso.rb` that looks like:
       config.oauth_id     = ENV['OAUTH_ID']
       config.oauth_secret = ENV['OAUTH_SECRET']
 
-      # Application name as per signonotron2's database, used for permissions
-      config.default_scope = "Need-o-Tron"
-
       # optional config for location of signonotron2
       config.oauth_root_url = "http://localhost:3001"
 

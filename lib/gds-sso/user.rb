@@ -11,7 +11,7 @@ module GDS
         'API User'
       end
 
-      def has_permission?(scope, permission)
+      def has_permission?(permission)
         true
       end
 
@@ -31,18 +31,29 @@ module GDS
         attr_accessible :uid, :email, :name, :permissions, as: :oauth
       end
 
-      def has_permission?(scope, permission)
-        if permissions && permissions.has_key?(scope)
-          permissions[scope].include?(permission) || permissions[scope].include?("admin")
+      def has_permission?(permission)
+        if permissions
+          if permissions.is_a?(Hash)
+            raise "GDS::SSO no longer supports a Hash for permissions. Array expected. Maybe you need to migrate?"
+          end
+
+          permissions.include?(permission) || permissions.include?("admin")
         end
       end
 
       def self.user_params_from_auth_hash(auth_hash)
+        if auth_hash['extra']['user']['permissions'].is_a?(Hash)
+          # Until Signon emits an array of permissions, we need to support legacy Hash.
+          # Once Signon has been changed, we can drop support for Hash.
+          permissions_array = auth_hash['extra']['user']['permissions'].values.first
+        else
+          permissions_array = auth_hash['extra']['user']['permissions']
+        end
         {
           'uid'         => auth_hash['uid'],
           'email'       => auth_hash['info']['email'],
           'name'        => auth_hash['info']['name'],
-          'permissions' => auth_hash['extra']['user']['permissions']
+          'permissions' => permissions_array
         }
       end
 

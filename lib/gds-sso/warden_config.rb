@@ -190,9 +190,9 @@ Warden::Strategies.add(:mock_gds_sso) do
     test_user ||= ENV['GDS_SSO_MOCK_INVALID'].present? ? nil : GDS::SSO::Config.user_klass.first
     if test_user
       # Brute force ensure test user has correct perms to signin
-      if ! test_user.has_permission?(GDS::SSO::Config.default_scope, "signin")
-        permissions = test_user.permissions || {}
-        test_user.update_attribute(:permissions, permissions.merge({ GDS::SSO::Config.default_scope => ["signin"] }))
+      if ! test_user.has_permission?("signin")
+        permissions = test_user.permissions || []
+        test_user.update_attribute(:permissions, permissions << ["signin"])
       end
       success!(test_user)
     else

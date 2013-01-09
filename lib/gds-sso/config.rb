@@ -21,8 +21,18 @@ module GDS
       mattr_accessor :basic_auth_password
       mattr_accessor :basic_auth_realm
 
-      # default_scope, usually the app, e.g. Publisher
+      # No longer used, to be removed. Was generally the app name, e.g. Publisher
       mattr_accessor :default_scope
+      def self.default_scope=(obj)
+        if defined?(Rails)
+          Rails.logger.warn "GDS::SSO::Config.default_scope is deprecated and ignored."
+        end
+      end
+      def default_scope=(obj)
+        if defined?(Rails)
+          Rails.logger.warn "GDS::SSO::Config.default_scope is deprecated and ignored."
+        end
+      end
 
       @@basic_auth_realm = "API Access"
 
