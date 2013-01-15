@@ -96,52 +96,7 @@ describe "authenticating with sign-on-o-tron" do
         cookie = sign_in_post.headers['Set-Cookie'].split('; ')[0]
         authz_location = URI.parse(sign_in_post.headers['location'])
 
-        return do_authz_request(authz_location, cookie)
-      end
-
-      def do_authz_request(authz_location, cookie)
-        authz_request = @signonotron.get do |req|
-          req.url authz_location
-          req.headers['Content-Type'] = 'text/html'
-          req.headers['Cookie'] = cookie
-        end
-
-        debug_request('Authz', 'GET', authz_location, authz_request, cookie)
-
-        cookie = authz_request.headers['Set-Cookie'].split('; ')[0]
-
-        if authz_request.headers['location']
-          puts "RETURNING #{authz_request.headers['location']}"
-          return URI.parse(authz_request.headers['location'])
-        else
-          authz_confirm_location = Nokogiri.parse(authz_request.body).xpath("//form").first.attributes['action'].text
-          authenticity_token = Nokogiri.parse(authz_request.body).xpath("//input[@name='authenticity_token']").first.attributes['value'].text
-
-          return do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
-        end
-      end
-
-      def do_authz_confirm_post(authz_confirm_location, cookie, authenticity_token)
-        authz_confirm_request = @signonotron.post do |req|
-          req.url authz_confirm_location
-          req.body = { :commit => 'Authorize', :authenticity_token => authenticity_token,
-                       :authorization => {
-                         :client_id => '1acd5e4e34a0e15225383bbbdf88cf95f8efd82664f3811b917869cc51c8f449',
-                         :redirect_uri => 'http://www.example.com/auth/gds/callback',
-                         :response_type => 'code',
-                         :state => '',
-                         :scope => ''
-                       }
-                     }
-          req.headers['Cookie'] = cookie
-        end
-
-        debug_request('Authz Confirm', 'POST', authz_confirm_location, authz_confirm_request, cookie)
-
-        cookie = authz_confirm_request.headers['Set-Cookie'].split('; ')[0]
-
-        puts "RETURNING #{authz_confirm_request.headers['location']}"
-        return URI.parse(authz_confirm_request.headers['location'])
+        return authz_location
       end
 
       def debug_request(name, method, path, response, cookie)
