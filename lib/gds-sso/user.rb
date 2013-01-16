@@ -37,7 +37,7 @@ module GDS
             raise "GDS::SSO no longer supports a Hash for permissions. Array expected. Maybe you need to migrate?"
           end
 
-          permissions.include?(permission) || permissions.include?("admin")
+          permissions.include?(permission)
         end
       end
 
