@@ -192,7 +192,7 @@ Warden::Strategies.add(:mock_gds_sso) do
       # Brute force ensure test user has correct perms to signin
       if ! test_user.has_permission?("signin")
         permissions = test_user.permissions || []
-        test_user.update_attribute(:permissions, permissions << ["signin"])
+        test_user.update_attribute(:permissions, permissions << "signin")
       end
       success!(test_user)
     else
