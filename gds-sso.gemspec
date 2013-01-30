@@ -32,12 +32,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 3.0.0'
   s.add_dependency 'warden', '~> 1.2'
   s.add_dependency 'omniauth-gds', '0.0.3'
-  s.add_dependency 'rack', '>= 1.0.0' # Added to resolve dependency resolution fail
   s.add_dependency 'rack-accept', '~> 0.4.4'
 
   s.add_development_dependency 'rake',  '0.9.2.2'
   s.add_development_dependency 'mocha', '0.9.12'
   s.add_development_dependency 'capybara', '1.1.2'
+  s.add_development_dependency 'selenium-webdriver', '2.29.0' # Added to resolve dependency resolution fail
   s.add_development_dependency 'rspec-rails', '2.9.0'
   s.add_development_dependency 'capybara-mechanize', '0.3.0'
   s.add_development_dependency 'combustion', '0.3.2'
