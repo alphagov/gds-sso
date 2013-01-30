@@ -99,6 +99,9 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
         # signin
         visit "http://#{@client_host}/auth/gds/sign_out" # want to be redirected to SOOT, and then back again
+        # Workaround Devise treating us like we're not HTML by manually signin in
+        # If we weren't signed out, we wouldn't get the login form, we'd get the dashboard.
+        visit "http://localhost:4567/users/sign_in"
         fill_in "Email", :with => "test@example-client.com"
         fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
