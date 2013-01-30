@@ -33,27 +33,16 @@ module GDS
 
       def has_permission?(permission)
         if permissions
-          if permissions.is_a?(Hash)
-            raise "GDS::SSO no longer supports a Hash for permissions. Array expected. Maybe you need to migrate?"
-          end
-
           permissions.include?(permission)
         end
       end
 
       def self.user_params_from_auth_hash(auth_hash)
-        if auth_hash['extra']['user']['permissions'].is_a?(Hash)
-          # Until Signon emits an array of permissions, we need to support legacy Hash.
-          # Once Signon has been changed, we can drop support for Hash.
-          permissions_array = auth_hash['extra']['user']['permissions'].values.first
-        else
-          permissions_array = auth_hash['extra']['user']['permissions']
-        end
         {
           'uid'         => auth_hash['uid'],
           'email'       => auth_hash['info']['email'],
           'name'        => auth_hash['info']['name'],
-          'permissions' => permissions_array
+          'permissions' => auth_hash['extra']['user']['permissions']
         }
       end
 

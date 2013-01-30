@@ -11,19 +11,6 @@ def user_update_json
   }.to_json
 end
 
-def legacy_user_update_json
-  {
-    "user" => { 
-      "uid" => @user_to_update.uid, 
-      "name" => "Joshua Marshall", 
-      "email" => "user@domain.com", 
-      "permissions" => {
-        "GDS_SSO integration test" => ["signin", "new permission"]
-      }
-    }
-  }.to_json
-end
-
 describe Api::UserController, type: :controller do
 
   before :each do
@@ -58,22 +45,6 @@ describe Api::UserController, type: :controller do
       request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update, uid: @user_to_update.uid
-
-      @user_to_update.reload
-      assert_equal "Joshua Marshall", @user_to_update.name
-      assert_equal "user@domain.com", @user_to_update.email
-      expected_permissions = ["signin", "new permission"]
-      assert_equal expected_permissions, @user_to_update.permissions
-    end
-
-    it "should support the legacy user JSON" do
-      request.env['warden'] = mock("mock warden")
-      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
-      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
-
-      request.env['RAW_POST_DATA'] = legacy_user_update_json
       put :update, uid: @user_to_update.uid
 
       @user_to_update.reload
