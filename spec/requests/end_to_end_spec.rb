@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timecop'
 
 describe "Integration of client using GDS-SSO with signonotron" do
   include Signonotron2IntegrationHelpers
