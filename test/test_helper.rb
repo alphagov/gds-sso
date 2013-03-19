@@ -3,6 +3,6 @@ require 'test/unit'
 
 Bundler.require :default, :development, :test
 
-require 'mocha'
+require 'mocha/setup'
 
 require 'gds-sso'

@@ -5,9 +5,10 @@ require 'bundler'
 # Bad things happen if we don't ;-)
 ENV['GDS_SSO_STRATEGY'] = 'real'
 
-Bundler.require :default, :development
+Bundler.require :default
 
 require 'capybara/rspec'
+require 'combustion'
 
 Combustion.initialize!
 
