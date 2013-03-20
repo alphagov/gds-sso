@@ -1,7 +1,7 @@
 class AuthenticationsController < ApplicationController
   before_filter :authenticate_user!, :only => :callback
   skip_before_filter :require_signin_permission!
-  layout false, :only => :callback
+  layout false
 
   def callback
     redirect_to session["return_to"] || '/'
