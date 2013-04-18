@@ -69,6 +69,17 @@ describe Api::UserController, type: :controller do
       assert_equal 403, response.status
     end
 
+    it "should return success if user record doesn't exist" do
+      request.env['warden'] = mock("mock warden")
+      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
+      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
+      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
+
+      post :reauth, uid: "nonexistent-user"
+
+      assert_equal 200, response.status
+    end
+
     it "should set remotely_signed_out to true on the user" do
       # Test that it authenticates
       request.env['warden'] = mock("mock warden")
