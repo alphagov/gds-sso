@@ -60,7 +60,7 @@ end
 
 Warden::Strategies.add(:gds_bearer_token) do
   def valid?
-    ::GDS::SSO::ApiAccess.api_call?(env) && 
+    ::GDS::SSO::ApiAccess.api_call?(env) &&
       ::GDS::SSO::ApiAccess.oauth_api_call?(env)
   end
 
@@ -117,7 +117,7 @@ Warden::Strategies.add(:gds_bearer_token) do
 
   def prep_user(auth_hash)
     user = GDS::SSO::Config.user_klass.find_for_gds_oauth(auth_hash)
-    custom!(anauthorized) unless user
+    custom!(unauthorized) unless user
     user
   end
 
