@@ -10,7 +10,7 @@ class Api::UserController < ApplicationController
   end
 
   def reauth
-    user = GDS::SSO::Config.user_klass.find_by_uid(params[:uid])
+    user = GDS::SSO::Config.user_klass.where(:uid => params[:uid]).first
     if user.nil? || user.set_remotely_signed_out!
       head :ok
     else

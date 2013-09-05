@@ -89,7 +89,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
         # Simulate a POST to /auth/gds/api/users/:uid/reauth by SOOT
         # This is already tested in api_user_controller_spec.rb
-        user = User.find_by_uid("integration-uid")
+        user = User.where(:uid => "integration-uid").first
         user.set_remotely_signed_out!
 
         page.driver.header 'accept', 'text/html'
