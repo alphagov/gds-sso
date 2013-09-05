@@ -36,7 +36,7 @@ Create a `config/initializers/gds-sso.rb` that looks like:
       config.basic_auth_password = 'secret'
     end
 
-The user model needs to respond to klass.find_by_uid(uid), and must include the GDS::SSO::User module.
+The user model must include the GDS::SSO::User module.
 
 It should have the following fields:
     string   "name"
