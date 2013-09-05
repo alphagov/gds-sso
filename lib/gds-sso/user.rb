@@ -58,7 +58,7 @@ module GDS
 
       module ClassMethods
         def find_for_gds_oauth(auth_hash)
-          if user = self.find_by_uid(auth_hash["uid"])
+          if user = self.where(:uid => auth_hash["uid"]).first
             user.update_attributes(GDS::SSO::User.user_params_from_auth_hash(auth_hash.to_hash), as: :oauth)
             user
           else # Create a new user.

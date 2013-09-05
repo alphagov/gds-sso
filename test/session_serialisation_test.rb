@@ -32,7 +32,7 @@ class SessionSerialisationTest < Test::Unit::TestCase
   end
 
   def test_deserializing_a_user_and_in_date_timestamp_returns_the_user
-    User.expects(:find_by_uid).with(1234).returns(:a_user)
+    User.expects(:where).with(:uid => 1234).returns(stub(:first => :a_user))
 
     result = @serializer.deserialize [1234, Time.now.utc - GDS::SSO::Config.auth_valid_for + 3600]
 
@@ -40,7 +40,7 @@ class SessionSerialisationTest < Test::Unit::TestCase
   end
 
   def test_deserializing_a_user_and_out_of_date_timestamp_returns_nil
-    User.expects(:find_by_uid).never
+    User.expects(:where).never
 
     result = @serializer.deserialize [1234, Time.now.utc - GDS::SSO::Config.auth_valid_for - 3600]
 
@@ -48,7 +48,7 @@ class SessionSerialisationTest < Test::Unit::TestCase
   end
 
   def test_deserializing_a_user_without_a_timestamp_returns_nil
-    User.expects(:find_by_uid).never
+    User.expects(:where).never
 
     result = @serializer.deserialize 1234
 
