@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake',  '0.9.2.2'
   s.add_development_dependency 'mocha', '0.13.3'
   s.add_development_dependency 'capybara', '1.1.2'
-  s.add_development_dependency 'selenium-webdriver', '2.29.0' # Added to resolve dependency resolution fail
+  s.add_development_dependency 'selenium-webdriver', '2.35.1' # Added to resolve dependency resolution fail
   s.add_development_dependency 'rspec-rails', '2.12.2'
   s.add_development_dependency 'capybara-mechanize', '0.3.0'
   s.add_development_dependency 'combustion', '0.3.2'
