@@ -24,13 +24,13 @@ class Api::UserController < ApplicationController
     # By doing this, we can reuse the code for creating/updating the user
     def build_gds_oauth_hash(user_json)
       OmniAuth::AuthHash.new(
-          uid: user_json['uid'], 
-          provider: 'gds', 
-          info: { 
-            name: user_json['name'], 
+          uid: user_json['uid'],
+          provider: 'gds',
+          info: {
+            name: user_json['name'],
             email: user_json['email']
-          }, 
-          extra: { 
+          },
+          extra: {
             user: { permissions: user_json['permissions'] }
           })
     end
