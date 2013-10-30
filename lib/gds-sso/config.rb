@@ -15,13 +15,6 @@ module GDS
       mattr_accessor :oauth_root_url
       @@oauth_root_url = "http://localhost:3001"
 
-      # Basic Auth Credentials (for api access when request accept
-      # header is application/json)
-      mattr_accessor :basic_auth_user
-      mattr_accessor :basic_auth_password
-      mattr_accessor :basic_auth_realm
-      @@basic_auth_realm = "API Access"
-
       mattr_accessor :auth_valid_for
       @@auth_valid_for = 20 * 3600
 

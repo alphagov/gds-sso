@@ -20,6 +20,13 @@ describe Api::UserController, type: :controller do
         :name => "Moshua Jarshall", 
         :permissions => ["signin"] }, 
         as: :oauth)
+
+    @signon_sso_push_user = User.create!({
+        :uid => "a1s2d3#{rand(10000)}",
+        :email => "ssopushuser@legit.com",
+        :name => "SSO Push user",
+        :permissions => ["signin", "user_update_permission"] },
+        as: :oauth)
   end
 
   describe "PUT update" do
@@ -42,7 +49,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = mock("mock warden")
       request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
       request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
+      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
@@ -73,7 +80,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = mock("mock warden")
       request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
       request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
+      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
 
       post :reauth, uid: "nonexistent-user"
 
@@ -85,7 +92,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = mock("mock warden")
       request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
       request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(GDS::SSO::ApiUser.new)
+      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
 
       post :reauth, uid: @user_to_update.uid
 

@@ -149,30 +149,6 @@ describe "Integration of client using GDS-SSO with signonotron" do
     end
   end
 
-  describe "Old-style (HTTP Basic) API client accesses" do
-    before :each do
-      page.driver.header 'accept', 'application/json'
-    end
-
-    specify "access to a restricted page for an api client requires basic auth" do
-      visit "http://#{@client_host}/restricted"
-      page.driver.response.status.should == 401
-      page.driver.response.headers["WWW-Authenticate"].should == 'Basic realm="API Access"'
-
-      page.driver.browser.authorize 'test_api_user', 'api_user_password'
-      visit "http://#{@client_host}/restricted"
-
-      page.should have_content('restricted kablooie')
-    end
-
-    specify "access to a page that requires signin permission granted (without basic auth users having permissions)" do
-      page.driver.browser.authorize 'test_api_user', 'api_user_password'
-      visit "http://#{@client_host}/this_requires_signin_permission"
-
-      page.should have_content('you have signin permission')
-    end
-  end
-
   describe "OAuth based API client accesses" do
     before :each do
       page.driver.header 'accept', 'application/json'
