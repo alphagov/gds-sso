@@ -38,10 +38,15 @@ It should have the following fields:
     string   "name"
     string   "email"
     string   "uid"
-    text     "permissions"
+    array    "permissions"
     boolean  "remotely_signed_out", :default => false
 
 You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController
+
+For ActiveRecord, you probably want to declare permissions as "serialized" like this:
+
+    serialize :permissions, Array
+
 
 ## Use in development mode
 
