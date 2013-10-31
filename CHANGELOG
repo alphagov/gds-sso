@@ -1,3 +1,9 @@
+# 5.0.0 (Unreleased)
+
+* Apps using gds-sso must now include a field in their User model for
+  "organisations", which is an array of organisation slugs sourced from
+  https://whitehall-admin.production.alphagov.co.uk/api/organisations
+
 # 4.0.0
 
 * Removed support for basic authentication. Please use Bearer token

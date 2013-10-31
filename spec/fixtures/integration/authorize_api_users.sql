@@ -1,4 +1,4 @@
 DELETE FROM `oauth_access_tokens`;
 
-INSERT INTO oauth_access_tokens VALUES 
+INSERT INTO oauth_access_tokens VALUES
   (NULL, 1, 1, 'caaeb53be5c7277fb0ef158181bfd1537b57f9e3b83eb795be3cd0af6e118b28', '1bc343797483954d7306d67e96687feccdfdaa8b23ed662ae23e2b03e6661d16', 307584000, NULL, '2012-06-27 13:57:47', NULL);

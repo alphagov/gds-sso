@@ -5,5 +5,6 @@ ActiveRecord::Schema.define do
     t.string "email",       :null => false
     t.boolean "remotely_signed_out"
     t.text   "permissions"
+    t.text   "organisations"
   end
 end
