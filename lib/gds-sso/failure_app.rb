@@ -9,7 +9,6 @@ module GDS
       include ActionController::RackDelegation
       include ActionController::UrlFor
       include ActionController::Redirecting
-      include ActionController::HttpAuthentication::Basic::ControllerMethods
       include Rails.application.routes.url_helpers
 
       def self.call(env)

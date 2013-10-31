@@ -2,30 +2,6 @@ require 'active_support/concern'
 
 module GDS
   module SSO
-    class ApiUser
-      def uid
-        0
-      end
-
-      def name
-        'API User'
-      end
-
-      def has_permission?(permission)
-        true
-      end
-
-      def clear_remotely_signed_out!
-      end
-
-      def set_remotely_signed_out!
-      end
-
-      def remotely_signed_out?
-        false
-      end
-    end
-
     module User
       def included(base)
         attr_accessible :uid, :email, :name, :permissions, as: :oauth

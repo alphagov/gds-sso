@@ -127,51 +127,7 @@ Warden::Strategies.add(:gds_bearer_token) do
       {
         'Content-Type' => 'text/plain',
         'Content-Length' => '0',
-        'WWW-Authenticate' => %(Bearer realm="#{GDS::SSO::Config.basic_auth_realm}", error="invalid_token")
-      },
-      []
-    ]
-  end
-end
-
-Warden::Strategies.add(:gds_sso_api_access) do
-  def api_user
-    @api_user ||= GDS::SSO::ApiUser.new
-  end
-
-  def valid?
-    ::GDS::SSO::ApiAccess.api_call?(env)
-  end
-
-  def authenticate!
-    logger.debug("Authenticating with gds_sso_api_access strategy")
-
-    auth = Rack::Auth::Basic::Request.new(env)
-
-    return custom!(unauthorized) unless auth.provided?
-    return fail!(:bad_request) unless auth.basic?
-
-    if valid_api_user?(*auth.credentials)
-      success!(api_user)
-    else
-      custom!(unauthorized)
-    end
-  end
-
-  def valid_api_user?(username, password)
-    username.to_s.strip != '' &&
-      password.to_s.strip != '' &&
-      username == ::GDS::SSO::Config.basic_auth_user &&
-      password == ::GDS::SSO::Config.basic_auth_password
-  end
-
-  def unauthorized
-    [
-      401,
-      {
-        'Content-Type' => 'text/plain',
-        'Content-Length' => '0',
-        'WWW-Authenticate' => %(Basic realm="#{GDS::SSO::Config.basic_auth_realm}")
+        'WWW-Authenticate' => %(Bearer error="invalid_token")
       },
       []
     ]
@@ -212,6 +168,14 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
 
   def authenticate!
     logger.debug("Authenticating with mock_gds_sso_api_access strategy")
-    success!(GDS::SSO::ApiUser.new)
+    dummy_api_user = GDS::SSO::Config.user_klass.find_by_email("dummyapiuser@domain.com")
+    if dummy_api_user.nil?
+      dummy_api_user = GDS::SSO::Config.user_klass.create!(
+          uid: "#{rand(10000)}",
+          name: "Dummy API user created by gds-sso",
+          permissions: ["signin"],
+          as: :oauth)
+    end
+    success!(dummy_api_user)
   end
 end
