@@ -1,3 +1,6 @@
-# 4.0.0 (Unreleased)
+# 4.0.0
 
-* Removed support for basic authentication. Please use Bearer token authentication instead. See the Signonotron README for more information https://github.com/alphagov/signonotron2#usage
+* Removed support for basic authentication. Please use Bearer token
+  authentication instead. This means creating API users and granting them
+  appropriate permissions. See the Signonotron README for more information:
+  https://github.com/alphagov/signonotron2#usage
