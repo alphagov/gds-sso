@@ -2,10 +2,10 @@ require "spec_helper"
 
 def user_update_json
   {
-    "user" => { 
-      "uid" => @user_to_update.uid, 
-      "name" => "Joshua Marshall", 
-      "email" => "user@domain.com", 
+    "user" => {
+      "uid" => @user_to_update.uid,
+      "name" => "Joshua Marshall",
+      "email" => "user@domain.com",
       "permissions" => ["signin", "new permission"],
       "organisations" => ["justice-league"]
     }
@@ -15,11 +15,11 @@ end
 describe Api::UserController, type: :controller do
 
   before :each do
-    @user_to_update = User.create!({ 
-        :uid => "a1s2d3#{rand(10000)}", 
+    @user_to_update = User.create!({
+        :uid => "a1s2d3#{rand(10000)}",
         :email => "old@domain.com",
-        :name => "Moshua Jarshall", 
-        :permissions => ["signin"] }, 
+        :name => "Moshua Jarshall",
+        :permissions => ["signin"] },
         as: :oauth)
 
     @signon_sso_push_user = User.create!({
@@ -32,16 +32,16 @@ describe Api::UserController, type: :controller do
 
   describe "PUT update" do
     it "should deny access to anybody but the API user (or a user with 'user_update_permission')" do
-      malicious_user = User.new({ 
-          :uid => '2', 
-          :name => "User", 
+      malicious_user = User.new({
+          :uid => '2',
+          :name => "User",
           :permissions =>["signin"] })
 
       request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
-      
+
       assert_equal 403, response.status
     end
 
@@ -67,15 +67,15 @@ describe Api::UserController, type: :controller do
 
   describe "POST reauth" do
     it "should deny access to anybody but the API user (or a user with 'user_update_permission')" do
-      malicious_user = User.new({ 
-          :uid => '2', 
-          :name => "User", 
+      malicious_user = User.new({
+          :uid => '2',
+          :name => "User",
           :permissions => ["signin"] })
 
       request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       post :reauth, uid: @user_to_update.uid
-      
+
       assert_equal 403, response.status
     end
 
