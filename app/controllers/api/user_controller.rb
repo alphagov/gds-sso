@@ -31,7 +31,10 @@ class Api::UserController < ApplicationController
             email: user_json['email']
           },
           extra: {
-            user: { permissions: user_json['permissions'] }
+            user: {
+              permissions: user_json['permissions'],
+              organisations: user_json['organisations'],
+            }
           })
     end
 

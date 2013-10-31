@@ -6,7 +6,8 @@ def user_update_json
       "uid" => @user_to_update.uid, 
       "name" => "Joshua Marshall", 
       "email" => "user@domain.com", 
-      "permissions" => ["signin", "new permission"]
+      "permissions" => ["signin", "new permission"],
+      "organisations" => ["justice-league"]
     }
   }.to_json
 end
@@ -59,6 +60,8 @@ describe Api::UserController, type: :controller do
       assert_equal "user@domain.com", @user_to_update.email
       expected_permissions = ["signin", "new permission"]
       assert_equal expected_permissions, @user_to_update.permissions
+      expected_organisations = ["justice-league"]
+      assert_equal expected_organisations, @user_to_update.organisations
     end
   end
 
