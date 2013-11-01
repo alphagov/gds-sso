@@ -1,4 +1,8 @@
-# 5.0.0
+# 6.0.0 (Unreleased)
+
+* Changed "organisations" (array) to "organisation" (string)
+
+# 5.0.0 (Not recommended, see version 6.0.0)
 
 * Apps using gds-sso must now include a field in their User model for
   "organisations", which is an array of organisation slugs sourced from

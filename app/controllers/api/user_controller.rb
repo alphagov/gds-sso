@@ -33,7 +33,7 @@ class Api::UserController < ApplicationController
           extra: {
             user: {
               permissions: user_json['permissions'],
-              organisations: user_json['organisations'],
+              organisation: user_json['organisation'],
             }
           })
     end
