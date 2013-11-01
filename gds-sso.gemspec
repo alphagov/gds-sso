@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/alphagov/gds-sso"
   s.summary     = %q{Client for GDS' OAuth 2-based SSO}
   s.description = %q{Client for GDS' OAuth 2-based SSO}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "gds-sso"
 
