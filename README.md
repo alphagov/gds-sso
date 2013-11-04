@@ -35,6 +35,7 @@ Create a `config/initializers/gds-sso.rb` that looks like:
 The user model must include the GDS::SSO::User module.
 
 It should have the following fields:
+
     string   "name"
     string   "email"
     string   "uid"
