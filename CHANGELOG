@@ -1,4 +1,4 @@
-# 6.0.0 (Unreleased)
+# 6.0.0
 
 * Changed "organisations" (array) to "organisation" (string)
 
