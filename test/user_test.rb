@@ -8,12 +8,12 @@ class TestUser < Test::Unit::TestCase
       'uid' => 'abcde',
       'credentials' => {'token' => 'abcdefg', 'secret' => 'abcdefg'},
       'info' => {'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk'},
-      'extra' => {'user' => {'permissions' => [], 'organisation' => nil}}
+      'extra' => {'user' => {'permissions' => [], 'organisation_slug' => nil}}
     }
   end
 
   def test_user_params_creation
-    expected = {'uid' => 'abcde', 'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk', "permissions" => [], "organisation" => nil}
+    expected = {'uid' => 'abcde', 'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk', "permissions" => [], "organisation_slug" => nil}
     assert_equal expected, GDS::SSO::User.user_params_from_auth_hash(@auth_hash)
   end
 end

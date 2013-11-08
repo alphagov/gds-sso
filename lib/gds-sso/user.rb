@@ -4,7 +4,7 @@ module GDS
   module SSO
     module User
       def included(base)
-        attr_accessible :uid, :email, :name, :permissions, :organisation, as: :oauth
+        attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
       end
 
       def has_permission?(permission)
@@ -19,7 +19,7 @@ module GDS
           'email'         => auth_hash['info']['email'],
           'name'          => auth_hash['info']['name'],
           'permissions'   => auth_hash['extra']['user']['permissions'],
-          'organisation'  => auth_hash['extra']['user']['organisation'],
+          'organisation_slug'  => auth_hash['extra']['user']['organisation_slug'],
         }
       end
 

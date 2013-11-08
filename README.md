@@ -39,7 +39,7 @@ It should have the following fields:
     string   "name"
     string   "email"
     string   "uid"
-    string   "organisation"
+    string   "organisation_slug"
     array    "permissions"
     boolean  "remotely_signed_out", :default => false
 

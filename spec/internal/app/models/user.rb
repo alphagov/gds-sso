@@ -3,5 +3,5 @@ class User < ActiveRecord::Base
 
   serialize :permissions, Array
 
-  attr_accessible :uid, :email, :name, :permissions, :organisation, as: :oauth
+  attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
 end

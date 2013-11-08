@@ -110,7 +110,7 @@ Warden::Strategies.add(:gds_bearer_token) do
       'extra' => {
         'user' => {
           'permissions' => input['permissions'],
-          'organisation' => input['organisation'],
+          'organisation_slug' => input['organisation_slug'],
         }
       }
     }
