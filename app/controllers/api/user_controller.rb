@@ -1,4 +1,6 @@
-class Api::UserController < ApplicationController
+class Api::UserController < ActionController::Base
+  include GDS::SSO::ControllerMethods
+
   skip_before_filter :verify_authenticity_token
   before_filter :authenticate_user!
   before_filter :require_user_update_permission
