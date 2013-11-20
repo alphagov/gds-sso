@@ -1,3 +1,9 @@
+# 8.0.0
+
+* The controllers provided by gds-sso no longer inherit from an application's
+  ApplicationController, and instead inherit directly from
+  ActionController::Base.
+
 # 7.0.0
 
 * Changed "organisation" to "organisation_slug"
