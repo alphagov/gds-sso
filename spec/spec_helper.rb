@@ -10,7 +10,7 @@ Bundler.require :default
 require 'capybara/rspec'
 require 'combustion'
 
-Combustion.initialize!
+Combustion.initialize! :all
 
 require 'rspec/rails'
 require 'capybara/rails'

@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '2.12.2'
   s.add_development_dependency 'capybara-mechanize', '0.3.0'
   s.add_development_dependency 'mechanize', '2.6.0' # Added to resolve dependency resolution fail
-  s.add_development_dependency 'combustion', '0.3.2'
+  s.add_development_dependency 'combustion', '0.5.1'
   s.add_development_dependency 'gem_publisher', '1.0.0'
   s.add_development_dependency 'thor', '0.14.6'
   s.add_development_dependency 'sqlite3', '1.3.6'
