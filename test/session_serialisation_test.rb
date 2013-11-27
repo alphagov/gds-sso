@@ -1,7 +1,8 @@
 require_relative 'test_helper'
+require 'active_record'
 
 class SessionSerialisationTest < Test::Unit::TestCase
-  class User
+  class User < ActiveRecord::Base
     include GDS::SSO::User
 
   end
