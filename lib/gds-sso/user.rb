@@ -3,7 +3,9 @@ require 'active_support/concern'
 module GDS
   module SSO
     module User
-      def included(base)
+      extend ActiveSupport::Concern
+
+      included do
         attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
       end
 
@@ -30,8 +32,6 @@ module GDS
       def set_remotely_signed_out!
         self.update_attribute(:remotely_signed_out, true)
       end
-
-      extend ActiveSupport::Concern
 
       module ClassMethods
         def find_for_gds_oauth(auth_hash)
