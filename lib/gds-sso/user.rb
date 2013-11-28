@@ -6,7 +6,9 @@ module GDS
       extend ActiveSupport::Concern
 
       included do
-        attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
+        if respond_to?(:attr_accessible) && !(defined?(Rails) && Rails.version.split('.').first.to_i >= 4)
+          attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
+        end
       end
 
       def has_permission?(permission)
