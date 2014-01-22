@@ -29,7 +29,6 @@ module GDS
             site: GDS::SSO::Config.oauth_root_url,
             authorize_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/authorize",
             token_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token",
-            ssl: { verify: false }
           }
       end
 
