@@ -33,7 +33,7 @@ class SessionSerialisationTest < Test::Unit::TestCase
   end
 
   def test_deserializing_a_user_and_in_date_timestamp_returns_the_user
-    User.expects(:where).with(:uid => 1234).returns(stub(:first => :a_user))
+    User.expects(:where).with(:uid => 1234, :remotely_signed_out => false).returns(stub(:first => :a_user))
 
     result = @serializer.deserialize [1234, Time.now.utc - GDS::SSO::Config.auth_valid_for + 3600]
 

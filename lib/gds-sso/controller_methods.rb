@@ -31,11 +31,6 @@ module GDS
       end
 
       def authenticate_user!
-        if user_remotely_signed_out?
-          message = "You have been remotely signed out."
-          skip_slimmer
-          render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: message }
-        end
         warden.authenticate!
       end
 
