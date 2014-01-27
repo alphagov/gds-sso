@@ -51,8 +51,8 @@ module GDS
         warden.user if user_signed_in?
       end
 
-      def log_out
-        warden.log_out
+      def logout
+        warden.logout
       end
 
       def warden
