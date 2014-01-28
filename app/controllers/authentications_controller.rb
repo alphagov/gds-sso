@@ -14,9 +14,7 @@ class AuthenticationsController < ActionController::Base
   end
 
   def sign_out
-    cookie_key = Rails.application.config.session_options[:key]
-    cookies.delete(cookie_key)
-    reset_session
+    logout
     redirect_to GDS::SSO::Config.oauth_root_url + "/users/sign_out"
   end
 end
