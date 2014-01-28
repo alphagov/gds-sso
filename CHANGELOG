@@ -1,3 +1,9 @@
+# 9.2.0
+
+* UX fix to check whether remotely signed out user
+  signed-in again to let them continue. otherwise,
+  ask them to login again.
+
 # 8.0.0
 
 * The controllers provided by gds-sso no longer inherit from an application's
