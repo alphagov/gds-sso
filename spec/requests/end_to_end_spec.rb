@@ -87,28 +87,24 @@ describe "Integration of client using GDS-SSO with signonotron" do
         page.driver.header 'accept', 'text/html'
         page.should have_content('restricted kablooie')
 
-        # Simulate a POST to /auth/gds/api/users/:uid/reauth by SOOT
+        # logout from signon
+        visit "http://localhost:4567/users/sign_out"
+
+        # Simulate a POST to /auth/gds/api/users/:uid/reauth by signon
         # This is already tested in api_user_controller_spec.rb
-        user = User.where(:uid => "integration-uid").first
+        user = User.where(:email => "test@example-client.com").first
         user.set_remotely_signed_out!
 
-        page.driver.header 'accept', 'text/html'
-
-        # check we can't visit
+        # attempt to visit a restricted page
         visit "http://#{@client_host}/restricted"
-        page.should have_content('You have been remotely signed out')
 
-        # signin
-        visit "http://#{@client_host}/auth/gds/sign_out" # want to be redirected to SOOT, and then back again
-        # Workaround Devise treating us like we're not HTML by manually signin in
-        # If we weren't signed out, we wouldn't get the login form, we'd get the dashboard.
-        visit "http://localhost:4567/users/sign_in"
+        # be redirected to signon
+        page.should have_content('GOV.UK Signon')
         fill_in "Email", :with => "test@example-client.com"
         fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
-        # check we can visit
-        visit "http://#{@client_host}/restricted"
+        # then back again to the restricted page
         page.should have_content('restricted kablooie')
       end
     end

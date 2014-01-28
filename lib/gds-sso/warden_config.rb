@@ -27,7 +27,7 @@ Warden::Manager.serialize_from_session do |tuple|
   # This will reject old sessions that don't have an auth_set time
   uid, auth_set = tuple
   if auth_set and (auth_set + GDS::SSO::Config.auth_valid_for) > Time.now.utc
-    GDS::SSO::Config.user_klass.where(:uid => uid).first
+    GDS::SSO::Config.user_klass.where(:uid => uid, :remotely_signed_out => false).first
   else
     nil
   end
