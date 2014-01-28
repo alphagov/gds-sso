@@ -26,7 +26,6 @@ module GDS
       def require_signin_permission!
         authorise_user!('signin')
       rescue PermissionDeniedException
-        skip_slimmer
         render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden
       end
 
@@ -52,11 +51,6 @@ module GDS
 
       def warden
         request.env['warden']
-      end
-
-      def skip_slimmer
-        # If slimmer used, without this you would see a generic 400 error page
-        headers["X-Slimmer-Skip"] = "1"
       end
     end
   end
