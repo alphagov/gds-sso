@@ -6,7 +6,7 @@ module GDS
       extend ActiveSupport::Concern
 
       included do
-        if respond_to?(:attr_accessible) && !(Gem::Version.new(Rails.version) >= Gem::Version.new("4.0"))
+        if (Gem::Version.new(Rails.version) < Gem::Version.new("4.0")) && respond_to?(:attr_accessible)
           attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
         end
       end
