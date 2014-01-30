@@ -1,3 +1,9 @@
+# 9.2.1
+
+* Using User#where instead of User#find_by_email
+  in mock gds api user warden strategy, to make
+  it compatible with apps using mongoid.
+
 # 9.2.0
 
 * UX fix to check whether remotely signed out user
