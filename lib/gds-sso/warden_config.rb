@@ -169,9 +169,10 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
 
   def authenticate!
     logger.debug("Authenticating with mock_gds_sso_api_access strategy")
-    dummy_api_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.find_by_email("dummyapiuser@domain.com")
+    dummy_api_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.where(email: "dummyapiuser@domain.com").first
     if dummy_api_user.nil?
       dummy_api_user = GDS::SSO::Config.user_klass.create!(
+          email: "dummyapiuser@domain.com",
           uid: "#{rand(10000)}",
           name: "Dummy API user created by gds-sso",
           permissions: ["signin"],
