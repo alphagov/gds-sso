@@ -6,7 +6,9 @@ module GDS
       extend ActiveSupport::Concern
 
       included do
-        attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
+        if (Gem::Version.new(Rails.version) < Gem::Version.new("4.0")) && respond_to?(:attr_accessible)
+          attr_accessible :uid, :email, :name, :permissions, :organisation_slug, as: :oauth
+        end
       end
 
       def has_permission?(permission)
@@ -35,11 +37,21 @@ module GDS
 
       module ClassMethods
         def find_for_gds_oauth(auth_hash)
+          user_params = GDS::SSO::User.user_params_from_auth_hash(auth_hash.to_hash)
+
           if user = self.where(:uid => auth_hash["uid"]).first
-            user.update_attributes(GDS::SSO::User.user_params_from_auth_hash(auth_hash.to_hash), as: :oauth)
+            if Gem::Version.new(Rails.version) >= Gem::Version.new("4.0")
+              user.update_attributes(user_params)
+            else
+              user.update_attributes(user_params, as: :oauth)
+            end
             user
           else # Create a new user.
-            self.create!(GDS::SSO::User.user_params_from_auth_hash(auth_hash.to_hash), as: :oauth)
+            if Gem::Version.new(Rails.version) >= Gem::Version.new("4.0")
+              self.create!(user_params)
+            else
+              self.create!(user_params, as: :oauth)
+            end
           end
         end
       end
