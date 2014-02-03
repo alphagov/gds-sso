@@ -6,7 +6,8 @@ DELETE FROM `permissions`;
 DELETE FROM `users`;
 
 -- Setup fixture data
-INSERT INTO `oauth_applications` VALUES (1,'GDS_SSO integration test','gds-sso-test','secret','http://www.example-client.com/auth/gds/callback','2012-04-19 13:26:54','2012-04-19 13:26:54', 'http://home.com', 'GDS_SSO integration test');
+INSERT INTO `oauth_applications` (id, name, uid, secret, redirect_uri, created_at, updated_at, home_uri, description)
+              VALUES (1,'GDS_SSO integration test','gds-sso-test','secret','http://www.example-client.com/auth/gds/callback','2012-04-19 13:26:54','2012-04-19 13:26:54', 'http://home.com', 'GDS_SSO integration test');
 INSERT INTO `users` (id, email, encrypted_password, created_at, updated_at, confirmed_at, name, uid, role)
               VALUES (1,'test@example-client.com','$2a$04$MdMkVFwTq5GLJJkHS8GLIe6dK1.C4ozzba5ZS5Ks2b/NenVsMGGRW','2012-04-19 13:26:54','2012-04-19 13:26:54','2012-04-19 13:26:54','Test User','integration-uid', "normal");
 INSERT INTO `permissions` (id, user_id, application_id, permissions) VALUES (1,1,1,"---
