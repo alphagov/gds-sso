@@ -20,8 +20,4 @@ require 'capybara/mechanize'
 
 include Warden::Test::Helpers
 
-RSpec.configure do |config|
-  config.mock_framework = :mocha
-end
-
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
