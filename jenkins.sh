@@ -11,8 +11,6 @@ git clean -fdxe /tmp
 
 bundle install --path "${HOME}/bundles/${JOB_NAME}"
 
-bundle exec rake test
-
 bundle exec rake signonotron:start
 bundle exec rake spec
 
