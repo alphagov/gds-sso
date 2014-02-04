@@ -23,17 +23,17 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
     specify "a non-restricted page can be accessed without authentication" do
       visit "http://#{@client_host}/"
-      page.should have_content('jabberwocky')
+      expect(page).to have_content('jabberwocky')
     end
 
     specify "first access to a restricted page requires authentication and application approval" do
       visit "http://#{@client_host}/restricted"
-      page.should have_content("Sign in")
+      expect(page).to have_content("Sign in")
       fill_in "Email", :with => "test@example-client.com"
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
-      page.should have_content('restricted kablooie')
+      expect(page).to have_content('restricted kablooie')
     end
 
     specify "access to a restricted page for an approved application requires only authentication" do
@@ -48,12 +48,13 @@ describe "Integration of client using GDS-SSO with signonotron" do
       page.driver.header 'accept', 'text/html'
 
       visit "http://#{@client_host}/restricted"
-      page.should have_content("Sign in")
+      expect(page).to have_content("Sign in")
+
       fill_in "Email", :with => "test@example-client.com"
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
-      page.should have_content('restricted kablooie')
+      expect(page).to have_content('restricted kablooie')
     end
 
     specify "access to a page that requires signin permission granted" do
@@ -68,12 +69,13 @@ describe "Integration of client using GDS-SSO with signonotron" do
       page.driver.header 'accept', 'text/html'
 
       visit "http://#{@client_host}/this_requires_signin_permission"
-      page.should have_content("Sign in")
+      expect(page).to have_content("Sign in")
+
       fill_in "Email", :with => "test@example-client.com"
       fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
-      page.should have_content('you have signin permission')
+      expect(page).to have_content('you have signin permission')
     end
 
     describe "remotely signed out" do
@@ -85,7 +87,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
         click_on "Sign in"
 
         page.driver.header 'accept', 'text/html'
-        page.should have_content('restricted kablooie')
+        expect(page).to have_content('restricted kablooie')
 
         # logout from signon
         visit "http://localhost:4567/users/sign_out"
@@ -99,48 +101,48 @@ describe "Integration of client using GDS-SSO with signonotron" do
         visit "http://#{@client_host}/restricted"
 
         # be redirected to signon
-        page.should have_content('GOV.UK Signon')
+        expect(page).to have_content('GOV.UK Signon')
         fill_in "Email", :with => "test@example-client.com"
         fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         # then back again to the restricted page
-        page.should have_content('restricted kablooie')
+        expect(page).to have_content('restricted kablooie')
       end
     end
 
     describe "session expiry" do
       it "should force you to re-authenticate with signonotron N hours after login" do
         visit "http://#{@client_host}/restricted"
-        page.should have_content("Sign in")
+        expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
         fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
-        page.should have_content('restricted kablooie')
+        expect(page).to have_content('restricted kablooie')
 
         Timecop.travel(Time.now.utc + GDS::SSO::Config.auth_valid_for + 5.minutes) do
           visit "http://#{@client_host}/restricted"
         end
 
-        page.driver.request.referrer.should =~ %r(\Ahttp://#{@client_host}/auth/gds/callback)
+        expect(page.driver.request.referrer).to match(%r(\Ahttp://#{@client_host}/auth/gds/callback))
       end
 
 
       it "should not require re-authentication with signonotron fewer than N hours after login" do
         visit "http://#{@client_host}/restricted"
-        page.should have_content("Sign in")
+        expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
         fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
-        page.should have_content('restricted kablooie')
+        expect(page).to have_content('restricted kablooie')
 
         Timecop.travel(Time.now.utc + GDS::SSO::Config.auth_valid_for - 5.minutes) do
           visit "http://#{@client_host}/restricted"
         end
 
-        page.driver.request.referrer.should =~ %r(\Ahttp://#{@client_host}/restricted)
+        expect(page.driver.request.referrer).to match(%r(\Ahttp://#{@client_host}/restricted))
       end
     end
   end
@@ -157,17 +159,17 @@ describe "Integration of client using GDS-SSO with signonotron" do
     specify "access to a restricted page for an api client requires auth" do
       page.driver.header 'authorization', 'Bearer Bad Token'
       visit "http://#{@client_host}/restricted"
-      page.driver.response.status.should == 401
+      expect(page.driver.response.status).to eq(401)
     end
 
     specify "setting a correct bearer token allows sign in" do
       visit "http://#{@client_host}/restricted"
-      page.should have_content('restricted kablooie')
+      expect(page).to have_content('restricted kablooie')
     end
 
     specify "setting a correct bearer token picks up permissions" do
       visit "http://#{@client_host}/this_requires_signin_permission"
-      page.should have_content('you have signin permission')
+      expect(page).to have_content('you have signin permission')
     end
   end
 end

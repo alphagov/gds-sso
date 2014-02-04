@@ -3,13 +3,6 @@ Bundler::GemHelper.install_tasks
 
 load File.dirname(__FILE__) + "/spec/tasks/signonotron_tasks.rake"
 
-require 'rake/testtask'
-Rake::TestTask.new do |t|
-  t.libs << "test"
-  t.test_files = FileList['test/**/*_test.rb']
-  t.verbose = true
-end
-
 require 'rspec/core/rake_task'
 desc "Run all specs"
 RSpec::Core::RakeTask.new(:spec) do |task|
@@ -28,4 +21,4 @@ task :publish_gem do |t|
   puts "Published #{gem}" if gem
 end
 
-task :default => [:test, :"signonotron:start", :spec]
+task :default => [:"signonotron:start", :spec]

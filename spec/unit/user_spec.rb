@@ -1,8 +1,8 @@
-require 'test_helper'
+require 'spec_helper'
 require 'gds-sso/user'
 
-class TestUser < Test::Unit::TestCase
-  def setup
+describe GDS::SSO::User do
+  before :each do
     @auth_hash = {
       'provider' => 'gds',
       'uid' => 'abcde',
@@ -12,8 +12,8 @@ class TestUser < Test::Unit::TestCase
     }
   end
 
-  def test_user_params_creation
+  it "should extract the user params from the oauth hash" do
     expected = {'uid' => 'abcde', 'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk', "permissions" => [], "organisation_slug" => nil}
-    assert_equal expected, GDS::SSO::User.user_params_from_auth_hash(@auth_hash)
+    expect(GDS::SSO::User.user_params_from_auth_hash(@auth_hash)).to eq(expected)
   end
 end

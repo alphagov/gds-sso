@@ -37,31 +37,29 @@ describe Api::UserController, type: :controller do
           :name => "User",
           :permissions =>["signin"] })
 
-      request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
+      request.env['warden'] = double("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
 
-      assert_equal 403, response.status
+      expect(response.status).to eq(403)
     end
 
     it "should create/update the user record in the same way as the OAuth callback" do
       # Test that it authenticates
-      request.env['warden'] = mock("mock warden")
-      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
-      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
+      request.env['warden'] = double("mock warden")
+      expect(request.env['warden']).to receive(:authenticate!).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:authenticated?).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
       put :update, uid: @user_to_update.uid
 
       @user_to_update.reload
-      assert_equal "Joshua Marshall", @user_to_update.name
-      assert_equal "user@domain.com", @user_to_update.email
-      expected_permissions = ["signin", "new permission"]
-      assert_equal expected_permissions, @user_to_update.permissions
-      expected_organisation = "justice-league"
-      assert_equal expected_organisation, @user_to_update.organisation_slug
+      expect(@user_to_update.name).to eq("Joshua Marshall")
+      expect(@user_to_update.email).to eq("user@domain.com")
+      expect(@user_to_update.permissions).to eq(["signin", "new permission"])
+      expect(@user_to_update.organisation_slug).to eq("justice-league")
     end
   end
 
@@ -72,35 +70,35 @@ describe Api::UserController, type: :controller do
           :name => "User",
           :permissions => ["signin"] })
 
-      request.env['warden'] = stub("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
+      request.env['warden'] = double("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       post :reauth, uid: @user_to_update.uid
 
-      assert_equal 403, response.status
+      expect(response.status).to eq(403)
     end
 
     it "should return success if user record doesn't exist" do
-      request.env['warden'] = mock("mock warden")
-      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
-      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
+      request.env['warden'] = double("mock warden")
+      expect(request.env['warden']).to receive(:authenticate!).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:authenticated?).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
       post :reauth, uid: "nonexistent-user"
 
-      assert_equal 200, response.status
+      expect(response.status).to eq(200)
     end
 
     it "should set remotely_signed_out to true on the user" do
       # Test that it authenticates
-      request.env['warden'] = mock("mock warden")
-      request.env['warden'].expects(:authenticate!).at_least_once.returns(true)
-      request.env['warden'].expects(:authenticated?).at_least_once.returns(true)
-      request.env['warden'].expects(:user).at_least_once.returns(@signon_sso_push_user)
+      request.env['warden'] = double("mock warden")
+      expect(request.env['warden']).to receive(:authenticate!).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:authenticated?).at_least(:once).and_return(true)
+      expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
       post :reauth, uid: @user_to_update.uid
 
       @user_to_update.reload
-      assert_equal true,  @user_to_update.remotely_signed_out
+      expect(@user_to_update.remotely_signed_out).to be_true
     end
   end
 end
