@@ -1,3 +1,9 @@
+# 9.2.2
+
+* Includes fix to get the mock_gds_sso_api_access
+  strategy working in development for apps that
+  don't have a role attribute on User.
+
 # 9.2.1
 
 * Using User#where instead of User#find_by_email
