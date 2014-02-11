@@ -1,3 +1,8 @@
+# 9.2.3
+
+* Minor bugfix to allow building of gems such as govuk_content_models which do
+  not load rails.
+
 # 9.2.2
 
 * Includes fix to get the mock_gds_sso_api_access
