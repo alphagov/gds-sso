@@ -172,10 +172,13 @@ Warden::Strategies.add(:mock_gds_sso_api_access) do
     dummy_api_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.where(email: "dummyapiuser@domain.com").first
     if dummy_api_user.nil?
       dummy_api_user = GDS::SSO::Config.user_klass.new(
+        {
           email: "dummyapiuser@domain.com",
           uid: "#{rand(10000)}",
-          name: "Dummy API user created by gds-sso",
-          as: :oauth)
+          name: "Dummy API user created by gds-sso"
+        },
+        {as: :oauth}
+      )
       dummy_api_user.permissions = ["signin"]
       dummy_api_user.save!
     end
