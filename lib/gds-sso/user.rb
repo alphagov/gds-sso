@@ -42,8 +42,10 @@ module GDS
       module ClassMethods
         def find_for_gds_oauth(auth_hash)
           user_params = GDS::SSO::User.user_params_from_auth_hash(auth_hash.to_hash)
+          user = self.where(:uid => user_params['uid']).first ||
+                 self.where(:email => user_params['email']).first
 
-          if user = self.where(:uid => auth_hash["uid"]).first
+          if user
             if GDS::SSO::User.below_rails_4?
               user.update_attributes(user_params, as: :oauth)
             else
