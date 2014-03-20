@@ -1,3 +1,9 @@
+# 9.2.5
+
+* Change find_for_gds_oauth to find by UID then fall-back to email
+  This fixes an issue when users logging into preview are duplicated
+  as UIDs are not synced.
+
 # 9.2.4
 
 * Fix bug in creation of dummy API user in test mode
