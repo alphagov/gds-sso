@@ -17,16 +17,23 @@ end
 
 Warden::Manager.serialize_into_session do |user|
   if user.respond_to?(:uid) and user.uid
-    [user.uid, Time.now.utc]
+    [user.uid, Time.now.utc.iso8601]
   else
     nil
   end
 end
 
-Warden::Manager.serialize_from_session do |tuple|
-  # This will reject old sessions that don't have an auth_set time
-  uid, auth_set = tuple
-  if auth_set and (auth_set + GDS::SSO::Config.auth_valid_for) > Time.now.utc
+Warden::Manager.serialize_from_session do |(uid, auth_timestamp)|
+  # This will reject old sessions that don't have a previous login timestamp
+  if auth_timestamp.is_a?(String)
+    auth_timestamp = begin
+      Time.parse(auth_timestamp)
+    rescue ArgumentError
+      nil
+    end
+  end
+
+  if auth_timestamp and (auth_timestamp + GDS::SSO::Config.auth_valid_for) > Time.now.utc
     GDS::SSO::Config.user_klass.where(:uid => uid, :remotely_signed_out => false).first
   else
     nil
