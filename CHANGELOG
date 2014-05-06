@@ -1,3 +1,8 @@
+# 9.2.6
+
+* Adds support for string timestamps in serialized sessions (Rails 4.1).
+* New sessions are created using ISO 8601 string timestamps.
+
 # 9.2.5
 
 * Change find_for_gds_oauth to find by UID then fall-back to email
