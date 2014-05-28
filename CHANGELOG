@@ -1,3 +1,7 @@
+# 9.2.7
+
+* update/reauth requests get a content-type of 'text/plain' in responses
+
 # 9.2.6
 
 * Adds support for string timestamps in serialized sessions (Rails 4.1).
