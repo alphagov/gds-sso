@@ -60,6 +60,7 @@ describe Api::UserController, type: :controller do
       expect(@user_to_update.email).to eq("user@domain.com")
       expect(@user_to_update.permissions).to eq(["signin", "new permission"])
       expect(@user_to_update.organisation_slug).to eq("justice-league")
+      expect(response.content_type).to eq('text/plain')
     end
   end
 
@@ -86,6 +87,7 @@ describe Api::UserController, type: :controller do
       post :reauth, uid: "nonexistent-user"
 
       expect(response.status).to eq(200)
+      expect(response.content_type).to eq('text/plain')
     end
 
     it "should set remotely_signed_out to true on the user" do
@@ -99,6 +101,7 @@ describe Api::UserController, type: :controller do
 
       @user_to_update.reload
       expect(@user_to_update.remotely_signed_out).to be_true
+      expect(response.content_type).to eq('text/plain')
     end
   end
 end

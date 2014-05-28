@@ -9,15 +9,15 @@ class Api::UserController < ActionController::Base
     user_json = JSON.parse(request.body.read)['user']
     oauth_hash = build_gds_oauth_hash(user_json)
     GDS::SSO::Config.user_klass.find_for_gds_oauth(oauth_hash)
-    head :ok
+    head :ok, content_type: 'text/plain'
   end
 
   def reauth
     user = GDS::SSO::Config.user_klass.where(:uid => params[:uid]).first
     if user.nil? || user.set_remotely_signed_out!
-      head :ok
+      head :ok, content_type: 'text/plain'
     else
-      head 500
+      head 500, content_type: 'text/plain'
     end
   end
 
