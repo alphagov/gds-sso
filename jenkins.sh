@@ -14,4 +14,6 @@ bundle install --path "${HOME}/bundles/${JOB_NAME}"
 bundle exec rake signonotron:start
 bundle exec rake spec
 
-bundle exec rake publish_gem
+if [[ -n "$PUBLISH_GEM" ]]; then
+  bundle exec rake publish_gem
+fi
