@@ -173,7 +173,6 @@ describe "Integration of client using GDS-SSO with signonotron" do
     end
 
     specify "a token for one app cannot be used to access a different app" do
-      pending "bearer token access needs to be fixed"
       page.driver.header 'authorization', "Bearer 98c72f4da02fdc43398e029d05567542944d2a9b0df3c20b0accd8bd6c5dc728"
       visit "http://#{@client_host}/restricted"
       expect(page.driver.response.status).to eq(401)
