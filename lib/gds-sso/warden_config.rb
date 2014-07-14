@@ -1,5 +1,6 @@
 require 'warden'
-require 'gds-sso/user'
+require 'warden-oauth2'
+require 'gds-sso/bearer_token'
 
 def logger
   if Rails.logger # if we are actually running in a rails app
@@ -65,82 +66,10 @@ Warden::Strategies.add(:gds_sso) do
   end
 end
 
-Warden::Strategies.add(:gds_bearer_token) do
-  def valid?
-    ::GDS::SSO::ApiAccess.api_call?(env) &&
-      ::GDS::SSO::ApiAccess.oauth_api_call?(env)
-  end
-
-  def authenticate!
-    logger.debug("Authenticating with gds_bearer_token strategy")
-
-    begin
-      access_token = OAuth2::AccessToken.new(oauth_client, token_from_authorization_header)
-      response_body = access_token.get('/user.json').body
-      user_details = omniauth_style_response(response_body)
-      user = prep_user(user_details)
-      success!(user)
-    rescue OAuth2::Error
-      custom!(unauthorized)
-    end
-  end
-
-  def oauth_client
-    @oauth_client ||= OAuth2::Client.new(
-      GDS::SSO::Config.oauth_id,
-      GDS::SSO::Config.oauth_secret,
-      :site => GDS::SSO::Config.oauth_root_url
-    )
-  end
-
-  def token_from_authorization_header
-    env['HTTP_AUTHORIZATION'].gsub(/Bearer /, '')
-  end
-
-  # Our User code assumes we're getting our user data back
-  # via omniauth and so receiving it in omniauth's preferred
-  # structure. Here we're addressing signonotron directly so
-  # we need to transform the response ourselves.
-  #
-  # There may be a way to simplify matters by having this
-  # strategy work via omniauth too but I've not worked out how
-  # to wire that up yet.
-  def omniauth_style_response(response_body)
-    input = MultiJson.decode(response_body)['user']
-
-    {
-      'uid' => input['uid'],
-      'info' => {
-        'email' => input['email'],
-        'name' => input['name']
-      },
-      'extra' => {
-        'user' => {
-          'permissions' => input['permissions'],
-          'organisation_slug' => input['organisation_slug'],
-        }
-      }
-    }
-  end
-
-  def prep_user(auth_hash)
-    user = GDS::SSO::Config.user_klass.find_for_gds_oauth(auth_hash)
-    custom!(unauthorized) unless user
-    user
-  end
-
-  def unauthorized
-    [
-      401,
-      {
-        'Content-Type' => 'text/plain',
-        'Content-Length' => '0',
-        'WWW-Authenticate' => %(Bearer error="invalid_token")
-      },
-      []
-    ]
-  end
+Warden::OAuth2.configure do |config|
+  config.token_model = GDS::SSO::Config.use_mock_strategies? ? GDS::SSO::MockBearerToken : GDS::SSO::BearerToken
 end
+Warden::Strategies.add(:gds_bearer_token, Warden::OAuth2::Strategies::Bearer)
 
 Warden::Strategies.add(:mock_gds_sso) do
   def valid?
@@ -166,29 +95,5 @@ Warden::Strategies.add(:mock_gds_sso) do
         raise "GDS-SSO running in mock mode and no test user found. Normally we'd load the first user in the database. Create a user in the database."
       end
     end
-  end
-end
-
-Warden::Strategies.add(:mock_gds_sso_api_access) do
-  def valid?
-    ::GDS::SSO::ApiAccess.api_call?(env)
-  end
-
-  def authenticate!
-    logger.debug("Authenticating with mock_gds_sso_api_access strategy")
-    dummy_api_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.where(email: "dummyapiuser@domain.com").first
-    if dummy_api_user.nil?
-      dummy_api_user = GDS::SSO::Config.user_klass.new(
-        {
-          email: "dummyapiuser@domain.com",
-          uid: "#{rand(10000)}",
-          name: "Dummy API user created by gds-sso"
-        },
-        {as: :oauth}
-      )
-      dummy_api_user.permissions = ["signin"]
-      dummy_api_user.save!
-    end
-    success!(dummy_api_user)
   end
 end
