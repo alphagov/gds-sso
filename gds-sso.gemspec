@@ -32,8 +32,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '>= 3.0.0'
   s.add_dependency 'warden', '~> 1.2'
+  s.add_dependency 'oauth2', '~> 1.0'
+  s.add_dependency 'omniauth', '~> 1.2'
   s.add_dependency 'omniauth-gds', '>= 3.0.0'
   s.add_dependency 'rack-accept', '~> 0.4.4'
+  s.add_dependency 'multi_json', '~> 1.0'
 
   s.add_development_dependency 'rake',  '0.9.2.2'
   s.add_development_dependency 'capybara', '1.1.2'

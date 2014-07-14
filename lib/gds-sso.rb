@@ -2,6 +2,7 @@ require 'rails'
 
 require 'gds-sso/config'
 require 'gds-sso/warden_config'
+require 'omniauth'
 require 'omniauth-gds'
 
 module GDS
