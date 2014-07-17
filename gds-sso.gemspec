@@ -48,10 +48,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3', '1.3.6'
   s.add_development_dependency 'timecop', '0.3.5'
 
-  # The test suite currently assumes a Rails 3.2 client.
-  # TODO: Investigate a matrix build against multiple Rails versions.
-  s.add_development_dependency 'rails', '~> 3.2.19'
-
-  ## Gems added to resolve dependency resolution
-  s.add_development_dependency 'mechanize', '2.6.0'
+  # Additional development dependencies added to Gemfile to aid dependency resolution.
 end
