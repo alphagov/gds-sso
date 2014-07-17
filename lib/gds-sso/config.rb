@@ -21,6 +21,10 @@ module GDS
       def self.user_klass
         user_model.to_s.constantize
       end
+
+      def self.use_mock_strategies?
+        ['development', 'test'].include?(Rails.env) && ENV['GDS_SSO_STRATEGY'] != 'real'
+      end
     end
   end
 end
