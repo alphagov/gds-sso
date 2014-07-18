@@ -1,3 +1,9 @@
+# 9.3.0
+
+* Include oauth client_id when requesting user details from signon.
+  This allows signon to verify that the token used belongs to the app making
+  the request.  Sending this id will become mandatory in future.
+
 # 9.2.7
 
 * update/reauth requests get a content-type of 'text/plain' in responses
