@@ -17,7 +17,7 @@ These can be provided by one of the team with admin access to signonotron2.
 
 Then include the gem in your Gemfile:
 
-    gem 'gds-sso', :git => 'https://github.com/alphagov/gds-sso.git'
+    gem 'gds-sso', '<version>'
 
 Create a `config/initializers/gds-sso.rb` that looks like:
 
