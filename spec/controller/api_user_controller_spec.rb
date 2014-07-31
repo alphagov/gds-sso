@@ -15,19 +15,25 @@ end
 describe Api::UserController, type: :controller do
 
   before :each do
-    @user_to_update = User.create!({
-        :uid => "a1s2d3#{rand(10000)}",
-        :email => "old@domain.com",
-        :name => "Moshua Jarshall",
-        :permissions => ["signin"] },
-        as: :oauth)
+    user_to_update_attrs = [{
+          :uid => "a1s2d3#{rand(10000)}",
+          :email => "old@domain.com",
+          :name => "Moshua Jarshall",
+          :permissions => ["signin"] }]
 
-    @signon_sso_push_user = User.create!({
-        :uid => "a1s2d3#{rand(10000)}",
-        :email => "ssopushuser@legit.com",
-        :name => "SSO Push user",
-        :permissions => ["signin", "user_update_permission"] },
-        as: :oauth)
+     signon_sso_push_user_attrs = [{
+          :uid => "a1s2d3#{rand(10000)}",
+          :email => "ssopushuser@legit.com",
+          :name => "SSO Push user",
+          :permissions => ["signin", "user_update_permission"] }]
+
+    if GDS::SSO::User.below_rails_4?
+      user_to_update_attrs << { as: :oauth }
+      signon_sso_push_user_attrs << { as: :oauth }
+    end
+
+    @user_to_update = User.create!(*user_to_update_attrs)
+    @signon_sso_push_user = User.create!(*signon_sso_push_user_attrs)
   end
 
   describe "PUT update" do

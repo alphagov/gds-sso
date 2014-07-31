@@ -1,20 +1,15 @@
-require 'rubygems'
-require 'bundler'
-
 # Yes, we really do want to turn off the test environment check here.
 # Bad things happen if we don't ;-)
 ENV['GDS_SSO_STRATEGY'] = 'real'
 
-Bundler.require :default
-
-require 'capybara/rspec'
+require 'bundler/setup'
 require 'combustion'
+require 'capybara/rspec'
 
 Combustion.initialize! :all
 
 require 'rspec/rails'
 require 'capybara/rails'
-
 require 'mechanize'
 require 'capybara/mechanize'
 
