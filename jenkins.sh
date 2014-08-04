@@ -12,7 +12,8 @@ git clean -fdxe /tmp
 
 bundle install --path "${HOME}/bundles/${JOB_NAME}"
 
-bundle exec rake
+RBENV_VERSION=1.9.3 bundle exec rake
+RBENV_VERSION=2.1 bundle exec rake
 
 if [[ -n "$PUBLISH_GEM" ]]; then
   bundle exec rake publish_gem
