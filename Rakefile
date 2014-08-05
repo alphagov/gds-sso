@@ -1,4 +1,7 @@
-require 'bundler'
+require 'bundler/setup'
+require 'bundler/gem_tasks'
+require 'wwtd/tasks'
+
 Bundler::GemHelper.install_tasks
 
 load File.dirname(__FILE__) + "/spec/tasks/signonotron_tasks.rake"
@@ -8,6 +11,7 @@ desc "Run all specs"
 RSpec::Core::RakeTask.new(:spec) do |task|
   task.pattern = 'spec/**/*_spec.rb'
 end
+
 namespace :spec do
   desc "Run integration specs"
   RSpec::Core::RakeTask.new(:integration) do |task|
@@ -21,4 +25,4 @@ task :publish_gem do |t|
   puts "Published #{gem}" if gem
 end
 
-task :default => [:"signonotron:start", :spec]
+task :default => [:wwtd]
