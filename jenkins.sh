@@ -10,7 +10,8 @@ rm -f gemfiles/*.gemfile.lock
 # Exclude /tmp from git clean as it only contains the signonotron checkout
 git clean -fdxe /tmp
 
-bundle install --path "${HOME}/bundles/${JOB_NAME}"
+RBENV_VERSION=1.9.3 bundle install --path "${HOME}/bundles/${JOB_NAME}"
+RBENV_VERSION=2.1 bundle install --path "${HOME}/bundles/${JOB_NAME}"
 
 RBENV_VERSION=1.9.3 bundle exec rake
 RBENV_VERSION=2.1 bundle exec rake
