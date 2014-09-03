@@ -32,7 +32,7 @@ Create a `config/initializers/gds-sso.rb` that looks like:
       config.oauth_root_url = "http://localhost:3001"
     end
 
-The user model must include the GDS::SSO::User module.
+The user model must include the `GDS::SSO::User` module.
 
 It should have the following fields:
 
@@ -43,12 +43,21 @@ It should have the following fields:
     array    "permissions"
     boolean  "remotely_signed_out", :default => false
 
-You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController
+You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController.
 
 For ActiveRecord, you probably want to declare permissions as "serialized" like this:
 
     serialize :permissions, Array
 
+If your app is using `rspec`, there is a [shared examples spec](/lib/gds-sso/lint/user_spec.rb) that can be used to verify that your `User` model implements the necessary methods for `gds-sso` to work correctly. To use it:
+
+```ruby
+require 'gds-sso/lint/user_spec'
+
+describe User do
+  it_behaves_like "a gds-sso user class"
+end
+```
 
 ## Use in development mode
 
@@ -62,5 +71,4 @@ To make it use a real strategy (e.g. if you're testing an app against the signon
 
 Once that's done, set an environment variable when you run your app. e.g.:
 
-    GDS_SSO_STRATEGY=real bundle exec rails s 
-
+    GDS_SSO_STRATEGY=real bundle exec rails s
