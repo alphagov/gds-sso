@@ -1,3 +1,16 @@
+# 9.4.0
+
+* Add an RSpec shared example for validating that the User model in the app
+  does enough to work with GDS SSO. To use it:
+
+  ```ruby
+  require 'gds-sso/lint/user_spec'
+
+  describe User do
+    it_behaves_like "a gds-sso user class"
+  end
+  ```
+
 # 9.3.0
 
 * Include oauth client_id when requesting user details from signon.
