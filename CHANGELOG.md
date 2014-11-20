@@ -1,3 +1,8 @@
+# 10.0.0
+
+* Add a `disabled` field to GDS::SSO::User to reflect Signon user state.
+  Breaking change: Requires consuming apps to add a `disabled` field to their user model
+
 # 9.4.0
 
 * Add an RSpec shared example for validating that the User model in the app
