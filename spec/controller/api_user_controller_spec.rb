@@ -7,7 +7,8 @@ def user_update_json
       "name" => "Joshua Marshall",
       "email" => "user@domain.com",
       "permissions" => ["signin", "new permission"],
-      "organisation_slug" => "justice-league"
+      "organisation_slug" => "justice-league",
+      "disabled" => false,
     }
   }.to_json
 end
