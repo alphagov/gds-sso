@@ -42,6 +42,7 @@ It should have the following fields:
     string   "organisation_slug"
     array    "permissions"
     boolean  "remotely_signed_out", :default => false
+    boolean  "disabled", :default => false
 
 You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController.
 

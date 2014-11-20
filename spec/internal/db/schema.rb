@@ -6,5 +6,6 @@ ActiveRecord::Schema.define do
     t.boolean "remotely_signed_out"
     t.text   "permissions"
     t.string "organisation_slug"
+    t.boolean "disabled",  :default => false
   end
 end

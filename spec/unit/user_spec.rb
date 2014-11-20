@@ -11,12 +11,18 @@ describe GDS::SSO::User do
       'uid' => 'abcde',
       'credentials' => {'token' => 'abcdefg', 'secret' => 'abcdefg'},
       'info' => {'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk'},
-      'extra' => {'user' => {'permissions' => [], 'organisation_slug' => nil}}
+      'extra' => {'user' => {'permissions' => [], 'organisation_slug' => nil, 'disabled' => false}}
     }
   end
 
   it "should extract the user params from the oauth hash" do
-    expected = {'uid' => 'abcde', 'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk', "permissions" => [], "organisation_slug" => nil}
+    expected = {'uid' => 'abcde',
+      'name' => 'Matt Patterson',
+      'email' => 'matt@alphagov.co.uk',
+      "permissions" => [],
+      "organisation_slug" => nil,
+      'disabled' => false,
+    }
     expect(GDS::SSO::User.user_params_from_auth_hash(@auth_hash)).to eq(expected)
   end
 

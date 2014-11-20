@@ -9,6 +9,8 @@ describe "Integration of client using GDS-SSO with signonotron" do
   end
 
   before :each do
+    # points to an internal app, using combustion gem
+    # see spec/internal
     @client_host = 'www.example-client.com'
     Capybara.current_driver = :mechanize
     Capybara::Mechanize.local_hosts << @client_host
