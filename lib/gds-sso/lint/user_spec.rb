@@ -16,7 +16,8 @@ RSpec.shared_examples "a gds-sso user class" do
   end
 
   it "implements #update_attributes" do
-    expect(subject).to respond_to(:update_attributes)
+    subject.update_attributes(email: "ab@c.com")
+    expect(subject.email).to eq("ab@c.com")
   end
 
   it "implements #create!" do
