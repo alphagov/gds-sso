@@ -1,3 +1,8 @@
+# 10.0.1
+
+* Fix the user model linter to work with a uid column defined as `NOT NULL`
+* Strengthen lint specs around user `update_attributes` method
+
 # 10.0.0
 
 * Add a `disabled` field to GDS::SSO::User to reflect Signon user state.
