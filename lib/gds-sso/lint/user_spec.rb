@@ -1,5 +1,5 @@
 RSpec.shared_examples "a gds-sso user class" do
-  subject { described_class.new }
+  subject { described_class.new(:uid => '12345') }
 
   it "implements #where" do
     expect(described_class).to respond_to(:where)
@@ -44,6 +44,7 @@ RSpec.shared_examples "a gds-sso user class" do
 
     user = described_class.find_for_gds_oauth(auth_hash)
     expect(user).to be_an_instance_of(described_class)
+    expect(user.uid).to eq('12345')
     expect(user.name).to eq("Joe Smith")
     expect(user.email).to eq('joe.smith@example.com')
     expect(user.permissions).to eq(['signin'])
