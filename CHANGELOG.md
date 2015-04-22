@@ -1,3 +1,7 @@
+# Unreleased
+
+* Add support for organisation_content_id on the user model
+
 # 10.0.1
 
 * Fix the user model linter to work with a uid column defined as `NOT NULL`

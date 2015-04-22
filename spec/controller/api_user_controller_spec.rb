@@ -8,6 +8,7 @@ def user_update_json
       "email" => "user@domain.com",
       "permissions" => ["signin", "new permission"],
       "organisation_slug" => "justice-league",
+      "organisation_content_id" => "aae1319e-5788-4677-998c-f1a53af528d0",
       "disabled" => false,
     }
   }.to_json
@@ -67,6 +68,7 @@ describe Api::UserController, type: :controller do
       expect(@user_to_update.email).to eq("user@domain.com")
       expect(@user_to_update.permissions).to eq(["signin", "new permission"])
       expect(@user_to_update.organisation_slug).to eq("justice-league")
+      expect(@user_to_update.organisation_content_id).to eq("aae1319e-5788-4677-998c-f1a53af528d0")
       expect(response.content_type).to eq('text/plain')
     end
   end

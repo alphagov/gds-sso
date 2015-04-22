@@ -36,6 +36,7 @@ class Api::UserController < ActionController::Base
             user: {
               permissions: user_json['permissions'],
               organisation_slug: user_json['organisation_slug'],
+              organisation_content_id: user_json['organisation_content_id'],
               disabled: user_json['disabled'],
             }
           })
