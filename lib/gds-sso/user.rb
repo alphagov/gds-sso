@@ -11,7 +11,7 @@ module GDS
 
       included do
         if GDS::SSO::User.below_rails_4? && respond_to?(:attr_accessible)
-          attr_accessible :uid, :email, :name, :permissions, :organisation_slug, :disabled, as: :oauth
+          attr_accessible :uid, :email, :name, :permissions, :organisation_slug, :organisation_content_id, :disabled, as: :oauth
         end
       end
 
@@ -28,6 +28,7 @@ module GDS
           'name' => auth_hash['info']['name'],
           'permissions' => auth_hash['extra']['user']['permissions'],
           'organisation_slug' => auth_hash['extra']['user']['organisation_slug'],
+          'organisation_content_id' => auth_hash['extra']['user']['organisation_content_id'],
           'disabled' => auth_hash['extra']['user']['disabled'],
         }
       end

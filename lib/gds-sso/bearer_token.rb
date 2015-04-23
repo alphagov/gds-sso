@@ -38,6 +38,7 @@ module GDS
             'user' => {
               'permissions' => input['permissions'],
               'organisation_slug' => input['organisation_slug'],
+              'organisation_content_id' => input['organisation_content_id'],
             }
           }
         }

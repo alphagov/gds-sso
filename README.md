@@ -40,6 +40,7 @@ It should have the following fields:
     string   "email"
     string   "uid"
     string   "organisation_slug"
+    string   "organisation_content_id"
     array    "permissions"
     boolean  "remotely_signed_out", :default => false
     boolean  "disabled", :default => false
