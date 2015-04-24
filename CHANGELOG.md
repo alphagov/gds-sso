@@ -1,6 +1,10 @@
-# 10.1.0
+# 11.0.0
 
-* Add support for organisation_content_id on the user model
+* Rerelease of 10.1.0
+
+# 10.1.0 (includes a breaking change)
+
+* Breaking change: Add support for organisation_content_id on the user model
 
 # 10.0.1
 
