@@ -1,5 +1,8 @@
 #!/bin/bash -xe
 
+# Capture the clean path so that we can use it to execute signon isolated from gds-sso
+export ORIGINAL_PATH=$PATH
+
 # Make sure this runs, even if something blows up.
 trap "bundle exec rake signonotron:stop" EXIT
 

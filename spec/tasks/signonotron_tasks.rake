@@ -30,6 +30,9 @@ namespace :signonotron do
         "/usr/bin/env " + env_to_clear.map { |e| "-u #{e}" }.join(" ")
       end
       env_stuff += " RAILS_ENV=test"
+      if ENV.has_key?('ORIGINAL_PATH')
+        env_stuff += " PATH=#{ENV.fetch('ORIGINAL_PATH')}"
+      end
 
       puts "Running bundler"
       puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + "#{@app_to_launch}_bundle"}`
