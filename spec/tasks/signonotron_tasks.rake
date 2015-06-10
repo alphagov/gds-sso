@@ -36,7 +36,6 @@ namespace :signonotron do
 
       puts "Running bundler"
       puts `#{env_stuff} bundle install --path=#{gem_root + 'tmp' + "#{@app_to_launch}_bundle"}`
-      FileUtils.cp gem_root.join('spec', 'fixtures', 'integration', "#{@app_to_launch}_database.yml"), File.join('config', 'database.yml')
       puts `#{env_stuff} bundle exec rake db:drop db:create db:schema:load`
 
       puts "Starting signonotron instance in the background"
