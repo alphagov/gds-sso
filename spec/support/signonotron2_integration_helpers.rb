@@ -34,13 +34,19 @@ module Signonotron2IntegrationHelpers
     load_signonotron_fixture("authorize_api_users.sql")
   end
 
-  def load_signonotron_fixture(fixture_sql_file)
-    fixtures_path = Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/integration'))
-    app = "signonotron2"
-    path_to_app = Rails.root.join('..','..','tmp',app)
+  def load_signonotron_fixture(filename)
+    db = YAML.load_file(signon_path + "/config/database.yml")['test']
 
-    db = YAML.load_file(fixtures_path + "#{app}_database.yml")['test']
-    cmd = "sqlite3 #{path_to_app + db['database']} < #{fixtures_path + "#{fixture_sql_file}"}"
+    cmd = "mysql #{db['database']} -u#{db['username']} -p#{db['password']} < #{fixture_file(filename)}"
     system cmd or raise "Error loading signonotron fixture"
+  end
+
+private
+  def fixture_file(filename)
+    File.join(File.dirname(__FILE__), '../fixtures/integration', filename)
+  end
+
+  def signon_path
+    Rails.root.join('..','..','tmp','signonotron2').to_s
   end
 end
