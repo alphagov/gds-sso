@@ -18,6 +18,11 @@ namespace :signonotron do
       else
         puts `git clone git@github.com:alphagov/#{@app_to_launch}`
       end
+
+      if signon_commitish = ENV['SIGNON_COMMITISH']
+        puts "Checking out non-master of signon: #{signon_commitish}"
+        system `git checkout #{signon_commitish}` || raise("Unable to checkout #{signon_commitish}")
+      end
     end
 
     Dir.chdir gem_root + 'tmp' + @app_to_launch do
