@@ -74,3 +74,13 @@ To make it use a real strategy (e.g. if you're testing an app against the signon
 Once that's done, set an environment variable when you run your app. e.g.:
 
     GDS_SSO_STRATEGY=real bundle exec rails s
+
+## Running the tests
+
+Run the tests with:
+
+    bundle exec rake
+
+By default, the tests use the master of [Signon](https://github.com/alphagov/signonotron2) for running integration tests. If you want to use a branch (or commit, or tag), you can run it like this:
+
+    SIGNON_COMMITISH=my_branch_name bundle exec rake
