@@ -21,7 +21,9 @@ namespace :signonotron do
 
       if signon_commitish = ENV['SIGNON_COMMITISH']
         puts "Checking out non-master of signon: #{signon_commitish}"
-        system `git checkout #{signon_commitish}` || raise("Unable to checkout #{signon_commitish}")
+        Dir.chdir(@app_to_launch) do
+          system `git checkout #{signon_commitish}` || raise("Unable to checkout #{signon_commitish}")
+        end
       end
     end
 
