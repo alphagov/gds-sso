@@ -27,6 +27,6 @@ for ruby_version in 1.9.3 2.1 2.2; do
 done
 
 if [[ -n "$PUBLISH_GEM" ]]; then
-  bundle install
+  bundle install --path "${HOME}/bundles/${JOB_NAME}"
   bundle exec rake publish_gem
 fi
