@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack-accept', '~> 0.4.4'
   s.add_dependency 'multi_json', '~> 1.0'
 
-  s.add_development_dependency 'rake',  '0.9.2.2'
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'capybara', '1.1.2'
   s.add_development_dependency 'rspec-rails', '2.14.1'
   s.add_development_dependency 'capybara-mechanize', '0.3.0'
