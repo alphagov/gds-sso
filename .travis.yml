@@ -1,6 +1,0 @@
-script: 'bundle exec rake signonotron:start spec'
-gemfile:
-  - gemfiles/rails_3.2.gemfile
-  - gemfiles/rails_4.0.gemfile
-  - gemfiles/rails_4.1.gemfile
-bundler_args: ""
