@@ -47,7 +47,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'gem_publisher', '1.0.0'
   s.add_development_dependency 'sqlite3', '1.3.9'
   s.add_development_dependency 'timecop', '0.3.5'
-  s.add_development_dependency 'wwtd'
 
   # Additional development dependencies added to Gemfile to aid dependency resolution.
 end

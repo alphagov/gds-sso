@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require 'bundler/gem_tasks'
-require 'wwtd/tasks'
 
 Bundler::GemHelper.install_tasks
 
@@ -25,4 +24,4 @@ task :publish_gem do |t|
   puts "Published #{gem}" if gem
 end
 
-task :default => [:wwtd]
+task :default => ["signonotron:start", "spec"]
