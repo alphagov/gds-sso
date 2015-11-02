@@ -1,3 +1,7 @@
+# 11.1.0
+
+* Pin dependencies to prevent updating to non-compatible versions
+
 # 11.0.0
 
 * Rerelease of 10.1.0
