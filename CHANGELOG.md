@@ -1,3 +1,7 @@
+# 11.2.1
+
+* Use `test` for maximum compatibility of test-unit/minitest `User` linter
+
 # 11.2.0
 
 * Add a test-unit/minitest compatible linter for validating that the `User`
