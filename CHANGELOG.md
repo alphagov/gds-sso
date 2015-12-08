@@ -1,3 +1,9 @@
+# 11.2.0
+
+* Add a test-unit/minitest compatible linter for validating that the `User`
+  model is compatible with GDS SSO
+* Add `disabled` attribute expectation to the existing RSpec shared example
+
 # 11.1.0
 
 * Pin dependencies to prevent updating to non-compatible versions
