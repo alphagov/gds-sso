@@ -24,26 +24,26 @@ module GDS
           @lint_user = user_class.new(uid: '12345')
         end
 
-        should 'implement #where' do
+        test 'implement #where' do
           result = user_class.where(uid: '123')
           assert result.respond_to?(:first)
         end
 
-        should 'implement #update_attribute' do
+        test 'implement #update_attribute' do
           @lint_user.update_attribute(:remotely_signed_out, true)
           assert @lint_user.remotely_signed_out?
         end
 
-        should 'implement #update_attributes' do
+        test 'implement #update_attributes' do
           @lint_user.update_attributes(email: 'test@example.com')
           assert_equal @lint_user.email, 'test@example.com'
         end
 
-        should 'implement #create!' do
+        test 'implement #create!' do
           assert user_class.respond_to?(:create!)
         end
 
-        should 'verify the User class and GDS::SSO::User work together' do
+        test 'verify the User class and GDS::SSO::User work together' do
           auth_hash = {
             'uid' => '12345',
             'info' => {
