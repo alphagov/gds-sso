@@ -69,6 +69,44 @@ describe User do
 end
 ```
 
+### Usage
+
+[GDS::SSO::ControllerMethods](/lib/gds-sso/controller_methods.rb) provides some useful methods for your application controllers.
+
+To ensure only users who have been granted access to the application can access it use `require_signin_permission!`.
+
+```ruby
+class ApplicationController < ActionController::Base
+  include GDS::SSO::ControllerMethods
+  before_action :require_signin_permission!
+  # ...
+end
+```
+
+If you want to allow access to everyone with an active signon account, use `authenticate_user!`.
+
+```ruby
+class ApplicationController < ActionController::Base
+  include GDS::SSO::ControllerMethods
+  before_action :authenticate_user!
+  # ...
+end
+```
+
+You can refine authorisation to specific controller actions based on permissions using `authorise_user!`. All permissions are assigned via signon.
+
+```ruby
+class PublicationsController < ActionController::Base
+  include GDS::SSO::ControllerMethods
+  before_action :authorise_for_editing!, except: [:show, :index]
+  # ...
+private
+  def authorise_for_editing!
+    authorise_user!('edit_publications')
+  end
+end
+```
+
 ## Use in development mode
 
 In development, you generally want to be able to run an application without needing to run your own SSO server to be running as well. GDS-SSO facilitates this by using a 'mock' mode in development. Mock mode loads an arbitrary user from the local application's user tables:
