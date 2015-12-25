@@ -59,7 +59,19 @@ For ActiveRecord, you probably want to declare permissions as "serialized" like 
 serialize :permissions, Array
 ```
 
-If your app is using `rspec`, there is a [shared examples spec](/lib/gds-sso/lint/user_spec.rb) that can be used to verify that your `User` model implements the necessary methods for `gds-sso` to work correctly. To use it:
+If your app is using `test-unit` or `minitest`, there is a linting test that can verify your `User` model is compatible with `GDS:SSO::User`:
+
+```ruby
+require 'gds-sso/lint/user_test'
+
+class GDS::SSO::Lint::UserTest
+  def user_class
+    ::User
+  end
+end
+```
+
+Or if your app is using `rspec`, there is a [shared examples spec](/lib/gds-sso/lint/user_spec.rb):
 
 ```ruby
 require 'gds-sso/lint/user_spec'
