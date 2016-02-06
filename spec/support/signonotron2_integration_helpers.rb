@@ -35,7 +35,9 @@ module Signonotron2IntegrationHelpers
   end
 
   def load_signonotron_fixture(filename)
-    db = YAML.load_file(signon_path + "/config/database.yml")['test']
+    require 'erb'
+    parsed = ERB.new(File.read(signon_path + "/config/database.yml")).result
+    db = YAML.load(parsed)['test']
 
     cmd = "mysql #{db['database']} -u#{db['username']} -p#{db['password']} < #{fixture_file(filename)}"
     system cmd or raise "Error loading signonotron fixture"
