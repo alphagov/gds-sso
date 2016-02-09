@@ -13,7 +13,7 @@ rm -f gemfiles/*.gemfile.lock
 # Exclude /tmp from git clean as it only contains the signonotron checkout
 git clean -fdxe /tmp
 
-for ruby_version in 1.9.3 2.1 2.2; do
+for ruby_version in 2.1 2.2; do
   for gemfile in rails_3.2 rails_4.0 rails_4.1 rails_4.2; do
     RBENV_VERSION=${ruby_version} bundle install \
       --path "${HOME}/bundles/${JOB_NAME}" \
