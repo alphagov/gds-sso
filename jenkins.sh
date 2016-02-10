@@ -14,7 +14,7 @@ rm -f gemfiles/*.gemfile.lock
 git clean -fdxe /tmp
 
 for ruby_version in 2.1 2.2 2.3; do
-  for gemfile in rails_3.2 rails_4.0 rails_4.1 rails_4.2; do
+  for gemfile in rails_3.2 rails_4.1 rails_4.2; do
     RBENV_VERSION=${ruby_version} bundle install \
       --path "${HOME}/bundles/${JOB_NAME}" \
       --gemfile "gemfiles/${gemfile}.gemfile"
