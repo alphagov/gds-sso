@@ -1,3 +1,11 @@
+# 12.0.0
+
+Breaking changes introduced in #95:
+
+* Drop support for Ruby 1.9.3
+* Drop support for Rails 4.0
+* Add support for Ruby 2.3.0
+
 # 11.2.1
 
 * Use `test` for maximum compatibility of test-unit/minitest `User` linter
