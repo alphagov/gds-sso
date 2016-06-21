@@ -1,19 +1,23 @@
-## Introduction
+# GDS-SSO
 
-GDS-SSO provides everything needed to integrate an application with the [signonotron2 single-sign-on]
-(https://github.com/alphagov/signonotron2) as used by the Government Digital Service, though it
-will probably also work with a range of other oauth2 providers.
-
-It is a wrapper around omniauth that adds a 'strategy' for oAuth2 integration against signonotron2,
+This gem provides everything needed to integrate an application with [Signon]
+(https://github.com/alphagov/signonotron2). It's a wrapper around [OmniAuth](https://github.com/intridea/omniauth) that adds a 'strategy' for oAuth2 integration against Signon,
 and the necessary controller to support that request flow.
 
-For more details on OmniAuth and oAuth2 integration see [the OmniAuth documentation](https://github.com/intridea/omniauth).
+Some of the applications that use this gem:
 
+- [content-tagger](https://github.com/alphagov/content-tagger)
+- [publishing-api](https://github.com/alphagov/publishing-api)
+- [panopticon](https://github.com/alphagov/panopticon)
+- [publisher](https://github.com/alphagov/publisher)
+- [search-admin](https://github.com/alphagov/search-admin)
 
-## Integration with a Rails 3+ app
+## Usage
 
-To use gds-sso you will need an oauth client ID and secret for signonotron2 or a compatible system.
-These can be provided by one of the team with admin access to signonotron2.
+### Integration with a Rails 3+ app  
+
+To use gds-sso you will need an oAuth client ID and secret for Signon or a compatible system.
+These can be provided by one of the team with admin access to Signon.
 
 Then include the gem in your Gemfile:
 
@@ -31,7 +35,7 @@ GDS::SSO.config do |config|
   config.oauth_id     = ENV['OAUTH_ID']
   config.oauth_secret = ENV['OAUTH_SECRET']
 
-  # optional config for location of signonotron2
+  # optional config for location of Signon
   config.oauth_root_url = "http://localhost:3001"
 end
 ```
@@ -81,7 +85,7 @@ describe User do
 end
 ```
 
-### Usage
+### Usage in controllers
 
 [GDS::SSO::ControllerMethods](/lib/gds-sso/controller_methods.rb) provides some useful methods for your application controllers.
 
@@ -95,7 +99,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-If you want to allow access to everyone with an active signon account, use `authenticate_user!`.
+If you want to allow access to everyone with an active Signon account, use `authenticate_user!`.
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -105,7 +109,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-You can refine authorisation to specific controller actions based on permissions using `authorise_user!`. All permissions are assigned via signon.
+You can refine authorisation to specific controller actions based on permissions using `authorise_user!`. All permissions are assigned via Signon.
 
 ```ruby
 class PublicationsController < ActionController::Base
@@ -119,7 +123,7 @@ private
 end
 ```
 
-## Use in development mode
+### Use in development mode
 
 In development, you generally want to be able to run an application without needing to run your own SSO server to be running as well. GDS-SSO facilitates this by using a 'mock' mode in development. Mock mode loads an arbitrary user from the local application's user tables:
 
@@ -127,20 +131,32 @@ In development, you generally want to be able to run an application without need
 GDS::SSO.test_user || GDS::SSO::Config.user_klass.first
 ```
 
-To make it use a real strategy (e.g. if you're testing an app against the signon server), you will need to ensure that your signonotron2 database has got OAuth config that matches what the apps use in development mode. To do this, run this in signonotron2:
+To make it use a real strategy (e.g. if you're testing an app against the signon server), you will need to ensure that your Signon database has got OAuth config that matches what the apps use in development mode. To do this, run this in Signon:
 
-    bundle exec ./script/make_oauth_work_in_dev
+```
+bundle exec ./script/make_oauth_work_in_dev
+```
 
 Once that's done, set an environment variable when you run your app. e.g.:
 
-    GDS_SSO_STRATEGY=real bundle exec rails s
+```
+GDS_SSO_STRATEGY=real bundle exec rails s
+```
 
-## Running the tests
+### Running the test suite
 
 Run the tests with:
 
-    bundle exec rake
+```
+bundle exec rake
+```
 
 By default, the tests use the master of [Signon](https://github.com/alphagov/signonotron2) for running integration tests. If you want to use a branch (or commit, or tag), you can run it like this:
 
-    SIGNON_COMMITISH=my_branch_name bundle exec rake
+```
+SIGNON_COMMITISH=my_branch_name bundle exec rake
+```
+
+## Licence
+
+[MIT License](LICENCE)
