@@ -1,3 +1,5 @@
+require 'active_support/cache/null_store'
+
 module GDS
   module SSO
     module Config
@@ -17,6 +19,9 @@ module GDS
 
       mattr_accessor :auth_valid_for
       @@auth_valid_for = 20 * 3600
+
+      mattr_accessor :cache
+      @@cache = ActiveSupport::Cache::NullStore.new
 
       def self.user_klass
         user_model.to_s.constantize

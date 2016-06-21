@@ -14,7 +14,7 @@ Some of the applications that use this gem:
 
 ## Usage
 
-### Integration with a Rails 3+ app  
+### Integration with a Rails 3+ app
 
 To use gds-sso you will need an oAuth client ID and secret for Signon or a compatible system.
 These can be provided by one of the team with admin access to Signon.
@@ -37,6 +37,9 @@ GDS::SSO.config do |config|
 
   # optional config for location of Signon
   config.oauth_root_url = "http://localhost:3001"
+
+  # Pass in a caching adapter cache bearer token requests.
+  config.cache = Rails.cache
 end
 ```
 
@@ -63,29 +66,7 @@ For ActiveRecord, you probably want to declare permissions as "serialized" like 
 serialize :permissions, Array
 ```
 
-If your app is using `test-unit` or `minitest`, there is a linting test that can verify your `User` model is compatible with `GDS:SSO::User`:
-
-```ruby
-require 'gds-sso/lint/user_test'
-
-class GDS::SSO::Lint::UserTest
-  def user_class
-    ::User
-  end
-end
-```
-
-Or if your app is using `rspec`, there is a [shared examples spec](/lib/gds-sso/lint/user_spec.rb):
-
-```ruby
-require 'gds-sso/lint/user_spec'
-
-describe User do
-  it_behaves_like "a gds-sso user class"
-end
-```
-
-### Usage in controllers
+### Securing your application
 
 [GDS::SSO::ControllerMethods](/lib/gds-sso/controller_methods.rb) provides some useful methods for your application controllers.
 
@@ -123,6 +104,33 @@ private
 end
 ```
 
+### Authorisation for API Users
+
+In addition to the single-sign-on strategy, this gem also allows authorisation
+via a "bearer token". This is used by publishing applications to be authorised
+as a [API user](https://signon.publishing.service.gov.uk/api_users).
+
+To authorise with a bearer token, a request has to be made with a HTTP header.
+
+```
+Authorization: Bearer your-token-here
+```
+
+This gem will then authenticate the token with the Signon application. If
+valid, the API client will be authorised in the same way as a single-sign-on
+user. The [gds-api-adapters gem](https://github.com/alphagov/gds-api-adapters#app-level-authentication)
+has functionality for sending the bearer token for each request. To avoid making
+these requests for each incoming request, specify a caching adapter like `Rails.cache`:
+
+```ruby
+GDS::SSO.config do |config|
+  # ...
+  # Pass in a caching adapter cache bearer token requests.
+  config.cache = Rails.cache
+end
+```
+
+
 ### Use in development mode
 
 In development, you generally want to be able to run an application without needing to run your own SSO server to be running as well. GDS-SSO facilitates this by using a 'mock' mode in development. Mock mode loads an arbitrary user from the local application's user tables:
@@ -141,6 +149,30 @@ Once that's done, set an environment variable when you run your app. e.g.:
 
 ```
 GDS_SSO_STRATEGY=real bundle exec rails s
+```
+
+### Testing in your application
+
+If your app is using `test-unit` or `minitest`, there is a linting test that can verify your `User` model is compatible with `GDS:SSO::User`:
+
+```ruby
+require 'gds-sso/lint/user_test'
+
+class GDS::SSO::Lint::UserTest
+  def user_class
+    ::User
+  end
+end
+```
+
+Or if your app is using `rspec`, there is a [shared examples spec](/lib/gds-sso/lint/user_spec.rb):
+
+```ruby
+require 'gds-sso/lint/user_spec'
+
+describe User do
+  it_behaves_like "a gds-sso user class"
+end
 ```
 
 ### Running the test suite
