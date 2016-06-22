@@ -1,3 +1,7 @@
+# 12.1.0
+
+* Add support for caching the bearer token request to Signon
+
 # 12.0.0
 
 Breaking changes introduced in #95:
