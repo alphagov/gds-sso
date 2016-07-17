@@ -4,16 +4,6 @@ require 'gds-sso/bearer_token'
 describe GDS::SSO::BearerToken do
   describe '.locate' do
     it 'creates a new user for a token' do
-      response = {
-        user: {
-          uid: 'asd',
-          email: 'user@example.com',
-          name: 'A Name',
-          permissions: ['signin'],
-          organisation_slug: 'hmrc',
-          organisation_content_id: '67a2b78d-eee3-45b3-80e2-792e7f71cecc',
-        }
-      }
       response = double(body: {
         user: {
           uid: 'asd',
