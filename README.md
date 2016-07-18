@@ -110,9 +110,11 @@ In addition to the single-sign-on strategy, this gem also allows authorisation
 via a "bearer token". This is used by publishing applications to be authorised
 as a [API user](https://signon.publishing.service.gov.uk/api_users).
 
-To authorise with a bearer token, a request has to be made with a HTTP header.
+To authorise with a bearer token, a request has to be made with the HTTP
+headers:
 
 ```
+Accept: application/json
 Authorization: Bearer your-token-here
 ```
 
