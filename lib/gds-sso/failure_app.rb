@@ -6,7 +6,6 @@ require 'rails'
 module GDS
   module SSO
     class FailureApp < ActionController::Metal
-      include ActionController::RackDelegation
       include ActionController::UrlFor
       include ActionController::Redirecting
       include Rails.application.routes.url_helpers
