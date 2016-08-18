@@ -1,7 +1,7 @@
 class Api::UserController < ActionController::Base
   include GDS::SSO::ControllerMethods
 
-  skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token, raise: false
   before_filter :authenticate_user!
   before_filter :require_user_update_permission
 

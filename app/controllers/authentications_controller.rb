@@ -2,7 +2,7 @@ class AuthenticationsController < ActionController::Base
   include GDS::SSO::ControllerMethods
 
   before_filter :authenticate_user!, :only => :callback
-  skip_before_filter :require_signin_permission!
+  skip_before_filter :require_signin_permission!, raise: false
   layout false
 
   def callback
