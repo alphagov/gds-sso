@@ -115,6 +115,8 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
     describe "session expiry" do
       it "should force you to re-authenticate with signonotron N hours after login" do
+        pending 'https://github.com/jnicklas/capybara/issues/1023'
+
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -130,8 +132,9 @@ describe "Integration of client using GDS-SSO with signonotron" do
         expect(page.driver.request.referrer).to match(%r(\Ahttp://#{@client_host}/auth/gds/callback))
       end
 
-
       it "should not require re-authentication with signonotron fewer than N hours after login" do
+        pending 'https://github.com/jnicklas/capybara/issues/1023'
+
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
