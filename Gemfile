@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 # Default rails. Overridden in gemfiles during multi-build
-gem 'rails', '4.1.4'
+gem 'rails', '4.2.4'
 
 # Gems added to resolve dependency resolution
 gem 'mechanize', '2.6.0'
