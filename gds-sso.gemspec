@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.rubyforge_project = "gds-sso"
+  s.required_ruby_version = ">= 2.2.2"
 
   s.files         = Dir[
     'app/**/*',
@@ -30,7 +31,7 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails', '>= 3.0.0'
+  s.add_dependency 'rails', '>= 4.2.4'
   s.add_dependency 'warden', '~> 1.2'
   s.add_dependency 'oauth2', '~> 1.0'
   s.add_dependency 'omniauth', '~> 1.2'
