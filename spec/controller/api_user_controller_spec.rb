@@ -48,7 +48,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = double("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update, uid: @user_to_update.uid
+      put :update, params: { uid: @user_to_update.uid }
 
       expect(response.status).to eq(403)
     end
@@ -61,7 +61,7 @@ describe Api::UserController, type: :controller do
       expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update, uid: @user_to_update.uid
+      put :update, params: { uid: @user_to_update.uid }
 
       @user_to_update.reload
       expect(@user_to_update.name).to eq("Joshua Marshall")
@@ -82,7 +82,7 @@ describe Api::UserController, type: :controller do
 
       request.env['warden'] = double("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
-      post :reauth, uid: @user_to_update.uid
+      post :reauth, params: { uid: @user_to_update.uid }
 
       expect(response.status).to eq(403)
     end
@@ -93,7 +93,7 @@ describe Api::UserController, type: :controller do
       expect(request.env['warden']).to receive(:authenticated?).at_least(:once).and_return(true)
       expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
-      post :reauth, uid: "nonexistent-user"
+      post :reauth, params: { uid: "nonexistent-user" }
 
       expect(response.status).to eq(200)
       expect(response.content_type).to eq('text/plain')
@@ -106,7 +106,7 @@ describe Api::UserController, type: :controller do
       expect(request.env['warden']).to receive(:authenticated?).at_least(:once).and_return(true)
       expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
-      post :reauth, uid: @user_to_update.uid
+      post :reauth, params: { uid: @user_to_update.uid }
 
       @user_to_update.reload
       expect(@user_to_update.remotely_signed_out).to be_true
