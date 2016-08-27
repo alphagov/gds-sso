@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake',  '0.9.2.2'
   s.add_development_dependency 'capybara', '2.8.0'
-  s.add_development_dependency 'rspec-rails', '2.14.1'
+  s.add_development_dependency 'rspec-rails', '3.5.2'
   s.add_development_dependency 'capybara-mechanize', '1.5.0'
   s.add_development_dependency 'combustion', '0.5.4'
   s.add_development_dependency 'gem_publisher', '1.0.0'

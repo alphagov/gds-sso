@@ -109,7 +109,7 @@ describe Api::UserController, type: :controller do
       post :reauth, params: { uid: @user_to_update.uid }
 
       @user_to_update.reload
-      expect(@user_to_update.remotely_signed_out).to be_true
+      expect(@user_to_update).to be_remotely_signed_out
       expect(response.content_type).to eq('text/plain')
     end
   end

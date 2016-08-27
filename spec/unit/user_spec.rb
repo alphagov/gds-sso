@@ -56,6 +56,10 @@ describe GDS::SSO::User do
       def remotely_signed_out?
         remotely_signed_out
       end
+
+      def disabled?
+        disabled
+      end
     end
 
     let(:described_class) { TestUser }

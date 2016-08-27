@@ -26,7 +26,7 @@ describe Warden::SessionSerializer do
     end
 
     it "should return nil if the user has no uid" do
-      @user.stub(:uid).and_return(nil)
+      allow(@user).to receive(:uid).and_return(nil)
       result = @serializer.serialize(@user)
 
       expect(result).to be_nil
