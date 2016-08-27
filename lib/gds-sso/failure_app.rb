@@ -30,7 +30,7 @@ module GDS
 
       # TOTALLY NOT DOING THE SCOPE THING. PROBABLY SHOULD.
       def store_location!
-        session["return_to"] = env['warden.options'][:attempted_path] if request.get?
+        session["return_to"] = request.env['warden.options'][:attempted_path] if request.get?
       end
 
     end
