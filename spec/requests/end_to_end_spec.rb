@@ -115,8 +115,24 @@ describe "Integration of client using GDS-SSO with signonotron" do
 
     describe "session expiry" do
       it "should force you to re-authenticate with signonotron N hours after login" do
-        pending 'https://github.com/jnicklas/capybara/issues/1023'
+        visit "http://#{@client_host}/restricted"
+        expect(page).to have_content("Sign in")
+        fill_in "Email", :with => "test@example-client.com"
+        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        click_on "Sign in"
 
+        expect(page).to have_content('restricted kablooie')
+
+        visit "http://localhost:4567/users/sign_out"
+
+        Timecop.travel(Time.now.utc + GDS::SSO::Config.auth_valid_for + 5.minutes) do
+          visit "http://#{@client_host}/restricted"
+        end
+
+        expect(page).to have_content("Sign in")
+      end
+
+      it "should accept signonotron's remembered authentication N hours after login" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -129,12 +145,11 @@ describe "Integration of client using GDS-SSO with signonotron" do
           visit "http://#{@client_host}/restricted"
         end
 
-        expect(page.driver.request.referrer).to match(%r(\Ahttp://#{@client_host}/auth/gds/callback))
+        expect(page).to have_content("restricted kablooie")
       end
 
-      it "should not require re-authentication with signonotron fewer than N hours after login" do
-        pending 'https://github.com/jnicklas/capybara/issues/1023'
 
+      it "should not require re-authentication with signonotron fewer than N hours after login" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -147,7 +162,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
           visit "http://#{@client_host}/restricted"
         end
 
-        expect(page.driver.request.referrer).to match(%r(\Ahttp://#{@client_host}/restricted))
+        expect(page).to have_content("restricted kablooie")
       end
     end
   end
