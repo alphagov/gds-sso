@@ -9,7 +9,9 @@ describe GDS::SSO::ApiAccess do
     expect(GDS::SSO::ApiAccess.api_call?('HTTP_ACCEPT' => ie7_accept_header)).to be_false
   end
 
-  it "should consider a json accept header to be an api call" do
-    expect(GDS::SSO::ApiAccess.api_call?('HTTP_ACCEPT' => 'application/json')).to be_true
+  context "with a bearer token" do
+    it "it is considered an api call" do
+      expect(GDS::SSO::ApiAccess.api_call?('HTTP_AUTHORIZATION' => 'Bearer deadbeef12345678')).to be_true
+    end
   end
 end
