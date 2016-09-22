@@ -1,3 +1,9 @@
+# 13.0.0
+
+* Breaking: Drop support for Ruby 2.1, Rails 4.1 #104
+* Breaking: Identify API calls via the presence of a bearer token #107
+* Support Rails 5 #105
+
 # 12.1.0
 
 * Add support for caching the bearer token request to Signon
