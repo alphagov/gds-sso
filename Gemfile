@@ -7,5 +7,4 @@ gemspec
 gem 'rails', '4.2.4'
 
 # Gems added to resolve dependency resolution
-gem 'mechanize', '2.6.0'
 gem 'test-unit', '3.0.8'

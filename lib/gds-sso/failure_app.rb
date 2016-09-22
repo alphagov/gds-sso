@@ -6,7 +6,6 @@ require 'rails'
 module GDS
   module SSO
     class FailureApp < ActionController::Metal
-      include ActionController::RackDelegation
       include ActionController::UrlFor
       include ActionController::Redirecting
       include Rails.application.routes.url_helpers
@@ -31,7 +30,7 @@ module GDS
 
       # TOTALLY NOT DOING THE SCOPE THING. PROBABLY SHOULD.
       def store_location!
-        session["return_to"] = env['warden.options'][:attempted_path] if request.get?
+        session["return_to"] = request.env['warden.options'][:attempted_path] if request.get?
       end
 
     end

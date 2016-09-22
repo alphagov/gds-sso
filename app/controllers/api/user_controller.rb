@@ -1,9 +1,9 @@
 class Api::UserController < ActionController::Base
   include GDS::SSO::ControllerMethods
 
-  skip_before_filter :verify_authenticity_token
-  before_filter :authenticate_user!
-  before_filter :require_user_update_permission
+  skip_before_action :verify_authenticity_token, raise: false
+  before_action :authenticate_user!
+  before_action :require_user_update_permission
 
   def update
     user_json = JSON.parse(request.body.read)['user']

@@ -16,7 +16,7 @@ git clean -fdxe /tmp
 ./start_signon.sh
 
 for ruby_version in 2.2 2.3; do
-  for gemfile in rails_4.2; do
+  for gemfile in rails_4.2 rails_5.0; do
     RBENV_VERSION=${ruby_version} bundle install \
       --path "${HOME}/bundles/${JOB_NAME}" \
       --gemfile "gemfiles/${gemfile}.gemfile"
