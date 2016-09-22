@@ -8,7 +8,7 @@ module Signonotron2IntegrationHelpers
     while ! signonotron_started?(url)
       print '.'
       if retries > 20
-        raise "Signonotron is not running at #{url}. Please start with 'bundle exec rake signonotron:start'. Under jenkins this should have been run automatically"
+        raise "Signonotron is not running at #{url}. Please start with `./start_signon.sh`. Under jenkins this should happen automatically."
       end
       retries += 1
       sleep 1
