@@ -1,3 +1,7 @@
+# 13.1.0
+
+* Permit one or more permissions #112
+
 # 13.0.0
 
 * Breaking: Drop support for Ruby 2.1, Rails 4.1 #104
