@@ -104,6 +104,16 @@ private
 end
 ```
 
+`authorise_user!` can be configured to check for multiple permissions:
+
+```ruby
+# fails unless the user has at least one of these permissions
+authorise_user!(any_of: %w(edit create))
+
+# fails unless the user has both of these permissions
+authorise_user!(all_of: %w(edit create))
+```
+
 ### Authorisation for API Users
 
 In addition to the single-sign-on strategy, this gem also allows authorisation
