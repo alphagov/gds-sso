@@ -29,11 +29,6 @@ describe Api::UserController, type: :controller do
           :name => "SSO Push user",
           :permissions => ["signin", "user_update_permission"] }]
 
-    if GDS::SSO::User.below_rails_4?
-      user_to_update_attrs << { as: :oauth }
-      signon_sso_push_user_attrs << { as: :oauth }
-    end
-
     @user_to_update = User.create!(*user_to_update_attrs)
     @signon_sso_push_user = User.create!(*signon_sso_push_user_attrs)
   end
