@@ -1,3 +1,7 @@
+# 13.2.0
+
+* Remove Rails 3 specific cruft #114
+
 # 13.1.0
 
 * Permit one or more permissions #112
