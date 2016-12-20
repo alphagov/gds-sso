@@ -5,16 +5,6 @@ module GDS
     module User
       extend ActiveSupport::Concern
 
-      def self.below_rails_4?
-        Gem.loaded_specs['rails'] && Gem.loaded_specs['rails'].version < Gem::Version.new("4.0")
-      end
-
-      included do
-        if GDS::SSO::User.below_rails_4? && respond_to?(:attr_accessible)
-          attr_accessible :uid, :email, :name, :permissions, :organisation_slug, :organisation_content_id, :disabled, as: :oauth
-        end
-      end
-
       def has_permission?(permission)
         if permissions
           permissions.include?(permission)
@@ -48,18 +38,10 @@ module GDS
                  self.where(:email => user_params['email']).first
 
           if user
-            if GDS::SSO::User.below_rails_4?
-              user.update_attributes(user_params, as: :oauth)
-            else
-              user.update_attributes(user_params)
-            end
+            user.update_attributes(user_params)
             user
           else # Create a new user.
-            if GDS::SSO::User.below_rails_4?
-              self.create!(user_params, as: :oauth)
-            else
-              self.create!(user_params)
-            end
+            create!(user_params)
           end
         end
       end
