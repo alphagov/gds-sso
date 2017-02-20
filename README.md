@@ -8,7 +8,6 @@ Some of the applications that use this gem:
 
 - [content-tagger](https://github.com/alphagov/content-tagger)
 - [publishing-api](https://github.com/alphagov/publishing-api)
-- [panopticon](https://github.com/alphagov/panopticon)
 - [publisher](https://github.com/alphagov/publisher)
 - [search-admin](https://github.com/alphagov/search-admin)
 
