@@ -11,7 +11,7 @@ module GDS
       include Rails.application.routes.url_helpers
 
       def self.call(env)
-        if ::GDS::SSO::ApiAccess.api_call?(env)
+        if ::GDS::SSO::ApiAccess.valid_api_call?(env)
           [ 401, {'WWW-Authenticate' => %(Bearer error="invalid_token") }, [] ]
         else
           action(:redirect).call(env)

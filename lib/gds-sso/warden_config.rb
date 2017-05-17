@@ -43,7 +43,7 @@ end
 
 Warden::Strategies.add(:gds_sso) do
   def valid?
-    ! ::GDS::SSO::ApiAccess.api_call?(env)
+    ! ::GDS::SSO::ApiAccess.valid_api_call?(env)
   end
 
   def authenticate!
@@ -73,7 +73,7 @@ Warden::Strategies.add(:gds_bearer_token, Warden::OAuth2::Strategies::Bearer)
 
 Warden::Strategies.add(:mock_gds_sso) do
   def valid?
-    ! ::GDS::SSO::ApiAccess.api_call?(env)
+    ! ::GDS::SSO::ApiAccess.valid_api_call?(env)
   end
 
   def authenticate!
