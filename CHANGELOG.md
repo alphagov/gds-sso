@@ -1,3 +1,9 @@
+# Development
+
+* Deprecate `require_signin_permission!`.  The signin permission is no longer
+  optional, and signon itself manages this during oauth handshake (see:
+  [RFC 78](https://github.com/alphagov/govuk-rfcs/blob/8cbb2a0de86de02f54ae37b245e79b46ad62cb6a/rfc-078-re-architect-signin-permissions-in-signon.md))
+
 # 13.2.0
 
 * Remove Rails 3 specific cruft #114

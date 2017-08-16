@@ -37,6 +37,7 @@ module GDS
       end
 
       def require_signin_permission!
+        ActiveSupport::Deprecation.warn("require_signin_permission! is deprecated and will be removed in a future version.  The signon application checks for signin permission during oauth and it is no longer optional.", caller)
         authorise_user!('signin')
       rescue PermissionDeniedException
         render "authorisations/cant_signin", layout: "unauthorised", status: :forbidden

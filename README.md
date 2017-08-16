@@ -69,17 +69,7 @@ serialize :permissions, Array
 
 [GDS::SSO::ControllerMethods](/lib/gds-sso/controller_methods.rb) provides some useful methods for your application controllers.
 
-To ensure only users who have been granted access to the application can access it use `require_signin_permission!`.
-
-```ruby
-class ApplicationController < ActionController::Base
-  include GDS::SSO::ControllerMethods
-  before_action :require_signin_permission!
-  # ...
-end
-```
-
-If you want to allow access to everyone with an active Signon account, use `authenticate_user!`.
+To make sure that only people with a signon account and permission to use your app are allowed in use `authenticate_user!`.
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -112,6 +102,8 @@ authorise_user!(any_of: %w(edit create))
 # fails unless the user has both of these permissions
 authorise_user!(all_of: %w(edit create))
 ```
+
+The signon application makes sure that only users who have been granted access to the application can access it (e.g. they have the `signin` permission for your app).  This used to be left up to the applications themselves to check with the `require_signin_permission!` method.  This is now deprecated and can be removed from your controllers.  You should replace it with a call to `authenticate_user!` if you aren't already using that method, otherwise no signon authentication will be performed.
 
 ### Authorisation for API Users
 
