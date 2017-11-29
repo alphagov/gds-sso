@@ -1,7 +1,6 @@
 # GDS-SSO
 
-This gem provides everything needed to integrate an application with [Signon]
-(https://github.com/alphagov/signonotron2). It's a wrapper around [OmniAuth](https://github.com/intridea/omniauth) that adds a 'strategy' for oAuth2 integration against Signon,
+This gem provides everything needed to integrate an application with [Signon](https://github.com/alphagov/signon). It's a wrapper around [OmniAuth](https://github.com/intridea/omniauth) that adds a 'strategy' for oAuth2 integration against Signon,
 and the necessary controller to support that request flow.
 
 Some of the applications that use this gem:
