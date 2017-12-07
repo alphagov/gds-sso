@@ -28,7 +28,13 @@ module GDS
       end
 
       def self.use_mock_strategies?
-        ['development', 'test'].include?(Rails.env) && ENV['GDS_SSO_STRATEGY'] != 'real'
+        default_strategy = if %w[development test].include?(Rails.env)
+                             "mock"
+                           else
+                             "real"
+                           end
+
+        ENV.fetch("GDS_SSO_STRATEGY", default_strategy) == "mock"
       end
     end
   end
