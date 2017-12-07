@@ -4,7 +4,7 @@ set -ex
 
 GEM_ROOT=$(cd $(dirname $0) ; pwd)
 TMP_ROOT=${GEM_ROOT}/tmp
-APP_ROOT=${TMP_ROOT}/signonotron2
+APP_ROOT=${TMP_ROOT}/signon
 PID_FILE=${APP_ROOT}/server.pid
 
 echo ${APP_ROOT}
@@ -17,7 +17,7 @@ then
   git fetch origin
   git reset --hard origin/master
 else
-  git clone https://github.com/alphagov/signonotron2 ${APP_ROOT}
+  git clone https://github.com/alphagov/signon ${APP_ROOT}
   cd ${APP_ROOT}
 fi
 
