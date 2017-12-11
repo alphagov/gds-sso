@@ -26,7 +26,7 @@ module GDS
 
       # Our User code assumes we're getting our user data back
       # via omniauth and so receiving it in omniauth's preferred
-      # structure. Here we're addressing signonotron directly so
+      # structure. Here we're addressing signon directly so
       # we need to transform the response ourselves.
       def self.omniauth_style_response(response_body)
         input = MultiJson.decode(response_body)['user']

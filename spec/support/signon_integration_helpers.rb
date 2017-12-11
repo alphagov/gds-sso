@@ -1,22 +1,22 @@
 require 'net/http'
 
-module Signonotron2IntegrationHelpers
-  def wait_for_signonotron_to_start
+module SignonIntegrationHelpers
+  def wait_for_signon_to_start
     retries = 0
     url = GDS::SSO::Config.oauth_root_url
-    puts "Waiting for signonotron to start at #{url}"
-    while ! signonotron_started?(url)
+    puts "Waiting for signon to start at #{url}"
+    while ! signon_started?(url)
       print '.'
       if retries > 20
-        raise "Signonotron is not running at #{url}. Please start with `./start_signon.sh`. Under jenkins this should happen automatically."
+        raise "Signon is not running at #{url}. Please start with `./start_signon.sh`. Under jenkins this should happen automatically."
       end
       retries += 1
       sleep 1
     end
-    puts "Signonotron is now running at #{url}"
+    puts "Signon is now running at #{url}"
   end
 
-  def signonotron_started?(url)
+  def signon_started?(url)
     uri = URI.parse(url)
     conn = Net::HTTP.start(uri.host, uri.port)
     true
@@ -26,21 +26,21 @@ module Signonotron2IntegrationHelpers
     conn.try(:finish)
   end
 
-  def load_signonotron_setup_fixture
-    load_signonotron_fixture("signonotron2.sql")
+  def load_signon_setup_fixture
+    load_signon_fixture("signon.sql")
   end
 
-  def authorize_signonotron_api_user
-    load_signonotron_fixture("authorize_api_users.sql")
+  def authorize_signon_api_user
+    load_signon_fixture("authorize_api_users.sql")
   end
 
-  def load_signonotron_fixture(filename)
+  def load_signon_fixture(filename)
     require 'erb'
     parsed = ERB.new(File.read(signon_path + "/config/database.yml")).result
     db = YAML.load(parsed)['test']
 
     cmd = "mysql #{db['database']} -u#{db['username']} -p#{db['password']} < #{fixture_file(filename)}"
-    system cmd or raise "Error loading signonotron fixture"
+    system cmd or raise "Error loading signon fixture"
   end
 
 private
@@ -49,6 +49,6 @@ private
   end
 
   def signon_path
-    Rails.root.join('..','..','tmp','signonotron2').to_s
+    Rails.root.join('..','..','tmp','signon').to_s
   end
 end

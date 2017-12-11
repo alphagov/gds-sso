@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'timecop'
 
-describe "Integration of client using GDS-SSO with signonotron" do
-  include Signonotron2IntegrationHelpers
+describe "Integration of client using GDS-SSO with signon" do
+  include SignonIntegrationHelpers
 
   before :all do
-    wait_for_signonotron_to_start
+    wait_for_signon_to_start
   end
 
   before :each do
@@ -15,7 +15,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     Capybara.current_driver = :mechanize
     Capybara::Mechanize.local_hosts << @client_host
 
-    load_signonotron_setup_fixture
+    load_signon_setup_fixture
   end
 
   describe "Web client accesses" do
@@ -114,7 +114,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
     end
 
     describe "session expiry" do
-      it "should force you to re-authenticate with signonotron N hours after login" do
+      it "should force you to re-authenticate with signon N hours after login" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -132,7 +132,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
         expect(page).to have_content("Sign in")
       end
 
-      it "should accept signonotron's remembered authentication N hours after login" do
+      it "should accept signon's remembered authentication N hours after login" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -149,7 +149,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
       end
 
 
-      it "should not require re-authentication with signonotron fewer than N hours after login" do
+      it "should not require re-authentication with signon fewer than N hours after login" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
@@ -170,7 +170,7 @@ describe "Integration of client using GDS-SSO with signonotron" do
   describe "OAuth based API client accesses" do
     before :each do
       page.driver.header 'accept', 'application/json'
-      authorize_signonotron_api_user
+      authorize_signon_api_user
 
       token = "caaeb53be5c7277fb0ef158181bfd1537b57f9e3b83eb795be3cd0af6e118b28"
       page.driver.header 'authorization', "Bearer #{token}"

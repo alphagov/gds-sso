@@ -1,3 +1,7 @@
+# Unreleased
+
+* Use the name of signon instead of signonotron2 since it was renamed.
+
 # 13.3.0
 
 * Deprecate `require_signin_permission!`.  The signin permission is no longer
