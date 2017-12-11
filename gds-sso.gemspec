@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.name        = "gds-sso"
   s.version     = GDS::SSO::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Matt Patterson", "James Stewart"]
-  s.email       = ["matt@constituentparts.com", "james.stewart@digital.cabinet-office.gov.uk"]
+  s.authors     = ["GOV.UK Dev"]
+  s.email       = ["govuk-dev@digital.cabinet-office.gov.uk"]
   s.homepage    = "https://github.com/alphagov/gds-sso"
   s.summary     = %q{Client for GDS' OAuth 2-based SSO}
   s.description = %q{Client for GDS' OAuth 2-based SSO}
