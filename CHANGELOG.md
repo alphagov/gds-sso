@@ -1,6 +1,8 @@
 # Unreleased
 
 * Use the name of signon instead of signonotron2 since it was renamed.
+* Allow running a mock sso session in a Rails production environment via ENV
+  var - to make it easier to test apps in Rails production environment.
 
 # 13.3.0
 
