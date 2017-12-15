@@ -8,8 +8,8 @@ def rubyVersions = [
 ]
 
 def gemfiles = [
-  "rails_4.2",
-  "rails_5.0",
+  "rails_4",
+  "rails_5",
 ]
 
 node {
