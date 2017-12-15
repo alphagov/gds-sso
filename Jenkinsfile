@@ -5,6 +5,7 @@ REPOSITORY = "gds-sso"
 def rubyVersions = [
   "2.2",
   "2.3",
+  "2.4",
 ]
 
 def gemfiles = [
