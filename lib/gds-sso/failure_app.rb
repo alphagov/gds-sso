@@ -8,11 +8,18 @@ module GDS
     class FailureApp < ActionController::Metal
       include ActionController::UrlFor
       include ActionController::Redirecting
+      include AbstractController::Rendering
+      include ActionController::Rendering
+      include ActionController::Renderers
+      use_renderers :json
+
       include Rails.application.routes.url_helpers
 
       def self.call(env)
-        if ::GDS::SSO::ApiAccess.api_call?(env)
-          [ 401, {'WWW-Authenticate' => %(Bearer error="invalid_token") }, [] ]
+        if GDS::SSO::ApiAccess.api_call?(env)
+          action(:api_invalid_token).call(env)
+        elsif GDS::SSO::Config.api_only?
+          action(:api_missing_token).call(env)
         else
           action(:redirect).call(env)
         end
@@ -21,6 +28,14 @@ module GDS
       def redirect
         store_location!
         redirect_to '/auth/gds'
+      end
+
+      def api_invalid_token
+        api_unauthorized('Bearer token does not appear to be valid', 'invalid_token')
+      end
+
+      def api_missing_token
+        api_unauthorized('No bearer token was provided', 'invalid_request')
       end
 
       # Stores requested uri to redirect the user after signing in. We cannot use
@@ -33,6 +48,12 @@ module GDS
         session["return_to"] = request.env['warden.options'][:attempted_path] if request.get?
       end
 
+      private
+
+      def api_unauthorized(message, bearer_error)
+        headers['WWW-Authenticate'] = %(Bearer error="#{bearer_error}")
+        render json: { message: message }, status: :unauthorized
+      end
     end
   end
 end
