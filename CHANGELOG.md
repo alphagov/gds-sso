@@ -1,3 +1,9 @@
+# Unreleased
+
+* Provide option to run in an api_only mode, which happens implicitly if you
+  are using Rails 5 in api_only mode. This disables the routes and parts of
+  this gem used in the oauth redirect dance.
+
 # 13.4.0
 
 * Use the name of signon instead of signonotron2 since it was renamed.

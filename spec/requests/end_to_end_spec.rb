@@ -198,4 +198,19 @@ describe "Integration of client using GDS-SSO with signon" do
       expect(page.driver.response.status).to eq(401)
     end
   end
+
+  context "when in api_only mode" do
+    around :all do |examples|
+      GDS::SSO::Config.api_only = true
+      Combustion::Application.reload_routes!
+      examples.run
+      GDS::SSO::Config.api_only = false
+      Combustion::Application.reload_routes!
+    end
+
+    specify "accessing without a bearer token is not authorized" do
+      visit "http://#{@client_host}/restricted"
+      expect(page.driver.response.status).to eq(401)
+    end
+  end
 end

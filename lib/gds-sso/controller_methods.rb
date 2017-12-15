@@ -6,10 +6,17 @@ module GDS
 
       def self.included(base)
         base.rescue_from PermissionDeniedException do |e|
-          render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: e.message }
+          if GDS::SSO::Config.api_only?
+            render json: { message: e.message }, status: :forbidden
+          else
+            render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: e.message }
+          end
         end
-        base.helper_method :user_signed_in?
-        base.helper_method :current_user
+
+        unless GDS::SSO::Config.api_only?
+          base.helper_method :user_signed_in?
+          base.helper_method :current_user
+        end
       end
 
 
