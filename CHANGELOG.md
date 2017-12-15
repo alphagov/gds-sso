@@ -1,4 +1,4 @@
-# Unreleased
+# 13.5.0
 
 * Provide option to run in an api_only mode, which happens implicitly if you
   are using Rails 5 in api_only mode. This disables the routes and parts of
