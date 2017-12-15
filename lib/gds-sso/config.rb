@@ -23,6 +23,8 @@ module GDS
       mattr_accessor :cache
       @@cache = ActiveSupport::Cache::NullStore.new
 
+      mattr_writer :api_only
+
       def self.user_klass
         user_model.to_s.constantize
       end
@@ -35,6 +37,12 @@ module GDS
                            end
 
         ENV.fetch("GDS_SSO_STRATEGY", default_strategy) == "mock"
+      end
+
+      def self.api_only?
+        config = Rails.configuration
+        default = config.respond_to?(:api_only) ? config.api_only : false
+        @@api_only.nil? ? default : @@api_only
       end
     end
   end
