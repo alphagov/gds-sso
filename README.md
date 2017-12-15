@@ -12,7 +12,7 @@ Some of the applications that use this gem:
 
 ## Usage
 
-### Integration with a Rails 3+ app
+### Integration with a Rails 4+ app
 
 To use gds-sso you will need an oAuth client ID and secret for Signon or a compatible system.
 These can be provided by one of the team with admin access to Signon.
