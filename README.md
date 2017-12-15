@@ -130,6 +130,18 @@ GDS::SSO.config do |config|
 end
 ```
 
+If you are using a Rails 5 app in
+[api_only](http://guides.rubyonrails.org/api_app.html) mode this gem will
+automatically disable the oauth layers which use session persistence. You can
+configure this gem to be in api_only mode (or not) with:
+
+```ruby
+GDS::SSO.config do |config|
+  # ...
+  # Only support bearer token authentication and send responses in JSON
+  config.api_only = true
+end
+```
 
 ### Use in development mode
 
