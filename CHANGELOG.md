@@ -1,3 +1,7 @@
+# 13.5.1
+
+* Update the deprecation warning for `require_signin_permission!`.
+
 # 13.5.0
 
 * Provide option to run in an api_only mode, which happens implicitly if you
