@@ -1,3 +1,8 @@
+# Unreleased
+
+* Brute force the mock api user's permission so it includes `internal_app` as
+  a permission.
+
 # 13.5.1
 
 * Update the deprecation warning for `require_signin_permission!`.
