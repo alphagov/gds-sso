@@ -49,6 +49,12 @@ module GDS
     end
 
     module MockBearerToken
+      def self.brute_force_permissions(permissions:)
+        permissions << "signin" unless permissions.include?("signin")
+        permissions << "internal_app" unless permissions.include?("internal_app")
+        permissions
+      end
+
       def self.locate(token_string)
         dummy_api_user = GDS::SSO.test_user || GDS::SSO::Config.user_klass.where(email: "dummyapiuser@domain.com").first
         if dummy_api_user.nil?
@@ -56,9 +62,16 @@ module GDS
           dummy_api_user.email = "dummyapiuser@domain.com"
           dummy_api_user.uid = "#{rand(10000)}"
           dummy_api_user.name = "Dummy API user created by gds-sso"
-          dummy_api_user.permissions = ["signin"]
+          dummy_api_user.permissions = ["signin", "internal_app"]
           dummy_api_user.save!
         end
+
+        unless dummy_api_user.has_permission?("signin") && dummy_api_user.has_permission?("internal_app")
+          permissions = dummy_api_user.permissions || []
+          permissions = brute_force_permissions(permissions: permissions)
+          dummy_api_user.update_attribute(:permissions, permissions)
+        end
+
         dummy_api_user
       end
     end
