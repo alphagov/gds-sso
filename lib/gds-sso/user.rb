@@ -11,6 +11,14 @@ module GDS
         end
       end
 
+      def has_all_permissions?(required_permissions)
+        if permissions
+          required_permissions.all? do |required_permission|
+            permissions.include?(required_permission)
+          end
+        end
+      end
+
       def self.user_params_from_auth_hash(auth_hash)
         {
           'uid' => auth_hash['uid'],

@@ -28,6 +28,27 @@ RSpec.shared_examples "a gds-sso user class" do
     expect(subject).to respond_to(:remotely_signed_out?)
   end
 
+  describe "#has_all_permissions?" do
+    it "is false when there are no permissions" do
+      subject.update_attributes(permissions: nil)
+      required_permissions = ["signin"]
+      expect(subject.has_all_permissions?(required_permissions)).to be_falsy
+    end
+
+    it "is false when it does not have all required permissions" do
+      subject.update_attributes(permissions: ["signin"])
+      required_permissions = ["signin", "not_granted_permission_one", "not_granted_permission_two"]
+      expect(subject.has_all_permissions?(required_permissions)).to be false
+    end
+
+    it "is true when it has all required permissions" do
+      subject.update_attributes(permissions: ["signin", "internal_app"])
+      required_permissions = ["signin", "internal_app"]
+      expect(subject.has_all_permissions?(required_permissions)).to be true
+    end
+
+  end
+
   specify "the User class and GDS::SSO::User mixin work together" do
     auth_hash = {
       'uid' => '12345',
