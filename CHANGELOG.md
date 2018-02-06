@@ -1,3 +1,8 @@
+# Unreleased
+
+* Provide option to allow applications to specify extra permissions that the mock api user needs. The functionality updates the dummy api user to include the permissions if they do not currently have those permissions.
+* Update README to include instructions on how to set up the extra permissions for the mock api user.
+
 # 13.5.1
 
 * Update the deprecation warning for `require_signin_permission!`.
