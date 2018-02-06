@@ -25,6 +25,12 @@ module GDS
 
       mattr_writer :api_only
 
+      mattr_accessor :additional_mock_permissions_required
+
+      def self.permissions_for_dummy_api_user
+        ["signin"].push(*additional_mock_permissions_required)
+      end
+
       def self.user_klass
         user_model.to_s.constantize
       end
