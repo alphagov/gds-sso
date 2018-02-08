@@ -163,6 +163,20 @@ Once that's done, set an environment variable when you run your app. e.g.:
 GDS_SSO_STRATEGY=real bundle exec rails s
 ```
 
+### Extra permissions for api users
+
+By default the mock strategies will create a user with `signin` permission.
+
+If your application needs different or extra permissions for access, you can specify this by adding the following to your config:
+
+```ruby
+GDS::SSO.config do |config|
+  # other config here
+  config.additional_mock_permissions_required = ["array", "of", "permissions"]
+```
+
+The mock bearer token will then ensure that the dummy api user has the required permission.
+
 ### Testing in your application
 
 If your app is using `test-unit` or `minitest`, there is a linting test that can verify your `User` model is compatible with `GDS:SSO::User`:

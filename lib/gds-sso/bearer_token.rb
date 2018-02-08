@@ -56,9 +56,13 @@ module GDS
           dummy_api_user.email = "dummyapiuser@domain.com"
           dummy_api_user.uid = "#{rand(10000)}"
           dummy_api_user.name = "Dummy API user created by gds-sso"
-          dummy_api_user.permissions = ["signin"]
-          dummy_api_user.save!
         end
+
+        unless dummy_api_user.has_all_permissions?(GDS::SSO::Config.permissions_for_dummy_api_user)
+          dummy_api_user.permissions = GDS::SSO::Config.permissions_for_dummy_api_user
+        end
+
+        dummy_api_user.save!
         dummy_api_user
       end
     end
