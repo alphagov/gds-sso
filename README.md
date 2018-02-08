@@ -173,6 +173,7 @@ If your application needs different or extra permissions for access, you can spe
 GDS::SSO.config do |config|
   # other config here
   config.additional_mock_permissions_required = ["array", "of", "permissions"]
+end
 ```
 
 The mock bearer token will then ensure that the dummy api user has the required permission.
