@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+library("govuk")
+
 REPOSITORY = "gds-sso"
 
 def rubyVersions = [
@@ -14,7 +16,6 @@ def gemfiles = [
 ]
 
 node {
-  def govuk = load("/var/lib/jenkins/groovy_scripts/govuk_jenkinslib.groovy")
 
   try {
     stage("Checkout") {
