@@ -1,7 +1,6 @@
 class ExampleController < ApplicationController
 
   before_action :authenticate_user!, :only => [:restricted, :this_requires_signin_permission]
-  before_action :require_signin_permission!, only: [:this_requires_signin_permission]
 
   def index
     render body: "jabberwocky"
