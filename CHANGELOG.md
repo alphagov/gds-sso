@@ -1,3 +1,7 @@
+# Unreleased
+
+* Remove the deprecated `require_signin_permission!` method.
+
 # 13.6.0
 
 * Provide option to allow applications to specify extra permissions that the mock api user needs. The functionality updates the dummy api user to include the permissions if they do not currently have those permissions.

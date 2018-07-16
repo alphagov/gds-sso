@@ -102,7 +102,7 @@ authorise_user!(any_of: %w(edit create))
 authorise_user!(all_of: %w(edit create))
 ```
 
-The signon application makes sure that only users who have been granted access to the application can access it (e.g. they have the `signin` permission for your app).  This used to be left up to the applications themselves to check with the `require_signin_permission!` method.  This is now deprecated and can be removed from your controllers.  You should replace it with a call to `authenticate_user!` if you aren't already using that method, otherwise no signon authentication will be performed.
+The signon application makes sure that only users who have been granted access to the application can access it (e.g. they have the `signin` permission for your app).
 
 ### Authorisation for API Users
 
