@@ -43,7 +43,7 @@ describe Api::UserController, type: :controller do
       request.env['warden'] = double("stub warden", :authenticate! => true, authenticated?: true, user: malicious_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update, params: { uid: @user_to_update.uid }
+      put :update, body: user_update_json, params: { uid: @user_to_update.uid }
 
       expect(response.status).to eq(403)
     end
@@ -56,7 +56,7 @@ describe Api::UserController, type: :controller do
       expect(request.env['warden']).to receive(:user).at_least(:once).and_return(@signon_sso_push_user)
 
       request.env['RAW_POST_DATA'] = user_update_json
-      put :update, params: { uid: @user_to_update.uid }
+      put :update, body: user_update_json, params: { uid: @user_to_update.uid }
 
       @user_to_update.reload
       expect(@user_to_update.name).to eq("Joshua Marshall")
