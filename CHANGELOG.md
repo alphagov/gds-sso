@@ -1,4 +1,4 @@
-# Unreleased
+# 14.0.0
 
 * Remove the deprecated `require_signin_permission!` method.
 

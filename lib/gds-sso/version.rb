@@ -1,5 +1,5 @@
 module GDS
   module SSO
-    VERSION = "13.6.0"
+    VERSION = "14.0.0"
   end
 end
