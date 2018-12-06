@@ -16,10 +16,4 @@ namespace :spec do
   end
 end
 
-require "gem_publisher"
-task :publish_gem do |t|
-  gem = GemPublisher.publish_if_updated("gds-sso.gemspec", :rubygems)
-  puts "Published #{gem}" if gem
-end
-
 task :default => ["spec"]
