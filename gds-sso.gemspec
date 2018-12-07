@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails', '>= 4.2.4'
+  s.add_dependency 'rails', '>= 4'
   s.add_dependency 'warden', '~> 1.2'
   s.add_dependency 'oauth2', '~> 1.0'
   s.add_dependency 'omniauth', '~> 1.2'
@@ -39,14 +39,13 @@ Gem::Specification.new do |s|
   s.add_dependency 'warden-oauth2', '~> 0.0.1'
   s.add_dependency 'multi_json', '~> 1.0'
 
-  s.add_development_dependency 'rake',  '0.9.2.2'
-  s.add_development_dependency 'capybara', '2.8.0'
-  s.add_development_dependency 'rspec-rails', '3.5.2'
-  s.add_development_dependency 'capybara-mechanize', '1.5.0'
-  s.add_development_dependency 'combustion', '0.9.1'
-  s.add_development_dependency 'gem_publisher', '1.0.0'
-  s.add_development_dependency 'sqlite3', '1.3.9'
-  s.add_development_dependency 'timecop', '0.3.5'
+  s.add_development_dependency 'rake',  '>= 0.9'
+  s.add_development_dependency 'capybara', '>= 2'
+  s.add_development_dependency 'rspec-rails', '>= 3'
+  s.add_development_dependency 'capybara-mechanize', '>= 1'
+  s.add_development_dependency 'combustion', '>= 0.9'
+  s.add_development_dependency 'sqlite3', '>= 1'
+  s.add_development_dependency 'timecop', '>= 0.3'
 
   # Additional development dependencies added to Gemfile to aid dependency resolution.
 end

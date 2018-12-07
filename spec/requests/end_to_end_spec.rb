@@ -32,7 +32,7 @@ describe "Integration of client using GDS-SSO with signon" do
       visit "http://#{@client_host}/restricted"
       expect(page).to have_content("Sign in")
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       expect(page).to have_content('restricted kablooie')
@@ -42,7 +42,7 @@ describe "Integration of client using GDS-SSO with signon" do
       # First we login to authorise the app
       visit "http://#{@client_host}/restricted"
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       # At this point the app should be authorised, we reset the session to simulate a new browser visit.
@@ -53,7 +53,7 @@ describe "Integration of client using GDS-SSO with signon" do
       expect(page).to have_content("Sign in")
 
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       expect(page).to have_content('restricted kablooie')
@@ -63,7 +63,7 @@ describe "Integration of client using GDS-SSO with signon" do
       # First we login to authorise the app
       visit "http://#{@client_host}/this_requires_signin_permission"
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       # At this point the app should be authorised, we reset the session to simulate a new browser visit.
@@ -74,7 +74,7 @@ describe "Integration of client using GDS-SSO with signon" do
       expect(page).to have_content("Sign in")
 
       fill_in "Email", :with => "test@example-client.com"
-      fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+      fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
       click_on "Sign in"
 
       expect(page).to have_content('you have signin permission')
@@ -85,7 +85,7 @@ describe "Integration of client using GDS-SSO with signon" do
         # First we login and authorise the app
         visit "http://#{@client_host}/restricted"
         fill_in "Email", :with => "test@example-client.com"
-        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         page.driver.header 'accept', 'text/html'
@@ -105,7 +105,7 @@ describe "Integration of client using GDS-SSO with signon" do
         # be redirected to signon
         expect(page).to have_content('GOV.UK Signon')
         fill_in "Email", :with => "test@example-client.com"
-        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         # then back again to the restricted page
@@ -118,7 +118,7 @@ describe "Integration of client using GDS-SSO with signon" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
-        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         expect(page).to have_content('restricted kablooie')
@@ -136,7 +136,7 @@ describe "Integration of client using GDS-SSO with signon" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
-        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         expect(page).to have_content('restricted kablooie')
@@ -153,7 +153,7 @@ describe "Integration of client using GDS-SSO with signon" do
         visit "http://#{@client_host}/restricted"
         expect(page).to have_content("Sign in")
         fill_in "Email", :with => "test@example-client.com"
-        fill_in "Passphrase", :with => "q1w2e3r4t5y6u7i8o9p0"
+        fill_in "Password", :with => "q1w2e3r4t5y6u7i8o9p0"
         click_on "Sign in"
 
         expect(page).to have_content('restricted kablooie')
