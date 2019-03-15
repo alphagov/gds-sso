@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '>= 3'
   s.add_development_dependency 'capybara-mechanize', '>= 1'
   s.add_development_dependency 'combustion', '>= 0.9'
-  s.add_development_dependency 'sqlite3', '~> 1.3.13'
+  s.add_development_dependency 'sqlite3', '~> 1.4.0'
   s.add_development_dependency 'timecop', '>= 0.3'
 
   # Additional development dependencies added to Gemfile to aid dependency resolution.
