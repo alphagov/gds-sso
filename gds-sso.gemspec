@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.description = %q{Client for GDS' OAuth 2-based SSO}
   s.license     = 'MIT'
 
-  s.rubyforge_project = "gds-sso"
   s.required_ruby_version = ">= 2.2.2"
 
   s.files         = Dir[
