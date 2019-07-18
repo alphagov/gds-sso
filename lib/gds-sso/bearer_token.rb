@@ -20,7 +20,12 @@ module GDS
         @oauth_client ||= OAuth2::Client.new(
           GDS::SSO::Config.oauth_id,
           GDS::SSO::Config.oauth_secret,
-          :site => GDS::SSO::Config.oauth_root_url
+          :site => GDS::SSO::Config.oauth_root_url,
+          :connection_opts => {
+            :headers => {
+              :user_agent => "gds-sso/#{GDS::SSO::VERSION} (#{ENV['GOVUK_APP_NAME']})"
+            }
+          }
         )
       end
 
