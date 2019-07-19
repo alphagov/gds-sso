@@ -1,5 +1,6 @@
 require 'multi_json'
 require 'oauth2'
+require 'gds-sso/version'
 
 module GDS
   module SSO
