@@ -27,6 +27,9 @@ module GDS
 
       mattr_accessor :additional_mock_permissions_required
 
+      mattr_accessor :connection_opts
+      @@connection_opts = {}
+
       def self.permissions_for_dummy_api_user
         ["signin"].push(*additional_mock_permissions_required)
       end

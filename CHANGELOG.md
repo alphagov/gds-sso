@@ -1,3 +1,7 @@
+# Unreleased
+
+* Allow further customising the OAuth2 Faraday connection_opts.
+
 # 14.0.0
 
 * Remove the deprecated `require_signin_permission!` method.

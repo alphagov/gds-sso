@@ -26,7 +26,7 @@ module GDS
             :headers => {
               :user_agent => "gds-sso/#{GDS::SSO::VERSION} (#{ENV['GOVUK_APP_NAME']})"
             }
-          }
+          }.merge(GDS::SSO::Config.connection_opts)
         )
       end
 
