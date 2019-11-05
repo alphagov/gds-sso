@@ -1,4 +1,4 @@
-# Unreleased
+# 14.2.0
 
 * Allow further customising the OAuth2 Faraday connection_opts.
 * Reduce the default open_timeout to 5 seconds.
