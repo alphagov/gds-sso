@@ -26,7 +26,7 @@ then
   git checkout ${SIGNON_COMMITISH}
 fi
 
-bundle install --path ${APP_ROOT}_bundle
+bundle install --jobs="$(nproc --all)" --path ${APP_ROOT}_bundle
 
 ${GEM_ROOT}/stop_signon.sh
 
