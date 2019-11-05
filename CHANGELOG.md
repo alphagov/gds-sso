@@ -3,6 +3,14 @@
 * Allow further customising the OAuth2 Faraday connection_opts.
 * Reduce the default open_timeout to 5 seconds.
 
+# 14.1.1
+
+* Add missing require 'gds-sso/version'.
+
+# 14.1.0
+
+* Set a user agent for the OAuth client.
+
 # 14.0.0
 
 * Remove the deprecated `require_signin_permission!` method.
