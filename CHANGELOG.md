@@ -1,3 +1,8 @@
+# Unreleased
+
+* Allow further customising the OAuth2 Faraday connection_opts.
+* Reduce the default open_timeout to 5 seconds.
+
 # 14.0.0
 
 * Remove the deprecated `require_signin_permission!` method.
