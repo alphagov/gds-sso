@@ -1,3 +1,7 @@
+# Unreleased
+
+* Set a user agent for the Omniauth OAuth2 client.
+
 # 14.2.0
 
 * Allow further customising the OAuth2 Faraday connection_opts.

@@ -1,6 +1,7 @@
 require 'rails'
 
 require 'gds-sso/config'
+require 'gds-sso/version'
 require 'gds-sso/warden_config'
 require 'omniauth'
 require 'omniauth-gds'
@@ -31,6 +32,11 @@ module GDS
             site: GDS::SSO::Config.oauth_root_url,
             authorize_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/authorize",
             token_url: "#{GDS::SSO::Config.oauth_root_url}/oauth/access_token",
+            connection_opts: {
+              headers: {
+                user_agent: "gds-sso/#{GDS::SSO::VERSION} (#{ENV['GOVUK_APP_NAME']})"
+              }
+            }
           }
       end
 
