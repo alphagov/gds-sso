@@ -1,4 +1,4 @@
-# Unreleased
+# 14.3.0
 
 * Set a user agent for the Omniauth OAuth2 client.
 
