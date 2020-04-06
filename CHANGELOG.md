@@ -1,3 +1,7 @@
+# Unreleased
+
+* Change the link on the 'unauthorised' page to point to modern GOV.UK.
+
 # 14.3.0
 
 * Set a user agent for the Omniauth OAuth2 client.
