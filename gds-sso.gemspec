@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.description = %q{Client for GDS' OAuth 2-based SSO}
   s.license     = 'MIT'
 
-  s.required_ruby_version = ">= 2.2.2"
+  s.required_ruby_version = ">= 2.6"
 
   s.files         = Dir[
     'app/**/*',
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails', '>= 4'
+  s.add_dependency 'rails', '>= 5'
   s.add_dependency 'warden', '~> 1.2'
   s.add_dependency 'oauth2', '~> 1.0'
   s.add_dependency 'omniauth', '~> 1.2'
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '>= 3'
   s.add_development_dependency 'capybara-mechanize', '>= 1'
   s.add_development_dependency 'combustion', '>= 0.9'
-  s.add_development_dependency 'sqlite3', '~> 1.3.13'
+  s.add_development_dependency 'sqlite3', '~> 1.4'
   s.add_development_dependency 'timecop', '>= 0.3'
 
   # Additional development dependencies added to Gemfile to aid dependency resolution.

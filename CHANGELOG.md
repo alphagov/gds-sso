@@ -1,5 +1,6 @@
 # Unreleased
 
+* BREAKING: Drop support for Rails 4 and Ruby versions < 2.6
 * Change `update_attributes` calls to `update!` to resolve deprecation warnings
 * Change the link on the 'unauthorised' page to point to modern GOV.UK.
 
