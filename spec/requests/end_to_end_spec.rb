@@ -200,7 +200,7 @@ describe "Integration of client using GDS-SSO with signon" do
   end
 
   context "when in api_only mode" do
-    around :all do |examples|
+    around do |examples|
       GDS::SSO::Config.api_only = true
       Combustion::Application.reload_routes!
       examples.run
