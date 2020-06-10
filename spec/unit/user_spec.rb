@@ -47,7 +47,7 @@ describe GDS::SSO::User do
         send("#{key}=".to_sym, value)
       end
 
-      def update_attributes(options)
+      def update!(options)
         options.each do |key, value|
           update_attribute(key, value)
         end

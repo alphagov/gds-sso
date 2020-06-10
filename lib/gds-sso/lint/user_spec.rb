@@ -15,8 +15,8 @@ RSpec.shared_examples "a gds-sso user class" do
     expect(subject).to be_remotely_signed_out
   end
 
-  it "implements #update_attributes" do
-    subject.update_attributes(email: "ab@c.com")
+  it "implements #update!" do
+    subject.update!(email: "ab@c.com")
     expect(subject.email).to eq("ab@c.com")
   end
 
@@ -30,19 +30,19 @@ RSpec.shared_examples "a gds-sso user class" do
 
   describe "#has_all_permissions?" do
     it "is false when there are no permissions" do
-      subject.update_attributes(permissions: nil)
+      subject.update!(permissions: nil)
       required_permissions = ["signin"]
       expect(subject.has_all_permissions?(required_permissions)).to be_falsy
     end
 
     it "is false when it does not have all required permissions" do
-      subject.update_attributes(permissions: ["signin"])
+      subject.update!(permissions: ["signin"])
       required_permissions = ["signin", "not_granted_permission_one", "not_granted_permission_two"]
       expect(subject.has_all_permissions?(required_permissions)).to be false
     end
 
     it "is true when it has all required permissions" do
-      subject.update_attributes(permissions: ["signin", "internal_app"])
+      subject.update!(permissions: ["signin", "internal_app"])
       required_permissions = ["signin", "internal_app"]
       expect(subject.has_all_permissions?(required_permissions)).to be true
     end

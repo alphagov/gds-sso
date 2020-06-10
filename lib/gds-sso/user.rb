@@ -46,7 +46,7 @@ module GDS
                  self.where(:email => user_params['email']).first
 
           if user
-            user.update_attributes(user_params)
+            user.update!(user_params)
             user
           else # Create a new user.
             create!(user_params)

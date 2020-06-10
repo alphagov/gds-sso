@@ -1,5 +1,6 @@
 # Unreleased
 
+* Change `update_attributes` calls to `update!` to resolve deprecation warnings
 * Change the link on the 'unauthorised' page to point to modern GOV.UK.
 
 # 14.3.0
