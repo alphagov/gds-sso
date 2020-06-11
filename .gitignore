@@ -1,7 +1,7 @@
 *.gem
 .bundle
 gemfiles/*.lock
+Gemfile.lock
 pkg/*
 tmp/*
-
 *.sqlite

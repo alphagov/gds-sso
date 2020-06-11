@@ -2,15 +2,8 @@
 
 library("govuk")
 
-def rubyVersions = [
-  "2.4",
-  "2.5",
-]
-
-def gemfiles = [
-  "rails_4",
-  "rails_5",
-]
+def rubyVersions = ["2.6", "2.7"]
+def gemfiles = ["rails_5", "rails_6"]
 
 node {
   govuk.buildProject(

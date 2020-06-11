@@ -34,8 +34,8 @@ module GDS
           assert @lint_user.remotely_signed_out?
         end
 
-        test 'implement #update_attributes' do
-          @lint_user.update_attributes(email: 'test@example.com')
+        test 'implement #update!' do
+          @lint_user.update!(email: 'test@example.com')
           assert_equal @lint_user.email, 'test@example.com'
         end
 
