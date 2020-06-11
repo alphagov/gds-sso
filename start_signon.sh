@@ -30,5 +30,6 @@ bundle install --jobs="$(nproc --all)" --path ${APP_ROOT}_bundle
 
 ${GEM_ROOT}/stop_signon.sh
 
+RAILS_ENV=test bundle exec rails assets:precompile
 DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=test bundle exec rake db:reset
 RAILS_ENV=test bundle exec rails s -p 4567 -d -P ${PID_FILE}
