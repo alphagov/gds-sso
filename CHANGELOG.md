@@ -1,4 +1,4 @@
-# Unreleased
+# 15.0.0
 
 * BREAKING: Drop support for Rails 4 and Ruby versions < 2.6
 * Change `update_attributes` calls to `update!` to resolve deprecation warnings
