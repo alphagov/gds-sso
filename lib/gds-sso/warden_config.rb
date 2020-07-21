@@ -21,10 +21,10 @@ end
 Warden::Manager.serialize_from_session do |(uid, auth_timestamp)|
   # This will reject old sessions that don't have a previous login timestamp
   if auth_timestamp.is_a?(String)
-    auth_timestamp = begin
-      Time.parse(auth_timestamp)
-                     rescue ArgumentError
-                       nil
+    begin
+      auth_timestamp = Time.parse(auth_timestamp)
+    rescue ArgumentError
+      auth_timestamp = nil
     end
   end
 
