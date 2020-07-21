@@ -16,4 +16,9 @@ namespace :spec do
   end
 end
 
-task :default => ["spec"]
+desc "Lint Ruby"
+task :lint do
+  sh "bundle exec rubocop --format clang"
+end
+
+task default: %i[spec lint]
