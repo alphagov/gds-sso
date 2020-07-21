@@ -1,4 +1,4 @@
-require 'active_support/cache/null_store'
+require "active_support/cache/null_store"
 
 module GDS
   module SSO
@@ -29,13 +29,13 @@ module GDS
 
       mattr_accessor :connection_opts
       @@connection_opts = {
-        :request => {
-          :open_timeout => 5,
-        }
+        request: {
+          open_timeout: 5,
+        },
       }
 
       def self.permissions_for_dummy_api_user
-        ["signin"].push(*additional_mock_permissions_required)
+        %w[signin].push(*additional_mock_permissions_required)
       end
 
       def self.user_klass

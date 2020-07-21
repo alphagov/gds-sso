@@ -1,15 +1,16 @@
-require 'net/http'
+require "net/http"
 
 module SignonIntegrationHelpers
   def wait_for_signon_to_start
     retries = 0
     url = GDS::SSO::Config.oauth_root_url
     puts "Waiting for signon to start at #{url}"
-    while ! signon_started?(url)
-      print '.'
+    until signon_started?(url)
+      print "."
       if retries > 20
         raise "Signon is not running at #{url}. Please start with `./start_signon.sh`. Under jenkins this should happen automatically."
       end
+
       retries += 1
       sleep 1
     end
@@ -35,20 +36,21 @@ module SignonIntegrationHelpers
   end
 
   def load_signon_fixture(filename)
-    require 'erb'
+    require "erb"
     parsed = ERB.new(File.read(signon_path + "/config/database.yml")).result
-    db = YAML.load(parsed)['test']
+    db = YAML.load(parsed)["test"]
 
     cmd = "mysql #{db['database']} -u#{db['username']} -p#{db['password']} < #{fixture_file(filename)}"
     system cmd or raise "Error loading signon fixture"
   end
 
 private
+
   def fixture_file(filename)
-    File.join(File.dirname(__FILE__), '../fixtures/integration', filename)
+    File.join(File.dirname(__FILE__), "../fixtures/integration", filename)
   end
 
   def signon_path
-    Rails.root.join('..','..','tmp','signon').to_s
+    Rails.root.join("..", "..", "tmp", "signon").to_s
   end
 end

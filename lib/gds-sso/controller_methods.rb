@@ -19,7 +19,6 @@ module GDS
         end
       end
 
-
       def authorise_user!(permissions)
         # Ensure that we're authenticated (and by extension that current_user is set).
         # Otherwise current_user might be nil, and we'd error out
@@ -52,7 +51,7 @@ module GDS
       end
 
       def user_signed_in?
-        warden && warden.authenticated? && ! warden.user.remotely_signed_out?
+        warden && warden.authenticated? && !warden.user.remotely_signed_out?
       end
 
       def current_user
@@ -64,22 +63,22 @@ module GDS
       end
 
       def warden
-        request.env['warden']
+        request.env["warden"]
       end
 
-      private
+    private
 
       def authorise_user_with_at_least_one_of_permissions!(permissions)
         if permissions.none? { |permission| current_user.has_permission?(permission) }
           raise PermissionDeniedException,
-            "Sorry, you don't seem to have any of the permissions: #{permissions.to_sentence} for this app."
+                "Sorry, you don't seem to have any of the permissions: #{permissions.to_sentence} for this app."
         end
       end
 
       def authorise_user_with_all_permissions!(permissions)
         unless permissions.all? { |permission| current_user.has_permission?(permission) }
           raise PermissionDeniedException,
-            "Sorry, you don't seem to have all of the permissions: #{permissions.to_sentence} for this app."
+                "Sorry, you don't seem to have all of the permissions: #{permissions.to_sentence} for this app."
         end
       end
     end

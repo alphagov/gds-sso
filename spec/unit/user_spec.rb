@@ -1,33 +1,32 @@
-require 'spec_helper'
-require 'gds-sso/user'
-require 'gds-sso/lint/user_spec'
+require "spec_helper"
+require "gds-sso/user"
+require "gds-sso/lint/user_spec"
 
-require 'ostruct'
+require "ostruct"
 
 describe GDS::SSO::User do
   before :each do
     @auth_hash = {
-      'provider' => 'gds',
-      'uid' => 'abcde',
-      'credentials' => {'token' => 'abcdefg', 'secret' => 'abcdefg'},
-      'info' => {'name' => 'Matt Patterson', 'email' => 'matt@alphagov.co.uk'},
-      'extra' => {
-        'user' => {
-          'permissions' => [], 'organisation_slug' => nil, "organisation_content_id" => nil, 'disabled' => false
-        }
-      }
+      "provider" => "gds",
+      "uid" => "abcde",
+      "credentials" => { "token" => "abcdefg", "secret" => "abcdefg" },
+      "info" => { "name" => "Matt Patterson", "email" => "matt@alphagov.co.uk" },
+      "extra" => {
+        "user" => {
+          "permissions" => [], "organisation_slug" => nil, "organisation_content_id" => nil, "disabled" => false
+        },
+      },
     }
   end
 
   it "should extract the user params from the oauth hash" do
-    expected = {'uid' => 'abcde',
-      'name' => 'Matt Patterson',
-      'email' => 'matt@alphagov.co.uk',
-      "permissions" => [],
-      "organisation_slug" => nil,
-      "organisation_content_id" => nil,
-      'disabled' => false,
-    }
+    expected = { "uid" => "abcde",
+                 "name" => "Matt Patterson",
+                 "email" => "matt@alphagov.co.uk",
+                 "permissions" => [],
+                 "organisation_slug" => nil,
+                 "organisation_content_id" => nil,
+                 "disabled" => false }
     expect(GDS::SSO::User.user_params_from_auth_hash(@auth_hash)).to eq(expected)
   end
 
@@ -35,11 +34,11 @@ describe GDS::SSO::User do
     class TestUser < OpenStruct
       include GDS::SSO::User
 
-      def self.where(opts)
+      def self.where(_opts)
         []
       end
 
-      def self.create!(options, scope = {})
+      def self.create!(options, _scope = {})
         new(options)
       end
 

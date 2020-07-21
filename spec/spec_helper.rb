@@ -1,21 +1,21 @@
 # Yes, we really do want to turn off the test environment check here.
 # Bad things happen if we don't ;-)
-ENV['GDS_SSO_STRATEGY'] = 'real'
+ENV["GDS_SSO_STRATEGY"] = "real"
 
-require 'bundler/setup'
-require 'combustion'
-require 'capybara/rspec'
+require "bundler/setup"
+require "combustion"
+require "capybara/rspec"
 
 Combustion.initialize! :all
 
-require 'rspec/rails'
-require 'capybara/rails'
-require 'mechanize'
-require 'capybara/mechanize'
+require "rspec/rails"
+require "capybara/rails"
+require "mechanize"
+require "capybara/mechanize"
 
 include Warden::Test::Helpers
 
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -25,7 +25,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = 'random'
+  config.order = "random"
 
-  config.include(BackportControllerTestParams) if Rails.version < '5'
+  config.include(BackportControllerTestParams) if Rails.version < "5"
 end

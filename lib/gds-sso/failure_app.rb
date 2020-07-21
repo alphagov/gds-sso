@@ -1,5 +1,5 @@
 require "action_controller/metal"
-require 'rails'
+require "rails"
 
 # Failure application that will be called every time :warden is thrown from
 # any strategy or hook.
@@ -27,15 +27,15 @@ module GDS
 
       def redirect
         store_location!
-        redirect_to '/auth/gds'
+        redirect_to "/auth/gds"
       end
 
       def api_invalid_token
-        api_unauthorized('Bearer token does not appear to be valid', 'invalid_token')
+        api_unauthorized("Bearer token does not appear to be valid", "invalid_token")
       end
 
       def api_missing_token
-        api_unauthorized('No bearer token was provided', 'invalid_request')
+        api_unauthorized("No bearer token was provided", "invalid_request")
       end
 
       # Stores requested uri to redirect the user after signing in. We cannot use
@@ -45,13 +45,13 @@ module GDS
 
       # TOTALLY NOT DOING THE SCOPE THING. PROBABLY SHOULD.
       def store_location!
-        session["return_to"] = request.env['warden.options'][:attempted_path] if request.get?
+        session["return_to"] = request.env["warden.options"][:attempted_path] if request.get?
       end
 
-      private
+    private
 
       def api_unauthorized(message, bearer_error)
-        headers['WWW-Authenticate'] = %(Bearer error="#{bearer_error}")
+        headers["WWW-Authenticate"] = %(Bearer error="#{bearer_error}")
         render json: { message: message }, status: :unauthorized
       end
     end

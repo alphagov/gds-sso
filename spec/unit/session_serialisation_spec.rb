@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'active_record'
+require "spec_helper"
+require "active_record"
 
 describe Warden::SessionSerializer do
   class SerializableUser
@@ -35,7 +35,7 @@ describe Warden::SessionSerializer do
 
   describe "deserialize a user" do
     it "should return the user if the timestamp is current and a Time" do
-      expect(SerializableUser).to receive(:where).with(:uid => 1234, :remotely_signed_out => false).and_return(double(:first => :a_user))
+      expect(SerializableUser).to receive(:where).with(uid: 1234, remotely_signed_out: false).and_return(double(first: :a_user))
 
       result = @serializer.deserialize [1234, Time.now.utc - GDS::SSO::Config.auth_valid_for + 3600]
 
@@ -43,7 +43,7 @@ describe Warden::SessionSerializer do
     end
 
     it "should return the user if the timestamp is current and is an ISO 8601 string" do
-      expect(SerializableUser).to receive(:where).with(:uid => 1234, :remotely_signed_out => false).and_return(double(:first => :a_user))
+      expect(SerializableUser).to receive(:where).with(uid: 1234, remotely_signed_out: false).and_return(double(first: :a_user))
 
       result = @serializer.deserialize [1234, (Time.now.utc - GDS::SSO::Config.auth_valid_for + 3600).iso8601]
 
@@ -69,7 +69,7 @@ describe Warden::SessionSerializer do
     it "should return nil for a user with a badly formatted timestamp" do
       expect(SerializableUser).not_to receive(:where)
 
-      result = @serializer.deserialize [1234, 'this is not a timestamp']
+      result = @serializer.deserialize [1234, "this is not a timestamp"]
 
       expect(result).to be_nil
     end
