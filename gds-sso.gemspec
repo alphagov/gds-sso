@@ -1,5 +1,5 @@
 lib = File.expand_path("lib", __dir__)
-$:.unshift lib unless $:.include?(lib)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
 require "gds-sso/version"
 

@@ -2,7 +2,7 @@ module GDS
   module SSO
     class ApiAccess
       def self.api_call?(env)
-        /\ABearer / === env["HTTP_AUTHORIZATION"].to_s
+        env["HTTP_AUTHORIZATION"].to_s =~ /\ABearer /
       end
     end
   end

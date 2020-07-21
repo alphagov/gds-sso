@@ -23,7 +23,7 @@ module GDS
     class Engine < ::Rails::Engine
       # Force routes to be loaded if we are doing any eager load.
       # TODO - check this one - Stolen from Devise because it looked sensible...
-      config.before_eager_load { |app| app.reload_routes! }
+      config.before_eager_load(&:reload_routes!)
 
       config.app_middleware.use ::OmniAuth::Builder do
         next if GDS::SSO::Config.api_only?

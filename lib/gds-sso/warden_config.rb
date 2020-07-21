@@ -80,12 +80,10 @@ Warden::Strategies.add(:mock_gds_sso) do
         test_user.update_attribute(:permissions, permissions << "signin")
       end
       success!(test_user)
+    elsif Rails.env.test? && ENV["GDS_SSO_MOCK_INVALID"].present?
+      fail!(:invalid)
     else
-      if Rails.env.test? && ENV["GDS_SSO_MOCK_INVALID"].present?
-        fail!(:invalid)
-      else
-        raise "GDS-SSO running in mock mode and no test user found. Normally we'd load the first user in the database. Create a user in the database."
-      end
+      raise "GDS-SSO running in mock mode and no test user found. Normally we'd load the first user in the database. Create a user in the database."
     end
   end
 end

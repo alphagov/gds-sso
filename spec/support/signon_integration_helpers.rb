@@ -38,7 +38,7 @@ module SignonIntegrationHelpers
   def load_signon_fixture(filename)
     require "erb"
     parsed = ERB.new(File.read(signon_path + "/config/database.yml")).result
-    db = YAML.load(parsed)["test"]
+    db = YAML.safe_load(parsed, aliases: true)["test"]
 
     cmd = "mysql #{db['database']} -u#{db['username']} -p#{db['password']} < #{fixture_file(filename)}"
     system cmd or raise "Error loading signon fixture"

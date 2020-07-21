@@ -13,9 +13,7 @@ require "capybara/rails"
 require "mechanize"
 require "capybara/mechanize"
 
-include Warden::Test::Helpers
-
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -28,4 +26,5 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include(BackportControllerTestParams) if Rails.version < "5"
+  config.include(Warden::Test::Helpers)
 end

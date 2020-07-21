@@ -3,6 +3,8 @@ require "active_support/cache/null_store"
 module GDS
   module SSO
     module Config
+      # rubocop:disable Style/ClassVars
+
       # Name of the User class
       mattr_accessor :user_model
       @@user_model = "User"
@@ -57,6 +59,8 @@ module GDS
         default = config.respond_to?(:api_only) ? config.api_only : false
         @@api_only.nil? ? default : @@api_only
       end
+
+      # rubocop:enable Style/ClassVars
     end
   end
 end
