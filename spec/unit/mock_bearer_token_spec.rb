@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'gds-sso/bearer_token'
+require "spec_helper"
+require "gds-sso/bearer_token"
 
 describe GDS::SSO::MockBearerToken do
   it "updates the permissions of the user" do
@@ -7,7 +7,7 @@ describe GDS::SSO::MockBearerToken do
     # call .locate to create the dummy user initially
     GDS::SSO::Config.additional_mock_permissions_required = nil
     dummy_user = subject.locate("ABC")
-    expect(dummy_user.permissions).to match_array(["signin"])
+    expect(dummy_user.permissions).to match_array(%w[signin])
 
     # add an extra permission
     GDS::SSO::Config.additional_mock_permissions_required = "extra_permission"
@@ -17,6 +17,6 @@ describe GDS::SSO::MockBearerToken do
 
     # call .locate again...this should update our permissions
     dummy_user_two = subject.locate("ABC")
-    expect(dummy_user_two.permissions).to match_array(["signin", "extra_permission"])
+    expect(dummy_user_two.permissions).to match_array(%w[signin extra_permission])
   end
 end

@@ -17,58 +17,58 @@ module GDS
       #
       class UserTest < ActiveSupport::TestCase
         def user_class
-          raise 'Reopen `GDS::SSO::Lint::UserTest` and add `#user_class` to return the class including `GDS::SSO::User`'
+          raise "Reopen `GDS::SSO::Lint::UserTest` and add `#user_class` to return the class including `GDS::SSO::User`"
         end
 
         setup do
-          @lint_user = user_class.new(uid: '12345')
+          @lint_user = user_class.new(uid: "12345")
         end
 
-        test 'implement #where' do
-          result = user_class.where(uid: '123')
+        test "implement #where" do
+          result = user_class.where(uid: "123")
           assert result.respond_to?(:first)
         end
 
-        test 'implement #update_attribute' do
+        test "implement #update_attribute" do
           @lint_user.update_attribute(:remotely_signed_out, true)
           assert @lint_user.remotely_signed_out?
         end
 
-        test 'implement #update!' do
-          @lint_user.update!(email: 'test@example.com')
-          assert_equal @lint_user.email, 'test@example.com'
+        test "implement #update!" do
+          @lint_user.update!(email: "test@example.com")
+          assert_equal @lint_user.email, "test@example.com"
         end
 
-        test 'implement #create!' do
+        test "implement #create!" do
           assert user_class.respond_to?(:create!)
         end
 
-        test 'verify the User class and GDS::SSO::User work together' do
+        test "verify the User class and GDS::SSO::User work together" do
           auth_hash = {
-            'uid' => '12345',
-            'info' => {
-              'name' => 'Joe Smith',
-              'email' => 'joe.smith@example.com',
+            "uid" => "12345",
+            "info" => {
+              "name" => "Joe Smith",
+              "email" => "joe.smith@example.com",
             },
-            'extra' => {
-              'user' => {
-                'disabled' => false,
-                'permissions' => ['signin'],
-                'organisation_slug' => 'cabinet-office',
-                'organisation_content_id' => '91e57ad9-29a3-4f94-9ab4-5e9ae6d13588',
-              }
-            }
+            "extra" => {
+              "user" => {
+                "disabled" => false,
+                "permissions" => %w[signin],
+                "organisation_slug" => "cabinet-office",
+                "organisation_content_id" => "91e57ad9-29a3-4f94-9ab4-5e9ae6d13588",
+              },
+            },
           }
 
           user = user_class.find_for_gds_oauth(auth_hash)
           assert_equal user_class, user.class
-          assert_equal '12345', user.uid
-          assert_equal 'Joe Smith', user.name
-          assert_equal 'joe.smith@example.com', user.email
+          assert_equal "12345", user.uid
+          assert_equal "Joe Smith", user.name
+          assert_equal "joe.smith@example.com", user.email
           assert_equal false, user.disabled
-          assert_equal ['signin'], user.permissions
-          assert_equal 'cabinet-office', user.organisation_slug
-          assert_equal '91e57ad9-29a3-4f94-9ab4-5e9ae6d13588', user.organisation_content_id
+          assert_equal %w[signin], user.permissions
+          assert_equal "cabinet-office", user.organisation_slug
+          assert_equal "91e57ad9-29a3-4f94-9ab4-5e9ae6d13588", user.organisation_content_id
         end
       end
     end

@@ -1,0 +1,14 @@
+inherit_gem:
+  rubocop-govuk:
+    - config/default.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
+# Renaming files from "gds-sso" to "gds_sso" would be a breaking
+# change.
+Naming/FileName:
+  Exclude:
+    - 'lib/gds-sso.rb'
+    - 'spec/internal/config/initializers/gds-sso.rb'

@@ -1,10 +1,10 @@
 RSpec.shared_examples "a gds-sso user class" do
-  subject { described_class.new(:uid => '12345') }
+  subject { described_class.new(uid: "12345") }
 
   it "implements #where" do
     expect(described_class).to respond_to(:where)
 
-    result = described_class.where(uid: '123')
+    result = described_class.where(uid: "123")
     expect(result).to respond_to(:first)
   end
 
@@ -31,49 +31,48 @@ RSpec.shared_examples "a gds-sso user class" do
   describe "#has_all_permissions?" do
     it "is false when there are no permissions" do
       subject.update!(permissions: nil)
-      required_permissions = ["signin"]
+      required_permissions = %w[signin]
       expect(subject.has_all_permissions?(required_permissions)).to be_falsy
     end
 
     it "is false when it does not have all required permissions" do
-      subject.update!(permissions: ["signin"])
-      required_permissions = ["signin", "not_granted_permission_one", "not_granted_permission_two"]
+      subject.update!(permissions: %w[signin])
+      required_permissions = %w[signin not_granted_permission_one not_granted_permission_two]
       expect(subject.has_all_permissions?(required_permissions)).to be false
     end
 
     it "is true when it has all required permissions" do
-      subject.update!(permissions: ["signin", "internal_app"])
-      required_permissions = ["signin", "internal_app"]
+      subject.update!(permissions: %w[signin internal_app])
+      required_permissions = %w[signin internal_app]
       expect(subject.has_all_permissions?(required_permissions)).to be true
     end
-
   end
 
   specify "the User class and GDS::SSO::User mixin work together" do
     auth_hash = {
-      'uid' => '12345',
-      'info' => {
-        'name' => 'Joe Smith',
-        'email' => 'joe.smith@example.com',
+      "uid" => "12345",
+      "info" => {
+        "name" => "Joe Smith",
+        "email" => "joe.smith@example.com",
       },
-      'extra' => {
-        'user' => {
-          'disabled' => false,
-          'permissions' => ['signin'],
-          'organisation_slug' => 'cabinet-office',
-          'organisation_content_id' => '91e57ad9-29a3-4f94-9ab4-5e9ae6d13588'
-        }
-      }
+      "extra" => {
+        "user" => {
+          "disabled" => false,
+          "permissions" => %w[signin],
+          "organisation_slug" => "cabinet-office",
+          "organisation_content_id" => "91e57ad9-29a3-4f94-9ab4-5e9ae6d13588",
+        },
+      },
     }
 
     user = described_class.find_for_gds_oauth(auth_hash)
     expect(user).to be_an_instance_of(described_class)
-    expect(user.uid).to eq('12345')
+    expect(user.uid).to eq("12345")
     expect(user.name).to eq("Joe Smith")
-    expect(user.email).to eq('joe.smith@example.com')
+    expect(user.email).to eq("joe.smith@example.com")
     expect(user).not_to be_disabled
-    expect(user.permissions).to eq(['signin'])
-    expect(user.organisation_slug).to eq('cabinet-office')
-    expect(user.organisation_content_id).to eq('91e57ad9-29a3-4f94-9ab4-5e9ae6d13588')
+    expect(user.permissions).to eq(%w[signin])
+    expect(user.organisation_slug).to eq("cabinet-office")
+    expect(user.organisation_content_id).to eq("91e57ad9-29a3-4f94-9ab4-5e9ae6d13588")
   end
 end

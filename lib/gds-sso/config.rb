@@ -1,8 +1,10 @@
-require 'active_support/cache/null_store'
+require "active_support/cache/null_store"
 
 module GDS
   module SSO
     module Config
+      # rubocop:disable Style/ClassVars
+
       # Name of the User class
       mattr_accessor :user_model
       @@user_model = "User"
@@ -29,13 +31,13 @@ module GDS
 
       mattr_accessor :connection_opts
       @@connection_opts = {
-        :request => {
-          :open_timeout => 5,
-        }
+        request: {
+          open_timeout: 5,
+        },
       }
 
       def self.permissions_for_dummy_api_user
-        ["signin"].push(*additional_mock_permissions_required)
+        %w[signin].push(*additional_mock_permissions_required)
       end
 
       def self.user_klass
@@ -57,6 +59,8 @@ module GDS
         default = config.respond_to?(:api_only) ? config.api_only : false
         @@api_only.nil? ? default : @@api_only
       end
+
+      # rubocop:enable Style/ClassVars
     end
   end
 end

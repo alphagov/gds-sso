@@ -1,3 +1,5 @@
+* Fix linting issues
+
 # 15.0.0
 
 * BREAKING: Drop support for Rails 4 and Ruby versions < 2.6
