@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "oauth2", "~> 1.0"
   s.add_dependency "omniauth", "~> 1.2"
   s.add_dependency "omniauth-gds", "~> 3.2"
+  s.add_dependency "plek", "~> 4.0"
   s.add_dependency "rails", ">= 5"
   s.add_dependency "warden", "~> 1.2"
   s.add_dependency "warden-oauth2", "~> 0.0.1"

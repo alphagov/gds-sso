@@ -1,3 +1,7 @@
+# Unversioned
+
+* Add config defaults that are common across our initializers
+
 # 15.0.1
 
 * Fix linting issues
