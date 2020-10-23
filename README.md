@@ -14,55 +14,35 @@ Some of the applications that use this gem:
 
 ### Integration with a Rails 4+ app
 
-To use gds-sso you will need an oAuth client ID and secret for Signon or a compatible system.
-These can be provided by one of the team with admin access to Signon.
+- Include the gem in your Gemfile:
 
-Then include the gem in your Gemfile:
+  ```ruby
+  gem 'gds-sso', '<version>'
+  ```
 
-```ruby
-gem 'gds-sso', '<version>'
-```
+- Create `config/initializers/gds-sso.rb`:
 
-Create a `config/initializers/gds-sso.rb` that looks like:
+  ```ruby
+  GDS::SSO.config do |config|
+    # Pass in a caching adapter cache bearer token requests.
+    config.cache = Rails.cache
+  end
+  ```
 
-```ruby
-GDS::SSO.config do |config|
-  config.user_model   = 'User'
+- Create a "users" table in the database: ([example migration with all the necessary fields](https://github.com/alphagov/content-publisher/blob/16c58a40745c1ea61ec241e5aeb702ae15238f98/db/migrate/20160622154200_create_users.rb))
 
-  # set up ID and Secret in a way which doesn't require it to be checked in to source control...
-  config.oauth_id     = ENV['OAUTH_ID']
-  config.oauth_secret = ENV['OAUTH_SECRET']
+- Create a User model with the following:
 
-  # optional config for location of Signon
-  config.oauth_root_url = "http://localhost:3001"
+  ```ruby
+  serialize :permissions, Array
+  ```
 
-  # Pass in a caching adapter cache bearer token requests.
-  config.cache = Rails.cache
-end
-```
+- Add to your `ApplicationController`:
 
-The user model must include the `GDS::SSO::User` module.
-
-It should have the following fields:
-
-```ruby
-string   "name"
-string   "email"
-string   "uid"
-string   "organisation_slug"
-string   "organisation_content_id"
-array    "permissions"
-boolean  "remotely_signed_out", :default => false
-boolean  "disabled", :default => false
-```
-
-You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController.
-
-For ActiveRecord, you probably want to declare permissions as "serialized" like this:
-
-```ruby
-serialize :permissions, Array
-```
+  ```ruby
+  include GDS::SSO::ControllerMethods
+  before_action :authenticate_user!
+  ```
 
 ### Securing your application
 
