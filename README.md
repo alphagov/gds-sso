@@ -123,6 +123,13 @@ GDS::SSO.config do |config|
 end
 ```
 
+### Use in production mode
+
+To use gds-sso in production you will need to setup the following environment variables, which we look for in [the config](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/config.rb). You will need to have admin access to Signon to get these.
+
+- OAUTH_ID
+- OAUTH_SECRET
+
 ### Use in development mode
 
 In development, you generally want to be able to run an application without needing to run your own SSO server to be running as well. GDS-SSO facilitates this by using a 'mock' mode in development. Mock mode loads an arbitrary user from the local application's user tables:
