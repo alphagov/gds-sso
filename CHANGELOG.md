@@ -1,4 +1,4 @@
-# Unversioned
+# 15.1.0
 
 * Simplify logic to detect and configure API-only apps
 * Automatically configure Rails cache for API apps
