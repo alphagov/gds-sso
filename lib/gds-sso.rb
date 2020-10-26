@@ -28,7 +28,7 @@ module GDS
       config.before_eager_load(&:reload_routes!)
 
       config.app_middleware.use ::OmniAuth::Builder do
-        next if GDS::SSO::Config.api_only?
+        next if GDS::SSO::Config.api_only
 
         provider :gds, GDS::SSO::Config.oauth_id, GDS::SSO::Config.oauth_secret,
                  client_options: {

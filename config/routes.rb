@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  next if GDS::SSO::Config.api_only?
+  next if GDS::SSO::Config.api_only
 
   get "/auth/gds/callback",               to: "authentications#callback", as: :gds_sign_in
   get "/auth/gds/sign_out",               to: "authentications#sign_out", as: :gds_sign_out

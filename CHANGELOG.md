@@ -1,5 +1,6 @@
 # Unversioned
 
+* Simplify logic to detect and configure API-only apps
 * Automatically configure Rails cache for API apps
 * Add config defaults that are common across our initializers
 

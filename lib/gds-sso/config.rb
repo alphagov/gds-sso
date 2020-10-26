@@ -28,7 +28,7 @@ module GDS
       mattr_accessor :cache
       @@cache = ActiveSupport::Cache::NullStore.new
 
-      mattr_writer :api_only
+      mattr_accessor :api_only
 
       mattr_accessor :additional_mock_permissions_required
 
@@ -55,12 +55,6 @@ module GDS
                            end
 
         ENV.fetch("GDS_SSO_STRATEGY", default_strategy) == "mock"
-      end
-
-      def self.api_only?
-        config = Rails.configuration
-        default = config.respond_to?(:api_only) ? config.api_only : false
-        @@api_only.nil? ? default : @@api_only
       end
 
       # rubocop:enable Style/ClassVars
