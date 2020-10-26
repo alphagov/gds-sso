@@ -6,6 +6,8 @@ require "gds-sso/warden_config"
 require "omniauth"
 require "omniauth-gds"
 
+require "gds-sso/railtie" if defined?(Rails)
+
 module GDS
   module SSO
     autoload :FailureApp,        "gds-sso/failure_app"

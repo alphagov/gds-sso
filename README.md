@@ -20,15 +20,6 @@ Some of the applications that use this gem:
   gem 'gds-sso', '<version>'
   ```
 
-- Create `config/initializers/gds-sso.rb`:
-
-  ```ruby
-  GDS::SSO.config do |config|
-    # Pass in a caching adapter cache bearer token requests.
-    config.cache = Rails.cache
-  end
-  ```
-
 - Create a "users" table in the database: ([example migration with all the necessary fields](https://github.com/alphagov/content-publisher/blob/16c58a40745c1ea61ec241e5aeb702ae15238f98/db/migrate/20160622154200_create_users.rb))
 
 - Create a User model with the following:
@@ -93,22 +84,11 @@ as an [API user](https://signon.publishing.service.gov.uk/api_users).
 To authorise with a bearer token, a request has to be made with the header:
 
 ```
+# See https://github.com/alphagov/gds-api-adapters/blob/41e9cbf12bec738489340bd9dc63d62427ee3fe7/lib/gds_api/json_client.rb#L122
 Authorization: Bearer your-token-here
 ```
 
-This gem will then authenticate the token with the Signon application. If
-valid, the API client will be authorised in the same way as a single-sign-on
-user. The [gds-api-adapters gem](https://github.com/alphagov/gds-api-adapters#app-level-authentication)
-has functionality for sending the bearer token for each request. To avoid making
-these requests for each incoming request, specify a caching adapter like `Rails.cache`:
-
-```ruby
-GDS::SSO.config do |config|
-  # ...
-  # Pass in a caching adapter cache bearer token requests.
-  config.cache = Rails.cache
-end
-```
+To avoid making these requests for each incoming request, this gem will [automatically cache a successful response](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/bearer_token.rb), using the [Rails cache](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/railtie.rb).
 
 If you are using a Rails 5 app in
 [api_only](http://guides.rubyonrails.org/api_app.html) mode this gem will
