@@ -1,4 +1,5 @@
 require "active_support/cache/null_store"
+require "plek"
 
 module GDS
   module SSO
@@ -11,13 +12,15 @@ module GDS
 
       # OAuth ID
       mattr_accessor :oauth_id
+      @@oauth_id = ENV.fetch("OAUTH_ID", "test-oauth-id")
 
       # OAuth Secret
       mattr_accessor :oauth_secret
+      @@oauth_secret = ENV.fetch("OAUTH_SECRET", "test-oauth-secret")
 
       # Location of the OAuth server
       mattr_accessor :oauth_root_url
-      @@oauth_root_url = "http://localhost:3001"
+      @@oauth_root_url = Plek.new.external_url_for("signon")
 
       mattr_accessor :auth_valid_for
       @@auth_valid_for = 20 * 3600
@@ -25,7 +28,7 @@ module GDS
       mattr_accessor :cache
       @@cache = ActiveSupport::Cache::NullStore.new
 
-      mattr_writer :api_only
+      mattr_accessor :api_only
 
       mattr_accessor :additional_mock_permissions_required
 
@@ -52,12 +55,6 @@ module GDS
                            end
 
         ENV.fetch("GDS_SSO_STRATEGY", default_strategy) == "mock"
-      end
-
-      def self.api_only?
-        config = Rails.configuration
-        default = config.respond_to?(:api_only) ? config.api_only : false
-        @@api_only.nil? ? default : @@api_only
       end
 
       # rubocop:enable Style/ClassVars

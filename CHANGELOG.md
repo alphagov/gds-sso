@@ -1,3 +1,9 @@
+# 15.1.0
+
+* Simplify logic to detect and configure API-only apps
+* Automatically configure Rails cache for API apps
+* Add config defaults that are common across our initializers
+
 # 15.0.1
 
 * Fix linting issues

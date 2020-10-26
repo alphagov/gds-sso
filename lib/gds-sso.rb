@@ -6,6 +6,8 @@ require "gds-sso/warden_config"
 require "omniauth"
 require "omniauth-gds"
 
+require "gds-sso/railtie" if defined?(Rails)
+
 module GDS
   module SSO
     autoload :FailureApp,        "gds-sso/failure_app"
@@ -26,7 +28,7 @@ module GDS
       config.before_eager_load(&:reload_routes!)
 
       config.app_middleware.use ::OmniAuth::Builder do
-        next if GDS::SSO::Config.api_only?
+        next if GDS::SSO::Config.api_only
 
         provider :gds, GDS::SSO::Config.oauth_id, GDS::SSO::Config.oauth_secret,
                  client_options: {

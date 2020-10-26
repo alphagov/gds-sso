@@ -14,55 +14,26 @@ Some of the applications that use this gem:
 
 ### Integration with a Rails 4+ app
 
-To use gds-sso you will need an oAuth client ID and secret for Signon or a compatible system.
-These can be provided by one of the team with admin access to Signon.
+- Include the gem in your Gemfile:
 
-Then include the gem in your Gemfile:
+  ```ruby
+  gem 'gds-sso', '<version>'
+  ```
 
-```ruby
-gem 'gds-sso', '<version>'
-```
+- Create a "users" table in the database: ([example migration with all the necessary fields](https://github.com/alphagov/content-publisher/blob/16c58a40745c1ea61ec241e5aeb702ae15238f98/db/migrate/20160622154200_create_users.rb))
 
-Create a `config/initializers/gds-sso.rb` that looks like:
+- Create a User model with the following:
 
-```ruby
-GDS::SSO.config do |config|
-  config.user_model   = 'User'
+  ```ruby
+  serialize :permissions, Array
+  ```
 
-  # set up ID and Secret in a way which doesn't require it to be checked in to source control...
-  config.oauth_id     = ENV['OAUTH_ID']
-  config.oauth_secret = ENV['OAUTH_SECRET']
+- Add to your `ApplicationController`:
 
-  # optional config for location of Signon
-  config.oauth_root_url = "http://localhost:3001"
-
-  # Pass in a caching adapter cache bearer token requests.
-  config.cache = Rails.cache
-end
-```
-
-The user model must include the `GDS::SSO::User` module.
-
-It should have the following fields:
-
-```ruby
-string   "name"
-string   "email"
-string   "uid"
-string   "organisation_slug"
-string   "organisation_content_id"
-array    "permissions"
-boolean  "remotely_signed_out", :default => false
-boolean  "disabled", :default => false
-```
-
-You also need to include `GDS::SSO::ControllerMethods` in your ApplicationController.
-
-For ActiveRecord, you probably want to declare permissions as "serialized" like this:
-
-```ruby
-serialize :permissions, Array
-```
+  ```ruby
+  include GDS::SSO::ControllerMethods
+  before_action :authenticate_user!
+  ```
 
 ### Securing your application
 
@@ -113,22 +84,11 @@ as an [API user](https://signon.publishing.service.gov.uk/api_users).
 To authorise with a bearer token, a request has to be made with the header:
 
 ```
+# See https://github.com/alphagov/gds-api-adapters/blob/41e9cbf12bec738489340bd9dc63d62427ee3fe7/lib/gds_api/json_client.rb#L122
 Authorization: Bearer your-token-here
 ```
 
-This gem will then authenticate the token with the Signon application. If
-valid, the API client will be authorised in the same way as a single-sign-on
-user. The [gds-api-adapters gem](https://github.com/alphagov/gds-api-adapters#app-level-authentication)
-has functionality for sending the bearer token for each request. To avoid making
-these requests for each incoming request, specify a caching adapter like `Rails.cache`:
-
-```ruby
-GDS::SSO.config do |config|
-  # ...
-  # Pass in a caching adapter cache bearer token requests.
-  config.cache = Rails.cache
-end
-```
+To avoid making these requests for each incoming request, this gem will [automatically cache a successful response](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/bearer_token.rb), using the [Rails cache](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/railtie.rb).
 
 If you are using a Rails 5 app in
 [api_only](http://guides.rubyonrails.org/api_app.html) mode this gem will
@@ -142,6 +102,13 @@ GDS::SSO.config do |config|
   config.api_only = true
 end
 ```
+
+### Use in production mode
+
+To use gds-sso in production you will need to setup the following environment variables, which we look for in [the config](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/config.rb). You will need to have admin access to Signon to get these.
+
+- OAUTH_ID
+- OAUTH_SECRET
 
 ### Use in development mode
 

@@ -18,7 +18,7 @@ module GDS
       def self.call(env)
         if GDS::SSO::ApiAccess.api_call?(env)
           action(:api_invalid_token).call(env)
-        elsif GDS::SSO::Config.api_only?
+        elsif GDS::SSO::Config.api_only
           action(:api_missing_token).call(env)
         else
           action(:redirect).call(env)
