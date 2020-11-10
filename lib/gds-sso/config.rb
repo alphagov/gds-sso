@@ -12,11 +12,11 @@ module GDS
 
       # OAuth ID
       mattr_accessor :oauth_id
-      @@oauth_id = ENV.fetch("OAUTH_ID", "test-oauth-id")
+      @@oauth_id = ENV.fetch("GDS_SSO_OAUTH_ID", "test-oauth-id")
 
       # OAuth Secret
       mattr_accessor :oauth_secret
-      @@oauth_secret = ENV.fetch("OAUTH_SECRET", "test-oauth-secret")
+      @@oauth_secret = ENV.fetch("GDS_SSO_OAUTH_SECRET", "test-oauth-secret")
 
       # Location of the OAuth server
       mattr_accessor :oauth_root_url

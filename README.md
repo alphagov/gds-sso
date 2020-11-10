@@ -107,8 +107,8 @@ end
 
 To use gds-sso in production you will need to setup the following environment variables, which we look for in [the config](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/config.rb). You will need to have admin access to Signon to get these.
 
-- OAUTH_ID
-- OAUTH_SECRET
+- GDS_SSO_OAUTH_ID
+- GDS_SSO_OAUTH_SECRET
 
 ### Use in development mode
 
