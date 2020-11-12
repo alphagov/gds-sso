@@ -17,7 +17,7 @@ Some of the applications that use this gem:
 - Include the gem in your Gemfile:
 
   ```ruby
-  gem 'gds-sso', '<version>'
+  gem 'gds-sso'
   ```
 
 - Create a "users" table in the database: ([example migration with all the necessary fields](https://github.com/alphagov/content-publisher/blob/16c58a40745c1ea61ec241e5aeb702ae15238f98/db/migrate/20160622154200_create_users.rb))
@@ -107,8 +107,8 @@ end
 
 To use gds-sso in production you will need to setup the following environment variables, which we look for in [the config](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/config.rb). You will need to have admin access to Signon to get these.
 
-- OAUTH_ID
-- OAUTH_SECRET
+- GDS_SSO_OAUTH_ID
+- GDS_SSO_OAUTH_SECRET
 
 ### Use in development mode
 

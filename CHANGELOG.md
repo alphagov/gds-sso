@@ -1,3 +1,7 @@
+# 16.0.0
+
+* BREAKING: OAUTH_ID environment variable is replaced by GDS_SSO_OAUTH_ID and OAUTH_SECRET is replaced by GDS_SSO_OAUTH_SECRET
+
 # 15.1.0
 
 * Simplify logic to detect and configure API-only apps
