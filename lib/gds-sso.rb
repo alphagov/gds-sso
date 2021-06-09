@@ -22,10 +22,26 @@ module GDS
       yield GDS::SSO::Config
     end
 
+    class TokenVerifier
+      include ActiveSupport::Configurable
+      include ActionController::RequestForgeryProtection
+
+      def call(env)
+        @request = ActionDispatch::Request.new(env.dup)
+        raise OmniAuth::AuthenticityError unless verified_request?
+      end
+
+      private
+      attr_reader :request
+      delegate :params, :session, to: :request
+    end
+
     class Engine < ::Rails::Engine
       # Force routes to be loaded if we are doing any eager load.
       # TODO - check this one - Stolen from Devise because it looked sensible...
       config.before_eager_load(&:reload_routes!)
+
+      OmniAuth.config.request_validation_phase = TokenVerifier.new
 
       config.app_middleware.use ::OmniAuth::Builder do
         next if GDS::SSO::Config.api_only
