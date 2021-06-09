@@ -15,7 +15,7 @@ then
   cd ${APP_ROOT}
   git clean -fdx
   git fetch origin
-  git reset --hard origin/master
+  git reset --hard origin/main
 else
   git clone https://github.com/alphagov/signon ${APP_ROOT}
   cd ${APP_ROOT}
