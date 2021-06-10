@@ -1,3 +1,7 @@
+# 16.0.1
+
+* Fix linting issues
+
 # 16.0.0
 
 * BREAKING: OAUTH_ID environment variable is replaced by GDS_SSO_OAUTH_ID and OAUTH_SECRET is replaced by GDS_SSO_OAUTH_SECRET
