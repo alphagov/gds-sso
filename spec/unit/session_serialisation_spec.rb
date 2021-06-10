@@ -2,10 +2,6 @@ require "spec_helper"
 require "active_record"
 
 describe Warden::SessionSerializer do
-  class SerializableUser
-    include GDS::SSO::User
-  end
-
   before :each do
     @old_user_model = GDS::SSO::Config.user_model
     GDS::SSO::Config.user_model = SerializableUser
