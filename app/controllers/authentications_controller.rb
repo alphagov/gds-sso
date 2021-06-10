@@ -12,6 +12,6 @@ class AuthenticationsController < ActionController::Base
 
   def sign_out
     logout
-    redirect_to GDS::SSO::Config.oauth_root_url + "/users/sign_out"
+    redirect_to "#{GDS::SSO::Config.oauth_root_url}/users/sign_out"
   end
 end
