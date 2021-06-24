@@ -1,3 +1,7 @@
+# 16.0.2
+
+* Upgrade OmniAuth to 2.0, and explicitly allow Get requests #243
+
 # 16.0.1
 
 * Fix linting issues
