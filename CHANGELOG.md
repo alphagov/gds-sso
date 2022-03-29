@@ -1,3 +1,7 @@
+# 16.1.0
+
+* Add `allow_other_host: true` to redirects, for improved Rails 7 support.
+
 # 16.0.2
 
 * Upgrade OmniAuth to 2.0, and explicitly allow Get requests #243
