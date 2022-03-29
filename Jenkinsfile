@@ -2,7 +2,7 @@
 
 library("govuk")
 
-def rubyVersions = ["2.7"]
+def rubyVersions = ["2.7", "3.0"]
 def gemfiles = ["rails_6", "rails_7"]
 
 node {
