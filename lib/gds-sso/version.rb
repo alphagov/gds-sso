@@ -1,5 +1,5 @@
 module GDS
   module SSO
-    VERSION = "16.0.2".freeze
+    VERSION = "16.1.0".freeze
   end
 end
