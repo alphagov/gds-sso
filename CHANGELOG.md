@@ -1,3 +1,7 @@
+# Unreleased
+
+* Drop support for Ruby 2.6 and Rails 5, add support/testing for Ruby 3.0 and Rails 7. #251
+
 # 16.1.0
 
 * Add `allow_other_host: true` to redirects, for improved Rails 7 support.
