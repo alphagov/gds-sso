@@ -1,6 +1,6 @@
 # Unreleased
 
-* Drop support for Ruby 2.6 and Rails 5, add support/testing for Ruby 3.0 and Rails 7. #251
+* Drop support for Ruby 2.6 and Rails 5, add support/testing for Ruby 3.0 and 3.1, and Rails 7. #251
 
 # 16.1.0
 
