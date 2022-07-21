@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Client for GDS' OAuth 2-based SSO"
   s.license     = "MIT"
 
-  s.required_ruby_version = ">= 2.6"
+  s.required_ruby_version = ">= 2.7"
 
   s.files = Dir[
     "app/**/*",
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara", ">= 2"
   s.add_development_dependency "capybara-mechanize", ">= 1"
   s.add_development_dependency "combustion", ">= 0.9"
+  s.add_development_dependency "net-smtp", "~> 0.3.1"
   s.add_development_dependency "rake", ">= 0.9"
   s.add_development_dependency "rspec-rails", ">= 3"
   s.add_development_dependency "rubocop-govuk"
