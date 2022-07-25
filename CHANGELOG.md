@@ -1,3 +1,8 @@
+# 17.0.0
+
+* Drop support for Ruby 2.6 and Rails 5.
+* Permit 2.x versions of oauth2 gem.
+
 # 16.1.0
 
 * Add `allow_other_host: true` to redirects, for improved Rails 7 support.
