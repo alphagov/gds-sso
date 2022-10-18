@@ -4,7 +4,6 @@ require "gds-sso/config"
 require "gds-sso/version"
 require "gds-sso/warden_config"
 require "omniauth"
-require "omniauth-gds"
 
 require "gds-sso/railtie" if defined?(Rails)
 
