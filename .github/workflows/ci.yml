@@ -20,7 +20,7 @@ jobs:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
       SIGNON_RUBY_VERSION:
-        2.7.6 # should match https://github.com/alphagov/signon/blob/main/.ruby-version
+        3.1.2 # should match https://github.com/alphagov/signon/blob/main/.ruby-version
               # or at least be compatible
     steps:
       - uses: actions/checkout@v3
