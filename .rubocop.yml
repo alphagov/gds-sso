@@ -6,9 +6,6 @@ inherit_mode:
   merge:
     - Exclude
 
-AllCops:
-  TargetRubyVersion: 2.7
-
 # Renaming files from "gds-sso" to "gds_sso" would be a breaking
 # change.
 Naming/FileName:
