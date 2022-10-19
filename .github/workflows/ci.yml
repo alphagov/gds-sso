@@ -1,9 +1,4 @@
-name: Continuous integration
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
   # This matrix job runs the test suite against multiple Ruby and Rails versions
