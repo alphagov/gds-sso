@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = %w[lib]
 
-  s.add_dependency "multi_json", "~> 1.0"
   s.add_dependency "oauth2", "~> 2.0"
   s.add_dependency "omniauth", "~> 2.1"
   s.add_dependency "omniauth-oauth2", "~> 1.8"

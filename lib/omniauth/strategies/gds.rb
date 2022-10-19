@@ -1,5 +1,5 @@
 require "omniauth-oauth2"
-require "multi_json"
+require "json"
 
 class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   uid { user["uid"] }
@@ -21,6 +21,6 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   end
 
   def user
-    @user ||= MultiJson.decode(access_token.get("/user.json?client_id=#{CGI.escape(options.client_id)}").body)["user"]
+    @user ||= JSON.parse(access_token.get("/user.json?client_id=#{CGI.escape(options.client_id)}").body).fetch("user")
   end
 end

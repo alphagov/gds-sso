@@ -1,4 +1,4 @@
-require "multi_json"
+require "json"
 require "oauth2"
 require "gds-sso/version"
 
@@ -35,7 +35,7 @@ module GDS
       # structure. Here we're addressing signon directly so
       # we need to transform the response ourselves.
       def self.omniauth_style_response(response_body)
-        input = MultiJson.decode(response_body)["user"]
+        input = JSON.parse(response_body).fetch("user")
 
         {
           "uid" => input["uid"],
