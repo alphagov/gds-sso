@@ -1,3 +1,7 @@
+# Unreleased
+
+* Merge [omniauth-gds](https://github.com/alphagov/omniauth-gds) gem into this codebase, ahead of that gem's retirement.
+
 # 17.0.0
 
 * Drop support for Ruby 2.6 and Rails 5.
