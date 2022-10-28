@@ -1,4 +1,4 @@
-# Unreleased
+# 17.1.0
 
 * Merge [omniauth-gds](https://github.com/alphagov/omniauth-gds) gem into this codebase, ahead of that gem's retirement.
 
