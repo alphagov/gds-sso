@@ -1,19 +1,5 @@
 require "spec_helper"
 
-def user_update_json
-  {
-    "user" => {
-      "uid" => @user_to_update.uid,
-      "name" => "Joshua Marshall",
-      "email" => "user@domain.com",
-      "permissions" => ["signin", "new permission"],
-      "organisation_slug" => "justice-league",
-      "organisation_content_id" => "aae1319e-5788-4677-998c-f1a53af528d0",
-      "disabled" => false,
-    },
-  }.to_json
-end
-
 describe Api::UserController, type: :controller do
   before :each do
     user_to_update_attrs = [{
@@ -110,5 +96,19 @@ describe Api::UserController, type: :controller do
       expect(@user_to_update).to be_remotely_signed_out
       expect(response.content_type).to eq("text/plain")
     end
+  end
+
+  def user_update_json
+    {
+      "user" => {
+        "uid" => @user_to_update.uid,
+        "name" => "Joshua Marshall",
+        "email" => "user@domain.com",
+        "permissions" => ["signin", "new permission"],
+        "organisation_slug" => "justice-league",
+        "organisation_content_id" => "aae1319e-5788-4677-998c-f1a53af528d0",
+        "disabled" => false,
+      },
+    }.to_json
   end
 end
