@@ -23,7 +23,7 @@ class Api::UserController < ActionController::Base
 
 private
 
-  # This should mirror the object created by the omniauth-gds strategy/gem
+  # This should mirror the object created by OmniAuth::Strategies::Gds
   # By doing this, we can reuse the code for creating/updating the user
   def build_gds_oauth_hash(user_json)
     OmniAuth::AuthHash.new(
