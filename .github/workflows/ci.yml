@@ -12,45 +12,14 @@ jobs:
         gemfile: [rails_6, rails_7]
     runs-on: ubuntu-latest
     env:
-      DB_DATABASE: signonotron2_test
-      DB_ROOT_USER: root
-      DB_ROOT_PASSWORD: root
-      DB_USER: signonotron2
-      DB_PASSWORD: signonotron2
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
-      SIGNON_RUBY_VERSION:
-        3.1.2 # should match https://github.com/alphagov/signon/blob/main/.ruby-version
-              # or at least be compatible
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ env.SIGNON_RUBY_VERSION }} # for signon
-          bundler-cache: true
-        if: ${{ ! startsWith(env.SIGNON_RUBY_VERSION, matrix.ruby) }}
-      - uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Set up MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e "CREATE DATABASE ${{ env.DB_DATABASE }}; CREATE USER '${{ env.DB_USER }}'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}'; GRANT ALL ON ${{ env.DB_DATABASE }}.* to 'signonotron2'@'localhost';" -u${{ env.DB_ROOT_USER }} -p${{ env.DB_ROOT_PASSWORD }}
-      - name: Start Signon
-        run: |
-          # ensure the correct ruby is first in the PATH for signon
-          export PATH=/opt/hostedtoolcache/Ruby/$SIGNON_RUBY_VERSION/x64/bin:$PATH
-          git clean -fxde /tmp
-          env BUNDLE_GEMFILE=Gemfile TEST_DATABASE_URL=mysql2://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@localhost:3306/${{ env.DB_DATABASE }} ./start_signon.sh
-      - name: Run tests
-        run: |
-          bundle install
-          bundle exec rake
-      - if: always()
-        name: Stop Signon
-        run: |
-          ./stop_signon.sh
+      - run: bundle exec rake
 
   # This job is needed to work around the fact that matrix jobs spawn multiple status checks – i.e. one job per variant.
   # The branch protection rules depend on this as a composite job to ensure that all preceding test_matrix checks passed.
