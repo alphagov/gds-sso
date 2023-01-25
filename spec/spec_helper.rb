@@ -25,6 +25,5 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include(BackportControllerTestParams) if Rails.version < "5"
   config.include(Warden::Test::Helpers)
 end
