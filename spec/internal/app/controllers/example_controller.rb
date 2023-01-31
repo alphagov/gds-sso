@@ -1,7 +1,8 @@
 class ExampleController < ApplicationController
-  before_action :authenticate_user!, only: %i[restricted this_requires_signin_permission]
+  before_action :authenticate_user!, except: :not_restricted
+  before_action -> { authorise_user!("execute") }, only: :this_requires_execute_permission
 
-  def index
+  def not_restricted
     render body: "jabberwocky"
   end
 
@@ -9,7 +10,7 @@ class ExampleController < ApplicationController
     render body: "restricted kablooie"
   end
 
-  def this_requires_signin_permission
-    render body: "you have signin permission"
+  def this_requires_execute_permission
+    render body: "you have execute permission"
   end
 end

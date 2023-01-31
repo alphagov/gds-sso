@@ -6,6 +6,7 @@ module GDS
           config.cache = Rails.cache
           config.api_only = Rails.configuration.api_only
         end
+        OmniAuth.config.logger = Rails.logger
       end
     end
   end
