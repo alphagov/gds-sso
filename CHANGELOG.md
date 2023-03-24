@@ -1,3 +1,7 @@
+## Unreleased
+
+* Drop support for Ruby 2.7.
+
 # 17.1.1
 
 * Update Plek support to allow version 5
