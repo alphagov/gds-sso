@@ -1,6 +1,9 @@
 ## Unreleased
 
-* Drop support for Ruby 2.7.
+# 18.0.0
+
+* Drop support for Ruby 2.7. (#277)
+* Relax rubocop-govuk dependency constraint to ~> 4. (#280)
 
 # 17.1.1
 
