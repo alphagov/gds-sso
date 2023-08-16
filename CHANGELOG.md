@@ -1,5 +1,7 @@
 ## Unreleased
 
+* Enable [OAuth2 PKCE extension](https://datatracker.ietf.org/doc/html/rfc7636) in the GDS OAuth2 OmniAuth Strategy. The [PKCE extension was enabled in Signon in PR 2312](https://github.com/alphagov/signon/pull/2312).
+
 # 18.0.0
 
 * Drop support for Ruby 2.7. (#277)

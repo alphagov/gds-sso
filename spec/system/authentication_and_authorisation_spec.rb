@@ -1,6 +1,42 @@
 require "spec_helper"
 
 RSpec.describe "Authenication and authorisation" do
+  context "omniauth request phase" do
+    let(:redirect_url) { URI.parse(page.response_headers["Location"]) }
+    let(:authorize_params) { Rack::Utils.parse_query(redirect_url.query) }
+
+    before do
+      visit "/auth/gds"
+    end
+
+    it "includes pkce code_challenge_method in request for /oauth/authorize" do
+      expect(redirect_url.path).to eql("/oauth/authorize")
+      expect(authorize_params["code_challenge_method"]).to eq("S256")
+    end
+
+    it "includes pkce code_challenge in request for /oauth/authorize" do
+      expect(redirect_url.path).to eql("/oauth/authorize")
+      expect(authorize_params["code_challenge"]).to be_present
+    end
+  end
+
+  context "omniauth callback phase" do
+    it "includes pkce code_verifier in request for /oauth/access_token" do
+      visit "/auth/gds"
+
+      redirect_url = URI.parse(page.response_headers["Location"])
+      expect(redirect_url.path).to eql("/oauth/authorize")
+      state = Rack::Utils.parse_query(redirect_url.query)["state"]
+
+      stub_request(:post, "http://signon/oauth/access_token")
+
+      visit "/auth/gds/callback?state=#{state}"
+
+      expect(WebMock).to have_requested(:post, "http://signon/oauth/access_token")
+        .with(body: hash_including({ "code_verifier" => /.*/ }))
+    end
+  end
+
   context "when accessing a route that doesn't require permissions or authentication" do
     it "allows access" do
       visit "/not-restricted"

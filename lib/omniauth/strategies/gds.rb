@@ -4,6 +4,8 @@ require "json"
 class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
   uid { user["uid"] }
 
+  option :pkce, true
+
   info do
     {
       name: user["name"],
