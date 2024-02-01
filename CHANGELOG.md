@@ -1,5 +1,12 @@
 ## Unreleased
 
+# 19.0.0
+
+* We no longer set `ActiveSupport::Cache::NullStore.new` as the default cache. This avoids a deprecation warning when the gem is used in Rails apps.
+  * If you're using `gds-sso` in a Rails app and [relying on the Railtie](https://github.com/alphagov/gds-sso/blob/main/lib/gds-sso/railtie.rb#L6) to set the cache then you don't need to do anything
+  * If you're using `gds-sso` and manually setting the cache then you don't need to do anything.
+  * If you're using `gds-sso` outside of a Rails app and you're not explicitly setting the cache then you'll need to configure it before you can use `GDS::SSO::BearerToken.locate`.
+
 # 18.1.0
 
 * Enable [OAuth2 PKCE extension](https://datatracker.ietf.org/doc/html/rfc7636) in the GDS OAuth2 OmniAuth Strategy. The [PKCE extension was enabled in Signon in PR 2312](https://github.com/alphagov/signon/pull/2312).
