@@ -26,7 +26,6 @@ module GDS
       @@auth_valid_for = 20 * 3600
 
       mattr_accessor :cache
-      @@cache = ActiveSupport::Cache::NullStore.new
 
       mattr_accessor :api_only
 
