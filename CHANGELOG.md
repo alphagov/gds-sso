@@ -1,5 +1,8 @@
 ## Unreleased
 
+* Drop support for Ruby 3.0. The minimum required Ruby version is now 3.1.4.
+* Add support for Ruby 3.3.
+
 # 19.0.0
 
 * We no longer set `ActiveSupport::Cache::NullStore.new` as the default cache. This avoids a deprecation warning when the gem is used in Rails apps.
