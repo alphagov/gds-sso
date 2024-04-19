@@ -27,6 +27,9 @@ module GDS
 
       mattr_accessor :cache
 
+      mattr_accessor :intercept_401_responses
+      @@intercept_401_responses = true
+
       mattr_accessor :api_only
 
       mattr_accessor :additional_mock_permissions_required
