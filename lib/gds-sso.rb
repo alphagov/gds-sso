@@ -52,6 +52,7 @@ module GDS
       config.app_middleware.use Warden::Manager do |config|
         config.default_strategies(*default_strategies)
         config.failure_app = GDS::SSO::FailureApp
+        config.intercept_401 = GDS::SSO::Config.intercept_401_responses
       end
     end
   end

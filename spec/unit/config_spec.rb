@@ -25,4 +25,10 @@ describe GDS::SSO::Config do
       end
     end
   end
+
+  describe ".intercept_401_responses" do
+    it "defaults to true" do
+      expect(subject.intercept_401_responses).to eq(true)
+    end
+  end
 end
