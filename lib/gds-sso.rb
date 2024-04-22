@@ -14,6 +14,7 @@ module GDS
     autoload :ControllerMethods,        "gds-sso/controller_methods"
     autoload :User,                     "gds-sso/user"
     autoload :ApiAccess,                "gds-sso/api_access"
+    autoload :AuthoriseUser,            "gds-sso/authorise_user"
     autoload :AuthorisedUserConstraint, "gds-sso/authorised_user_constraint"
 
     # User to return as logged in during tests
