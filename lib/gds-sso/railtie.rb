@@ -7,6 +7,10 @@ module GDS
           config.api_only = Rails.configuration.api_only
         end
         OmniAuth.config.logger = Rails.logger
+
+        config.action_dispatch.rescue_responses.merge!(
+          "GDS::SSO::PermissionDeniedError" => :forbidden,
+        )
       end
     end
   end
