@@ -9,7 +9,7 @@ module GDS
         warden = request.env["warden"]
         warden.authenticate! if !warden.authenticated? || warden.user.remotely_signed_out?
 
-        AuthoriseUser.call(warden.user, permissions)
+        GDS::SSO::AuthoriseUser.call(warden.user, permissions)
         true
       end
 
