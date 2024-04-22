@@ -10,10 +10,11 @@ require "gds-sso/railtie" if defined?(Rails)
 
 module GDS
   module SSO
-    autoload :FailureApp,        "gds-sso/failure_app"
-    autoload :ControllerMethods, "gds-sso/controller_methods"
-    autoload :User,              "gds-sso/user"
-    autoload :ApiAccess,         "gds-sso/api_access"
+    autoload :FailureApp,               "gds-sso/failure_app"
+    autoload :ControllerMethods,        "gds-sso/controller_methods"
+    autoload :User,                     "gds-sso/user"
+    autoload :ApiAccess,                "gds-sso/api_access"
+    autoload :AuthorisedUserConstraint, "gds-sso/authorised_user_constraint"
 
     # User to return as logged in during tests
     mattr_accessor :test_user
