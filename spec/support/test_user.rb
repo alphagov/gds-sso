@@ -1,3 +1,5 @@
+require "ostruct"
+
 class TestUser < OpenStruct
   include GDS::SSO::User
 
