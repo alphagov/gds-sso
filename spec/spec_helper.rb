@@ -8,6 +8,7 @@ require "combustion"
 
 Combustion.initialize! :all do
   config.cache_store = :null_store
+  config.action_dispatch.show_exceptions = :all
 end
 
 require "rspec/rails"
