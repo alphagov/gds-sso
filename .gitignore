@@ -4,5 +4,5 @@ gemfiles/*.lock
 Gemfile.lock
 pkg/*
 tmp/*
-*.sqlite
+*.sqlite*
 spec/internal/tmp
