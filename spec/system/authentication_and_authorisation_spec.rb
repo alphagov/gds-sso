@@ -119,6 +119,27 @@ RSpec.describe "Authenication and authorisation" do
     end
   end
 
+  context "when accessing a route that is restricted by the authorised user constraint" do
+    it "allows access when an authenticated user has correct permissions" do
+      stub_signon_authenticated(permissions: %w[execute])
+      visit "/constraint-restricted"
+      expect(page).to have_content("constraint restricted")
+    end
+
+    it "redirects an unauthenticated request to signon" do
+      visit "/constraint-restricted"
+      expect(page.response_headers["Location"]).to match("/auth/gds")
+      visit page.response_headers["Location"]
+      expect(page.response_headers["Location"]).to match("http://signon/oauth/authorize")
+    end
+
+    it "restricts access when an authenticated user does not have the correct permissions" do
+      stub_signon_authenticated(permissions: %w[no-access])
+      visit "/constraint-restricted"
+      expect(page.status_code).to eq(403)
+    end
+  end
+
   def stub_signon_authenticated(permissions: [])
     # visit restricted page to trigger redirect URL to record state attribute
     visit "/auth/gds"
