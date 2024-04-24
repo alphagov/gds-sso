@@ -3,6 +3,10 @@
 * Drop support for Rails 6
 * Drop support for Ruby 3.0
 
+* Adds config option that allows apps to change the default behaviour of intercepting 401 requests, by including an initialiser: `GDS::SSO.config { |config| config.intercept_401_responses = false }`.
+* Added AuthorisedUserConstraint class so that consumer apps can easily add permission based constraints.
+* Adds deprecation warning for GDS::SSO::ControllerMethods::PermissionDeniedException. If your app uses this you can replace it with GDS::SSO::PermissionDeniedError.
+
 # 19.0.0
 
 * We no longer set `ActiveSupport::Cache::NullStore.new` as the default cache. This avoids a deprecation warning when the gem is used in Rails apps.
