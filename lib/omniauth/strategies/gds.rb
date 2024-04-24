@@ -15,7 +15,7 @@ class OmniAuth::Strategies::Gds < OmniAuth::Strategies::OAuth2
 
   extra do
     {
-      user: user,
+      user:,
       permissions: user["permissions"],
       organisation_slug: user["organisation_slug"],
       organisation_content_id: user["organisation_content_id"],

@@ -29,7 +29,7 @@ Warden::Manager.serialize_from_session do |(uid, auth_timestamp)|
   end
 
   if auth_timestamp && ((auth_timestamp + GDS::SSO::Config.auth_valid_for) > Time.now.utc)
-    GDS::SSO::Config.user_klass.where(uid: uid, remotely_signed_out: false).first
+    GDS::SSO::Config.user_klass.where(uid:, remotely_signed_out: false).first
   end
 end
 
