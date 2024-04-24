@@ -1,4 +1,6 @@
-## Unreleased
+# Unreleased
+
+* Drop support for Ruby 3.0
 
 # 19.0.0
 
