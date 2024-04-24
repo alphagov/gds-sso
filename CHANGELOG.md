@@ -1,5 +1,6 @@
 # Unreleased
 
+* Drop support for Rails 6
 * Drop support for Ruby 3.0
 
 # 19.0.0

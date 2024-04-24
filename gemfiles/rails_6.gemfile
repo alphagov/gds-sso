@@ -1,6 +1,0 @@
-source "https://rubygems.org"
-
-gem "net-smtp" # Ruby 3.1 removed this gem from stdlib, so Rails 6 needs it as an explicit dependency
-gem "rails", "~> 6.0"
-
-gemspec path: "../"
