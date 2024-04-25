@@ -52,7 +52,7 @@ module GDS
 
       def api_unauthorized(message, bearer_error)
         headers["WWW-Authenticate"] = %(Bearer error="#{bearer_error}")
-        render json: { message: message }, status: :unauthorized
+        render json: { message: }, status: :unauthorized
       end
     end
   end

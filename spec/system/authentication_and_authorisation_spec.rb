@@ -129,7 +129,7 @@ RSpec.describe "Authenication and authorisation" do
       .to_return(body: { access_token: "token" }.to_json,
                  headers: { content_type: "application/json" })
 
-    stub_signon_user_request(permissions: permissions)
+    stub_signon_user_request(permissions:)
 
     visit "/auth/gds/callback?code=code&state=#{state}"
   end
@@ -142,7 +142,7 @@ RSpec.describe "Authenication and authorisation" do
             uid: "123",
             email: "test-user@example.com",
             name: "Test User",
-            permissions: permissions,
+            permissions:,
           },
         }.to_json,
         headers: { content_type: "application/json" },
