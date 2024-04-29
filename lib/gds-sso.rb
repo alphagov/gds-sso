@@ -10,10 +10,13 @@ require "gds-sso/railtie" if defined?(Rails)
 
 module GDS
   module SSO
-    autoload :FailureApp,        "gds-sso/failure_app"
-    autoload :ControllerMethods, "gds-sso/controller_methods"
-    autoload :User,              "gds-sso/user"
-    autoload :ApiAccess,         "gds-sso/api_access"
+    autoload :FailureApp,               "gds-sso/failure_app"
+    autoload :ControllerMethods,        "gds-sso/controller_methods"
+    autoload :User,                     "gds-sso/user"
+    autoload :ApiAccess,                "gds-sso/api_access"
+    autoload :AuthoriseUser,            "gds-sso/authorise_user"
+    autoload :AuthorisedUserConstraint, "gds-sso/authorised_user_constraint"
+    autoload :PermissionDeniedError,    "gds-sso/controller_methods"
 
     # User to return as logged in during tests
     mattr_accessor :test_user
@@ -52,6 +55,7 @@ module GDS
       config.app_middleware.use Warden::Manager do |config|
         config.default_strategies(*default_strategies)
         config.failure_app = GDS::SSO::FailureApp
+        config.intercept_401 = GDS::SSO::Config.intercept_401_responses
       end
     end
   end
