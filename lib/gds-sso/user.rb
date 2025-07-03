@@ -5,6 +5,8 @@ module GDS
     module User
       extend ActiveSupport::Concern
 
+      attr_accessor :analytics_user_id
+
       def has_permission?(permission)
         if permissions
           permissions.include?(permission)
@@ -28,6 +30,7 @@ module GDS
           "organisation_slug" => auth_hash["extra"]["user"]["organisation_slug"],
           "organisation_content_id" => auth_hash["extra"]["user"]["organisation_content_id"],
           "disabled" => auth_hash["extra"]["user"]["disabled"],
+          "analytics_user_id" => auth_hash["extra"]["user"]["analytics_user_id"],
         }
       end
 
@@ -47,10 +50,13 @@ module GDS
 
           if user
             user.update!(user_params)
-            user
           else # Create a new user.
-            create!(user_params)
+            user = create!(user_params)
           end
+
+          user.analytics_user_id = user_params["analytics_user_id"]
+
+          user
         end
       end
     end

@@ -14,11 +14,11 @@ end
 
 Warden::Manager.serialize_into_session do |user|
   if user.respond_to?(:uid) && user.uid
-    [user.uid, Time.now.utc.iso8601]
+    [user.uid, Time.now.utc.iso8601, user.analytics_user_id]
   end
 end
 
-Warden::Manager.serialize_from_session do |(uid, auth_timestamp)|
+Warden::Manager.serialize_from_session do |(uid, auth_timestamp, analytics_user_id)|
   # This will reject old sessions that don't have a previous login timestamp
   if auth_timestamp.is_a?(String)
     begin
@@ -29,7 +29,9 @@ Warden::Manager.serialize_from_session do |(uid, auth_timestamp)|
   end
 
   if auth_timestamp && ((auth_timestamp + GDS::SSO::Config.auth_valid_for) > Time.now.utc)
-    GDS::SSO::Config.user_klass.where(uid:, remotely_signed_out: false).first
+    GDS::SSO::Config.user_klass.where(uid:, remotely_signed_out: false).first.tap do |user|
+      user.analytics_user_id = analytics_user_id unless user.nil?
+    end
   end
 end
 
