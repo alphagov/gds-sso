@@ -6,10 +6,9 @@ module GDS
       end
 
       def matches?(request)
-        warden = request.env["warden"]
-        warden.authenticate! if !warden.authenticated? || warden.user.remotely_signed_out?
+        user = GDS::SSO.authenticate_user!(request.env["warden"])
 
-        GDS::SSO::AuthoriseUser.call(warden.user, permissions)
+        GDS::SSO::AuthoriseUser.call(user, permissions)
         true
       end
 
