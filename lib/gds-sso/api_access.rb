@@ -4,6 +4,8 @@ module GDS
   module SSO
     class ApiAccess
       def self.api_call?(env)
+        return true if GDS::SSO::Config.api_only
+
         if GDS::SSO::Config.api_request_matcher
           return GDS::SSO::Config.api_request_matcher.call(Rack::Request.new(env))
         end

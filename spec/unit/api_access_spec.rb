@@ -4,6 +4,12 @@ require "rack/mock_request"
 
 describe GDS::SSO::ApiAccess do
   describe ".api_call?" do
+    it "returns true GDS::SSO has been configured as api_only" do
+      allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
+
+      expect(described_class.api_call?({})).to be(true)
+    end
+
     it "returns true if the request matches the api_request_matcher" do
       allow(GDS::SSO::Config)
         .to receive(:api_request_matcher)
