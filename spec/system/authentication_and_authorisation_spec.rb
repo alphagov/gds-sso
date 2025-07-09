@@ -80,6 +80,16 @@ RSpec.describe "Authenication and authorisation" do
       end
     end
 
+    it "restricts access when the request doesn't match the api_request_matcher" do
+      allow(GDS::SSO::Config)
+        .to receive(:api_request_matcher)
+        .and_return(->(_request) { false })
+
+      visit "/restricted"
+      expect(page.status_code).to eql(302)
+      expect(page.response_headers["Location"]).to match("/auth/gds")
+    end
+
     it "allows access when given a valid bearer token" do
       stub_signon_user_request
       page.driver.header("Authorization", "Bearer 123")
@@ -99,6 +109,15 @@ RSpec.describe "Authenication and authorisation" do
 
     it "returns a 401 when a bearer token is missing and the app is api_only" do
       allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
+
+      visit "/restricted"
+      expect(page.status_code).to eq(401)
+    end
+
+    it "returns a 401 when a bearer token is missing and the request matches the api_request_matcher" do
+      allow(GDS::SSO::Config)
+        .to receive(:api_request_matcher)
+        .and_return(->(_request) { true })
 
       visit "/restricted"
       expect(page.status_code).to eq(401)
