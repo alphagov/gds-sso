@@ -103,6 +103,19 @@ GDS::SSO.config do |config|
 end
 ```
 
+For apps that have both usage of web and API you can configure a lambda to
+match your API endpoints to ensure they don't support session auth and return
+JSON error messages:
+
+
+```ruby
+GDS::SSO.config do |config|
+  # ...
+  #
+  config.api_request_matcher = ->(request) { request.path.start_with?("/api/") }
+end
+```
+
 ### Use in production mode
 
 To use gds-sso in production you will need to setup the following environment variables, which we look for in [the config](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/config.rb). You will need to have admin access to Signon to get these.
