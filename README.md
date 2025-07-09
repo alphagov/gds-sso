@@ -90,7 +90,7 @@ Authorization: Bearer your-token-here
 
 To avoid making these requests for each incoming request, this gem will [automatically cache a successful response](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/bearer_token.rb), using the [Rails cache](https://github.com/alphagov/gds-sso/blob/master/lib/gds-sso/railtie.rb).
 
-If you are using a Rails 5 app in
+If you are using a Rails app in
 [api_only](http://guides.rubyonrails.org/api_app.html) mode this gem will
 automatically disable the oauth layers which use session persistence. You can
 configure this gem to be in api_only mode (or not) with:
