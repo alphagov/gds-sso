@@ -6,14 +6,11 @@ require "rails"
 module GDS
   module SSO
     class FailureApp < ActionController::Metal
-      include ActionController::UrlFor
       include ActionController::Redirecting
       include AbstractController::Rendering
       include ActionController::Rendering
       include ActionController::Renderers
       use_renderers :json
-
-      include Rails.application.routes.url_helpers
 
       def self.call(env)
         if GDS::SSO::ApiAccess.api_call?(env)
