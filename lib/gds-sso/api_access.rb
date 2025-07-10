@@ -11,11 +11,19 @@ module GDS
           return GDS::SSO::Config.api_request_matcher.call(Rack::Request.new(env))
         end
 
-        bearer_token_present?(env)
+        !bearer_token(env).nil?
       end
 
-      def self.bearer_token_present?(env)
-        env["HTTP_AUTHORIZATION"].to_s.match?(/\ABearer /)
+      def self.bearer_token(env)
+        Rack::Auth::AbstractRequest::AUTHORIZATION_KEYS.each do |key|
+          next unless env.key?(key)
+
+          if (match = env[key].match(/\ABearer (.+)/))
+            return match[1]
+          end
+        end
+
+        nil
       end
     end
   end

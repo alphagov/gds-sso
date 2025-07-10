@@ -6,6 +6,8 @@ module GDS
   module SSO
     module BearerToken
       def self.locate(token_string)
+        return if token_string.nil? || token_string.empty?
+
         user_details = GDS::SSO::Config.cache.fetch(["api-user-cache", token_string], expires_in: 5.minutes) do
           access_token = OAuth2::AccessToken.new(oauth_client, token_string)
           response_body = access_token.get("/user.json?client_id=#{CGI.escape(GDS::SSO::Config.oauth_id)}").body
