@@ -130,6 +130,35 @@ RSpec.describe "Authenication and authorisation" do
     end
   end
 
+  context "when accessing a route that requires authentication with the mock strategies" do
+    before do
+      # Using allow_any_instance_of because it's hard to access the instance
+      # of the class used within the Rails middleware
+      allow_any_instance_of(Warden::Config).to receive(:[]).and_call_original
+      allow_any_instance_of(Warden::Config)
+        .to receive(:[])
+        .with(:default_strategies)
+        .and_return({ _all: %i[mock_gds_sso gds_bearer_token] })
+
+      allow(Warden::OAuth2.config).to receive(:token_model).and_return(GDS::SSO::MockBearerToken)
+      allow(GDS::SSO).to receive(:test_user).and_return(TestUser.new)
+    end
+
+    it "allows access without being logged in" do
+      visit "/restricted"
+      expect(page.status_code).to eq(200)
+      expect(page.body).to have_content("restricted kablooie")
+    end
+
+    it "allows access to an API mock user" do
+      allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
+
+      visit "/restricted"
+      expect(page.status_code).to eq(200)
+      expect(page.body).to have_content("restricted kablooie")
+    end
+  end
+
   context "when accessing a route that requires a permission" do
     it "allows access when an authenticated user has the permission" do
       stub_signon_authenticated(permissions: %w[execute])
