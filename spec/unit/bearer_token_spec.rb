@@ -25,5 +25,13 @@ describe GDS::SSO::BearerToken do
 
       expect(same_user_again.id).to eql(created_user.id)
     end
+
+    it "returns nil for a nil token string" do
+      expect(described_class.locate(nil)).to be_nil
+    end
+
+    it "returns nil for an empty token string" do
+      expect(described_class.locate("")).to be_nil
+    end
   end
 end

@@ -46,19 +46,26 @@ describe GDS::SSO::ApiAccess do
     end
   end
 
-  describe ".bearer_token_present?" do
-    it "returns true for a Bearer token in env HTTP_AUTHORIZATION" do
+  describe ".bearer_token" do
+    it "returns a bearer token set in a HTTP_AUTHORIZATION header" do
       env = { "HTTP_AUTHORIZATION" => "Bearer 1234:5678" }
-      expect(described_class.bearer_token_present?(env)).to be(true)
+      expect(described_class.bearer_token(env)).to eq("1234:5678")
     end
 
-    it "returns false for a different value in env HTTP_AUTHORIZATION" do
-      env = { "HTTP_AUTHORIZATION" => "Basic 1234:5678" }
-      expect(described_class.bearer_token_present?(env)).to be(false)
+    it "returns nil for an empty bearer token in the HTTP_AUTHORIZATION header" do
+      env = { "HTTP_AUTHORIZATION" => "Bearer " }
+      expect(described_class.bearer_token(env)).to be_nil
     end
 
-    it "returns false if HTTP_AUTHORIZATION is not set in env" do
-      expect(described_class.bearer_token_present?({})).to be(false)
+    it "supports all the authorization headers configured in Rack::Auth::AbstractRequest::AUTHORIZATION_KEYS" do
+      Rack::Auth::AbstractRequest::AUTHORIZATION_KEYS.each do |header|
+        env = { header => "Bearer 1234" }
+        expect(described_class.bearer_token(env)).to eq("1234")
+      end
+    end
+
+    it "returns nil if a bearer token isn't set" do
+      expect(described_class.bearer_token({})).to be_nil
     end
   end
 end

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* BREAKING: Apps using api_only mode were incorrectly using a session auth when used without a bearer token (typically dev/test environments) this has been resolved and this may cause breaking workflows due to user permission differences between session and bearer token strategies. This can be resolved by configuring the `additional_mock_permissions_required` config option.
 * Adds config option for apps to enable API mode for a subset of routes. This can be enabled with an initialiser:  `GDS::SSO.config { |config| config.api_request_matcher = ->(request) { request.path.start_with?("/api/") } }`.
 * BREAKING: Removed deprecated GDS::SSO::ControllerMethods::PermissionDeniedException.
 * BREAKING: MockBearerToken returns a specified GDS::SSO.test_user without permission modifications to allow testing different permissions
