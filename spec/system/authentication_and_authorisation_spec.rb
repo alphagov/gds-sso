@@ -105,22 +105,28 @@ RSpec.describe "Authenication and authorisation" do
 
       visit "/restricted"
       expect(page.status_code).to eq(401)
+      expect(page.response_headers["WWW-Authenticate"]).to eq('Bearer error="invalid_token"')
+      expect_json_response({ "message" => "Bearer token does not appear to be valid" })
     end
 
-    it "returns a 401 when a bearer token is missing and the app is api_only" do
+    it "returns a JSON 401 when a bearer token is missing and the app is api_only" do
       allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
 
       visit "/restricted"
       expect(page.status_code).to eq(401)
+      expect(page.response_headers["WWW-Authenticate"]).to eq('Bearer error="invalid_request"')
+      expect_json_response({ "message" => "No bearer token was provided" })
     end
 
-    it "returns a 401 when a bearer token is missing and the request matches the api_request_matcher" do
+    it "returns a JSON 401 when a bearer token is missing and the request matches the api_request_matcher" do
       allow(GDS::SSO::Config)
         .to receive(:api_request_matcher)
-        .and_return(->(_request) { true })
+        .and_return(->(request) { request.path == "/restricted" })
 
       visit "/restricted"
       expect(page.status_code).to eq(401)
+      expect(page.response_headers["WWW-Authenticate"]).to eq('Bearer error="invalid_request"')
+      expect_json_response({ "message" => "No bearer token was provided" })
     end
   end
 
@@ -141,16 +147,14 @@ RSpec.describe "Authenication and authorisation" do
     it "returns a JSON response when it's an API call" do
       allow(GDS::SSO::Config)
         .to receive(:api_request_matcher)
-        .and_return(->(request) { request.path == "/this-requires-execute-permissions" })
+        .and_return(->(request) { request.path == "/this-requires-execute-permission" })
 
       stub_signon_user_request
       page.driver.header("Authorization", "Bearer 123")
 
       visit "/this-requires-execute-permission"
       expect(page.status_code).to eq(403)
-      expect(page.response_headers["content-type"]).to match(/application\/json/)
-      expect(JSON.parse(page.body))
-        .to match({ "message" => "Sorry, you don't seem to have the execute permission for this app." })
+      expect_json_response({ "message" => "Sorry, you don't seem to have the execute permission for this app." })
     end
   end
 
@@ -203,5 +207,10 @@ RSpec.describe "Authenication and authorisation" do
         }.to_json,
         headers: { content_type: "application/json" },
       )
+  end
+
+  def expect_json_response(json_match)
+    expect(page.response_headers["content-type"]).to match(/application\/json/)
+    expect(JSON.parse(page.body)).to match(json_match)
   end
 end

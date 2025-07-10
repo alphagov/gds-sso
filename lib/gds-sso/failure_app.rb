@@ -13,10 +13,12 @@ module GDS
       use_renderers :json
 
       def self.call(env)
-        if GDS::SSO::ApiAccess.api_call?(env)
-          action(:api_invalid_token).call(env)
-        elsif GDS::SSO::Config.api_only
-          action(:api_missing_token).call(env)
+        if env["gds_sso.api_call"]
+          if env["gds_sso.api_bearer_token_present"]
+            action(:api_invalid_token).call(env)
+          else
+            action(:api_missing_token).call(env)
+          end
         else
           action(:redirect).call(env)
         end
