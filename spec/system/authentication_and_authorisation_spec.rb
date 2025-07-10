@@ -135,6 +135,22 @@ RSpec.describe "Authenication and authorisation" do
       stub_signon_authenticated
       visit "/this-requires-execute-permission"
       expect(page.status_code).to eq(403)
+      expect(page).to have_content("Sorry, you don't seem to have the execute permission for this app.")
+    end
+
+    it "returns a JSON response when it's an API call" do
+      allow(GDS::SSO::Config)
+        .to receive(:api_request_matcher)
+        .and_return(->(request) { request.path == "/this-requires-execute-permission" })
+
+      stub_signon_user_request
+      page.driver.header("Authorization", "Bearer 123")
+
+      visit "/this-requires-execute-permission"
+      expect(page.status_code).to eq(403)
+      expect(page.response_headers["content-type"]).to match(/application\/json/)
+      expect(JSON.parse(page.body))
+        .to match({ "message" => "Sorry, you don't seem to have the execute permission for this app." })
     end
   end
 

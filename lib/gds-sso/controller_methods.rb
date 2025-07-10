@@ -6,7 +6,7 @@ module GDS
     module ControllerMethods
       def self.included(base)
         base.rescue_from PermissionDeniedError do |e|
-          if GDS::SSO::Config.api_only
+          if GDS::SSO::ApiAccess.api_call?(request.env)
             render json: { message: e.message }, status: :forbidden
           else
             render "authorisations/unauthorised", layout: "unauthorised", status: :forbidden, locals: { message: e.message }
