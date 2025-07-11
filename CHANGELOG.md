@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* BREAKING: Removed deprecated GDS::SSO::ControllerMethods::PermissionDeniedException.
 * BREAKING: MockBearerToken returns a specified GDS::SSO.test_user without permission modifications to allow testing different permissions
 * Introduce GDS::SSO.authenticate_user! method to encapsulate the authentication code for re-use.
 
