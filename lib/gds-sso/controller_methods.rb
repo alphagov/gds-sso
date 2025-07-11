@@ -4,14 +4,6 @@ module GDS
     end
 
     module ControllerMethods
-      # TODO: remove this for the next major release
-      class PermissionDeniedException < PermissionDeniedError
-        def initialize(...)
-          warn "GDS::SSO::ControllerMethods::PermissionDeniedException is deprecated, please replace with GDS::SSO::PermissionDeniedError"
-          super(...)
-        end
-      end
-
       def self.included(base)
         base.rescue_from PermissionDeniedError do |e|
           if GDS::SSO::Config.api_only
