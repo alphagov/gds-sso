@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* BREAKING: MockBearerToken returns a specified GDS::SSO.test_user without permission modifications to allow testing different permissions
+
 ## 20.0.0
 
 * BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/gds-sso/pull/318)
