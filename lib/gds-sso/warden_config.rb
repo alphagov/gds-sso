@@ -6,6 +6,12 @@ def logger
   Rails.logger || env["rack.logger"]
 end
 
+Warden::Manager.on_request do |proxy|
+  proxy.env["gds_sso.api_call"] ||= ::GDS::SSO::ApiAccess.api_call?(proxy.env)
+  proxy.env["gds_sso.api_bearer_token_present"] ||=
+    proxy.env["gds_sso.api_call"] && !::GDS::SSO::ApiAccess.bearer_token(proxy.env).nil?
+end
+
 Warden::Manager.after_authentication do |user, _auth, _opts|
   # We've successfully signed in.
   # If they were remotely signed out, clear the flag as they're no longer suspended
@@ -35,7 +41,7 @@ end
 
 Warden::Strategies.add(:gds_sso) do
   def valid?
-    !::GDS::SSO::ApiAccess.api_call?(env)
+    !env["gds_sso.api_call"]
   end
 
   def authenticate!
@@ -61,11 +67,30 @@ end
 Warden::OAuth2.configure do |config|
   config.token_model = GDS::SSO::Config.use_mock_strategies? ? GDS::SSO::MockBearerToken : GDS::SSO::BearerToken
 end
-Warden::Strategies.add(:gds_bearer_token, Warden::OAuth2::Strategies::Bearer)
+
+# We're using our own bearer token strategy rather than the one in Warden::OAuth2
+# so that we can get a direct inverse of session strategies for valid?.
+# It also allows us to avoid multiple DB queries to locate a user.
+Warden::Strategies.add(:gds_bearer_token, Class.new(Warden::OAuth2::Strategies::Token)) do
+  def valid?
+    env["gds_sso.api_call"]
+  end
+
+  def token_string
+    @token_string ||= GDS::SSO::ApiAccess.bearer_token(env)
+  end
+
+  def token
+    return @token if defined? @token
+
+    @token = Warden::OAuth2.config.token_model.locate(token_string)
+    @token
+  end
+end
 
 Warden::Strategies.add(:mock_gds_sso) do
   def valid?
-    !::GDS::SSO::ApiAccess.api_call?(env)
+    !env["gds_sso.api_call"]
   end
 
   def authenticate!
