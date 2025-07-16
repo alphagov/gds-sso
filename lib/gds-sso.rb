@@ -25,6 +25,12 @@ module GDS
       yield GDS::SSO::Config
     end
 
+    def self.authenticate_user!(warden)
+      warden.authenticate! if !warden.authenticated? || warden.user.remotely_signed_out?
+
+      warden.user
+    end
+
     class Engine < ::Rails::Engine
       # Force routes to be loaded if we are doing any eager load.
       # TODO - check this one - Stolen from Devise because it looked sensible...
