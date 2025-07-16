@@ -29,6 +29,8 @@ module GDS
 
       mattr_accessor :api_only
 
+      mattr_accessor :api_request_matcher
+
       mattr_accessor :intercept_401_responses
       @@intercept_401_responses = true
 
