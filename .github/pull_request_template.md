@@ -1,1 +1,1 @@
-This repo is owned by the publishing access & permissions team. Please let us know in #govuk-publishing-access-and-permissions-team when you raise any PRs.
+This repo is owned by the GOV.UK Publishing Platform team. Please let us know in #govuk-publishing-platform when you raise any PRs.
