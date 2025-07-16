@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* BREAKING: Removed deprecated GDS::SSO::ControllerMethods::PermissionDeniedException.
+
 ## 20.0.0
 
 * BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/gds-sso/pull/318)
