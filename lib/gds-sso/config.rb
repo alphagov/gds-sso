@@ -31,6 +31,11 @@ module GDS
 
       mattr_accessor :api_request_matcher
 
+      # A matcher for GDS SSO's own API for updating user details. Shouldn't
+      # need configuring unless you mount the API at a different location.
+      mattr_accessor :gds_sso_api_request_matcher
+      @@gds_sso_api_request_matcher = ->(request) { request.path.start_with?("/auth/gds/api/") }
+
       mattr_accessor :intercept_401_responses
       @@intercept_401_responses = true
 

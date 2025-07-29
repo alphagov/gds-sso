@@ -8,7 +8,12 @@ module GDS
         return true if GDS::SSO::Config.api_only
 
         if GDS::SSO::Config.api_request_matcher
-          return GDS::SSO::Config.api_request_matcher.call(Rack::Request.new(env))
+          request = Rack::Request.new(env)
+
+          gds_sso_api_request_matcher = GDS::SSO::Config.gds_sso_api_request_matcher
+          return true if gds_sso_api_request_matcher&.call(request)
+
+          return GDS::SSO::Config.api_request_matcher.call(request)
         end
 
         !bearer_token(env).nil?
