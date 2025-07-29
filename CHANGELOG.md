@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fixes usage of GDS::SSO.config.api_request_matcher blocking authentication of GDS SSO internal API. Matcher for GDS SSO API can be configured with `GDS::SSO.config { |config| config.gds_sso_api_request_matcher = ->(request) { request.path.start_with?("/custom/api") }}`
+
 ## 21.0.0
 
 * BREAKING: Apps using api_only mode were incorrectly using a session auth when used without a bearer token (typically dev/test environments) this has been resolved and this may cause breaking workflows due to user permission differences between session and bearer token strategies. This can be resolved by configuring the `additional_mock_permissions_required` config option.

@@ -18,31 +18,49 @@ describe GDS::SSO::ApiAccess do
       expect(described_class.api_call?({})).to be(true)
     end
 
-    it "returns true if the request matches the api_request_matcher" do
-      allow(GDS::SSO::Config)
-        .to receive(:api_request_matcher)
-        .and_return(->(request) { request.path == "/api" })
+    context "when an api_request_matcher has been configured" do
+      before do
+        allow(GDS::SSO::Config)
+          .to receive(:api_request_matcher)
+          .and_return(->(request) { request.path == "/api" })
+      end
 
-      env = Rack::MockRequest.env_for("/api")
-      expect(described_class.api_call?(env)).to be(true)
+      it "returns true if the request matches the api_request_matcher" do
+        env = Rack::MockRequest.env_for("/api")
+        expect(described_class.api_call?(env)).to be(true)
+      end
+
+      it "returns true if the request is for GDS SSO API at default location" do
+        env = Rack::MockRequest.env_for("/auth/gds/api/#{SecureRandom.uuid}")
+        expect(described_class.api_call?(env)).to be(true)
+      end
+
+      it "returns true if it matches a configured gds_sso_api_request_matcher" do
+        allow(GDS::SSO::Config)
+          .to receive(:gds_sso_api_request_matcher)
+          .and_return(->(request) { request.path == "/special/gds-sso/route" })
+
+        env = Rack::MockRequest.env_for("/special/gds-sso/route")
+        expect(described_class.api_call?(env)).to be(true)
+      end
+
+      it "returns false if the request doesn't match the gds_sso_api_request_matcher or api_request_matcher" do
+        allow(GDS::SSO::Config).to receive(:gds_sso_api_request_matcher).and_return(nil)
+
+        env = Rack::MockRequest.env_for("/other")
+        expect(described_class.api_call?(env)).to be(false)
+      end
     end
 
-    it "returns false if the request doesn't match the api_request_matcher" do
-      allow(GDS::SSO::Config)
-        .to receive(:api_request_matcher)
-        .and_return(->(request) { request.path == "/api" })
+    context "when an api_request_matcher has not been configured" do
+      it "returns true if a bearer token is present" do
+        env = { "HTTP_AUTHORIZATION" => "Bearer 1234:5678" }
+        expect(described_class.api_call?(env)).to be(true)
+      end
 
-      env = Rack::MockRequest.env_for("/other")
-      expect(described_class.api_call?(env)).to be(false)
-    end
-
-    it "returns true if a bearer token is present" do
-      env = { "HTTP_AUTHORIZATION" => "Bearer 1234:5678" }
-      expect(described_class.api_call?(env)).to be(true)
-    end
-
-    it "returns false otherwise" do
-      expect(described_class.api_call?({})).to be(false)
+      it "returns false if nothing indicates an API call" do
+        expect(described_class.api_call?({})).to be(false)
+      end
     end
   end
 
