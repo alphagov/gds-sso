@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "combustion", "~> 1.3"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec-rails", "~> 6"
-  s.add_development_dependency "rubocop-govuk", "5.0.2"
+  s.add_development_dependency "rubocop-govuk", "5.1.18"
   s.add_development_dependency "sqlite3", "~> 2.1"
   s.add_development_dependency "timecop", "~> 0.9"
   s.add_development_dependency "webmock"
