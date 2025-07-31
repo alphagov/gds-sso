@@ -10,6 +10,12 @@ describe GDS::SSO::MockBearerToken do
       expect(described_class.locate("anything")).to be(test_user)
     end
 
+    it "returns nil if ENV['GDS_SSO_MOCK_INVALID'] is set" do
+      ClimateControl.modify("GDS_SSO_MOCK_INVALID" => "1") do
+        expect(described_class.locate("anything")).to be_nil
+      end
+    end
+
     it "doesn't modify the permissions of GDS::SSO.test_user" do
       test_user = TestUser.new(permissions: [])
       allow(GDS::SSO).to receive(:test_user).and_return(test_user)

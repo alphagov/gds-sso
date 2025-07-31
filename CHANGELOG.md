@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Setting an ENV var of GDS_SSO_MOCK_INVALID causes mock bearer token auth to fail, mirroring the behaviour of the non-bearer token strategy.
 * Fix an issue where Signon callbacks to api_only apps weren't possible because routes weren't available.
 * Fixes usage of GDS::SSO.config.api_request_matcher blocking authentication of GDS SSO internal API. Matcher for GDS SSO API can be configured with `GDS::SSO.config { |config| config.gds_sso_api_request_matcher = ->(request) { request.path.start_with?("/custom/api") }}`
 

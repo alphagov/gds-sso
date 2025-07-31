@@ -123,12 +123,28 @@ describe "Integration tests with a demo app", type: :request do
       expect(response.body).to eq("restricted kablooie")
     end
 
+    it "can be configured to fail authentication with an env var" do
+      ClimateControl.modify("GDS_SSO_MOCK_INVALID" => "1") do
+        get "/restricted"
+        expect(response).to redirect_to("/auth/gds")
+      end
+    end
+
     it "allows an API request without a bearer token" do
       allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
 
       get "/restricted"
       expect(response).to have_http_status(:success)
       expect(response.body).to eq("restricted kablooie")
+    end
+
+    it "can be configured to fail API authentication with an env var" do
+      allow(GDS::SSO::Config).to receive(:api_only).and_return(true)
+
+      ClimateControl.modify("GDS_SSO_MOCK_INVALID" => "1") do
+        get "/restricted"
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 

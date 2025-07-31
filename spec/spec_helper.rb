@@ -2,6 +2,7 @@
 # Bad things happen if we don't ;-)
 ENV["GDS_SSO_STRATEGY"] = "real"
 
+require "climate_control"
 require "webmock/rspec"
 require "combustion"
 

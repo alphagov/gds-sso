@@ -58,6 +58,7 @@ module GDS
 
     module MockBearerToken
       def self.locate(_token_string)
+        return unless ENV["GDS_SSO_MOCK_INVALID"].to_s.empty?
         return GDS::SSO.test_user if GDS::SSO.test_user
 
         dummy_api_user = GDS::SSO::Config.user_klass.where(email: "dummyapiuser@domain.com").first
