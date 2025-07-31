@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
   s.add_dependency "warden", "~> 1.2"
   s.add_dependency "warden-oauth2", "~> 0.0.1"
 
-  s.add_development_dependency "capybara", "~> 3"
   s.add_development_dependency "combustion", "~> 1.3"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec-rails", "~> 6"

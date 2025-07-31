@@ -2,7 +2,6 @@
 # Bad things happen if we don't ;-)
 ENV["GDS_SSO_STRATEGY"] = "real"
 
-require "capybara/rspec"
 require "webmock/rspec"
 require "combustion"
 
@@ -12,14 +11,9 @@ Combustion.initialize! :all do
 end
 
 require "rspec/rails"
-require "capybara/rails"
 WebMock.disable_net_connect!
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }
-
-Capybara.register_driver :rack_test do |app|
-  Capybara::RackTest::Driver.new(app, follow_redirects: false)
-end
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -34,7 +28,6 @@ RSpec.configure do |config|
 
   config.include ActiveSupport::Testing::TimeHelpers
   config.include Warden::Test::Helpers
-  config.include Capybara::DSL
   config.include RequestHelpers, type: :request
   config.before(:each, type: :request) do
     # we reload routes each test as GDS::SSO::Config affects what routes are
