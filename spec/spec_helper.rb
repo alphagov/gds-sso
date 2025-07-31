@@ -36,4 +36,17 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.include Capybara::DSL
   config.include RequestHelpers, type: :request
+  config.before(:each, type: :request) do
+    # we reload routes each test as GDS::SSO::Config affects what routes are
+    # available, we only want to run this once routes are loaded otherwise
+    # we can lose app routes
+    routes_reloader = Rails.application.routes_reloader
+
+    # Routes changed in Rails 8 to be lazily loaded so this wasn't a problem
+    # before Rails 8.
+    # TODO: remove this line once Rails 7 support is removed
+    next unless routes_reloader.respond_to?(:loaded)
+
+    routes_reloader.reload! if routes_reloader.loaded
+  end
 end
