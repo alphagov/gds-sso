@@ -32,6 +32,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.include ActiveSupport::Testing::TimeHelpers
   config.include Warden::Test::Helpers
   config.include Capybara::DSL
+  config.include RequestHelpers, type: :request
 end
