@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     "lib/**/*",
     "README.md",
     "Gemfile",
-    "Rakefile"
+    "Rakefile",
   ]
   s.test_files    = Dir["test/**/*", "spec/**/*"]
   s.executables   = []
