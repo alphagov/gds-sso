@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 21.1.0
 
 * Setting an ENV var of GDS_SSO_MOCK_INVALID causes mock bearer token auth to fail, mirroring the behaviour of the non-bearer token strategy.
 * Fix an issue where Signon callbacks to api_only apps weren't possible because routes weren't available.
