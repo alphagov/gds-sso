@@ -14,11 +14,12 @@ describe Warden::SessionSerializer do
 
   describe "serializing a user" do
     it "should return the uid and an ISO 8601 string timestamp" do
-      Timecop.freeze
-      result = @serializer.serialize(@user)
+      freeze_time do
+        result = @serializer.serialize(@user)
 
-      expect(result).to eq([1234, Time.now.utc.iso8601])
-      expect(result.last).to be_a(String)
+        expect(result).to eq([1234, Time.now.utc.iso8601])
+        expect(result.last).to be_a(String)
+      end
     end
 
     it "should return nil if the user has no uid" do
