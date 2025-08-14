@@ -1,5 +1,11 @@
 # Changelog
 
+## 22.0.0
+
+* BREAKING: Don't store overly long `return_to` paths in the session cookie.
+Specifically paths over 2048 bytes (2kB) which is very large and therefore
+hopefully not breaking in practice.
+
 ## 21.1.0
 
 * Setting an ENV var of GDS_SSO_MOCK_INVALID causes mock bearer token auth to fail, mirroring the behaviour of the non-bearer token strategy.
