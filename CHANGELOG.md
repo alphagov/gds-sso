@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 22.0.0
 
 * BREAKING: Don't store overly long `return_to` paths in the session cookie.
 Specifically paths over 2048 bytes (2kB) which is very large and therefore
