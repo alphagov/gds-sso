@@ -39,12 +39,6 @@ module GDS
         api_unauthorized("No bearer token was provided", "invalid_request")
       end
 
-      # Stores requested uri to redirect the user after signing in. We cannot use
-      # scoped session provided by warden here, since the user is not authenticated
-      # yet, but we still need to store the uri based on scope, so different scopes
-      # would never use the same uri to redirect.
-
-      # TOTALLY NOT DOING THE SCOPE THING. PROBABLY SHOULD.
       def store_location!
         return unless request.get?
 
