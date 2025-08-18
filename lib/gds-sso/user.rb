@@ -19,6 +19,15 @@ module GDS
         end
       end
 
+      def anonymous_user_id
+        @anonymous_user_id ||= Digest::SHA2.hexdigest(uid + anonymous_user_id_secret)[..16]
+      end
+
+      def anonymous_user_id_secret
+        # TODO: Make unset env var an error
+        @anonymous_user_id_secret ||= ENV.fetch("ANONYMOUS_USER_ID_SECRET", "TODO")
+      end
+
       def self.user_params_from_auth_hash(auth_hash)
         {
           "uid" => auth_hash["uid"],

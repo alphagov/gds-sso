@@ -68,6 +68,7 @@ RSpec.shared_examples "a gds-sso user class" do
     user = described_class.find_for_gds_oauth(auth_hash)
     expect(user).to be_an_instance_of(described_class)
     expect(user.uid).to eq("12345")
+    expect(user.anonymous_user_id).to eq("a2681df3b83e7aa85")
     expect(user.name).to eq("Joe Smith")
     expect(user.email).to eq("joe.smith@example.com")
     expect(user).not_to be_disabled
