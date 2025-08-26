@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.1.0
+
+* Add User#anonymous_user_id [#341](https://github.com/alphagov/gds-sso/pull/341)
+
 ## 22.0.0
 
 * BREAKING: Don't store overly long `return_to` paths in the session cookie.
