@@ -1,4 +1,5 @@
 require "active_support/concern"
+require "json"
 
 module GDS
   module SSO
@@ -37,6 +38,13 @@ module GDS
 
       def set_remotely_signed_out!
         update_attribute(:remotely_signed_out, true)
+      end
+
+      def anonymous_user_id
+        secret = ENV["ANONYMOUS_USER_ID_SECRET"]
+        return if secret.nil?
+
+        @anonymous_user_id ||= Digest::SHA2.hexdigest(JSON.dump([uid, secret]))[..16]
       end
 
       module ClassMethods
