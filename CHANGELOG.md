@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.1.1
+
+* Remove accidental dependency on climate_control [#342](https://github.com/alphagov/gds-sso/pull/342)
+
 ## 22.1.0
 
 * Add User#anonymous_user_id [#341](https://github.com/alphagov/gds-sso/pull/341)

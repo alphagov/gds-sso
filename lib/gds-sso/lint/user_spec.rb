@@ -49,7 +49,7 @@ RSpec.shared_examples "a gds-sso user class" do
   end
 
   specify "the User class and GDS::SSO::User mixin work together" do
-    ClimateControl.modify ANONYMOUS_USER_ID_SECRET: "some-anonymous-user-id-secret" do
+    with_anonymous_user_id_secret "some-anonymous-user-id-secret" do
       auth_hash = {
         "uid" => "12345",
         "info" => {
@@ -76,6 +76,23 @@ RSpec.shared_examples "a gds-sso user class" do
       expect(user.permissions).to eq(%w[signin])
       expect(user.organisation_slug).to eq("cabinet-office")
       expect(user.organisation_content_id).to eq("91e57ad9-29a3-4f94-9ab4-5e9ae6d13588")
+    end
+  end
+
+private
+
+  def with_anonymous_user_id_secret(value, &block)
+    if defined?(ClimateControl)
+      ClimateControl.modify(ANONYMOUS_USER_ID_SECRET: value, &block)
+    else
+      # If ClimateControl isn't available, we fall back to a simpler way of setting / resetting the environment
+      # variable. This doesn't account for tests running in parallel though.
+      begin
+        ENV["ANONYMOUS_USER_ID_SECRET"] = value
+        block.call
+      ensure
+        ENV.delete "ANONYMOUS_USER_ID_SECRET"
+      end
     end
   end
 end
