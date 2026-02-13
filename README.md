@@ -78,8 +78,7 @@ The signon application makes sure that only users who have been granted access t
 ### Authorisation for API Users
 
 In addition to the single-sign-on strategy, this gem also allows authorisation
-via a "bearer token". This is used by publishing applications to be authorised
-as an [API user](https://signon.publishing.service.gov.uk/api_users).
+via a "bearer token".  To authenticate using this method you will need to create an [API user](https://signon.publishing.service.gov.uk/api_users) (Admin access to Signon required) for your app, and [make the bearer token available in your app's ENV](https://github.com/alphagov/signon/blob/main/docs/usage.md#access-tokens).
 
 To authorise with a bearer token, a request has to be made with the header:
 
