@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.2.0
+
+* Drop support for Ruby 3.2
+
 ## 22.1.1
 
 * Remove accidental dependency on climate_control [#342](https://github.com/alphagov/gds-sso/pull/342)
