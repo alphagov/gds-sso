@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [3.3, 3.4]
+        ruby: [3.3, 3.4, 4.0]
         # Support testing against multiple Rails versions
         gemfile: [rails_7, rails_8]
     runs-on: ubuntu-latest

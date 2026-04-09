@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "climate_control", "~> 1"
   s.add_development_dependency "combustion", "~> 1.3"
+  s.add_development_dependency "ostruct"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec-rails", "~> 8"
   s.add_development_dependency "rubocop-govuk", "5.2.0"
