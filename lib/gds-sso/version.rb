@@ -1,5 +1,5 @@
 module GDS
   module SSO
-    VERSION = "22.2.0".freeze
+    VERSION = "22.3.0".freeze
   end
 end

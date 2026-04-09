@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.3.0
+
+* Add development dependency "ostruct" to support Ruby 4.0 tests
+
 ## 22.2.0
 
 * Drop support for Ruby 3.2
