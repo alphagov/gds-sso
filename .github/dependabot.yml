@@ -1,12 +1,30 @@
 version: 2
 updates:
-- package-ecosystem: bundler
-  directory: "/"
-  schedule:
-    interval: daily
-  allow:
-    - dependency-type: "all"
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: daily
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: "07:00"
+    allow:
+      - dependency-type: direct
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 25
+    groups:
+      test:
+        patterns:
+          - "capybara*"
+          - "combustion"
+          - "rspec-*"
+          - "timecop"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: "07:00"
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 25
