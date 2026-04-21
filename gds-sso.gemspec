@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "ostruct"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec-rails", "~> 8"
-  s.add_development_dependency "rubocop-govuk", "5.2.0"
+  s.add_development_dependency "rubocop-govuk", "5.2.1"
   s.add_development_dependency "sqlite3", "~> 2.1"
   s.add_development_dependency "webmock"
 end
