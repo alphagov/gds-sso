@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Don't crash the failure app when a return-to path isn't available.
+
 ## 22.3.0
 
 * Add development dependency "ostruct" to support Ruby 4.0 tests
