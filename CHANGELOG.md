@@ -1,5 +1,22 @@
 # Changelog
 
+## 23.0.0
+
+* BREAKING: Limit the total size of everything gds-sso and its dependencies
+  OmniAuth and Warden add to the session cookie, rather than only limiting
+  individual fields. Requests whose query strings, Referer headers, origin
+  params or attempted paths would overflow the session cookie are now rejected
+  with 400 Bad Request, because requests like these are not made by real users.
+  Previously they raised ActionDispatch::Cookies::CookieOverflow and returned
+  a 500 error (or were silently ignored in case of overlong attempted paths).
+* BREAKING: Remove the 2048-byte limit on return_to paths stored by
+  GDS::SSO::FailureApp (introduced in 22.0.0). It is superseded by the total
+  session data limit above: overlong paths now receive a 400 response instead
+  of being silently ignored.
+* Continue to respond with 500 Internal Server Error if a session cookie
+  overflows for any other reason (e.g. a host application storing too much of
+  its own data in the session).
+
 ## 22.3.0
 
 * Add development dependency "ostruct" to support Ruby 4.0 tests
