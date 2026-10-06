@@ -6,8 +6,6 @@ require "rails"
 module GDS
   module SSO
     class FailureApp < ActionController::Metal
-      MAX_RETURN_TO_PATH_SIZE = 2048
-
       include ActionController::Redirecting
       include AbstractController::Rendering
       include ActionController::Rendering
@@ -43,7 +41,6 @@ module GDS
         return unless request.get?
 
         attempted_path = request.env["warden.options"][:attempted_path]
-        return if attempted_path.bytesize > MAX_RETURN_TO_PATH_SIZE
 
         session["return_to"] = attempted_path
       end
