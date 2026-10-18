@@ -27,5 +27,14 @@ describe GDS::SSO::FailureApp, type: :request do
       expect(response).to redirect_to("/auth/gds")
       expect(session["return_to"]).to be_nil
     end
+
+    it "should not attempt to store the return_to path in session when it's not set in the request" do
+      attempted_path = nil
+
+      get "/redirect", env: { "warden.options" => { attempted_path: } }
+
+      expect(response).to redirect_to("/auth/gds")
+      expect(session["return_to"]).to be_nil
+    end
   end
 end

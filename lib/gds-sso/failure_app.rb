@@ -43,7 +43,7 @@ module GDS
         return unless request.get?
 
         attempted_path = request.env["warden.options"][:attempted_path]
-        return if attempted_path.bytesize > MAX_RETURN_TO_PATH_SIZE
+        return if attempted_path.respond_to?(:bytesize) && attempted_path.bytesize > MAX_RETURN_TO_PATH_SIZE
 
         session["return_to"] = attempted_path
       end
