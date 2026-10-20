@@ -12,6 +12,7 @@ module GDS
   module SSO
     autoload :FailureApp,               "gds-sso/failure_app"
     autoload :ControllerMethods,        "gds-sso/controller_methods"
+    autoload :LimitSessionData,         "gds-sso/limit_session_data"
     autoload :User,                     "gds-sso/user"
     autoload :ApiAccess,                "gds-sso/api_access"
     autoload :AuthoriseUser,            "gds-sso/authorise_user"
@@ -38,6 +39,7 @@ module GDS
 
       OmniAuth.config.allowed_request_methods = %i[post get]
 
+      config.app_middleware.use GDS::SSO::LimitSessionData
       config.app_middleware.use ::OmniAuth::Builder do
         next if GDS::SSO::Config.api_only
 
