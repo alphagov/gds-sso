@@ -32,6 +32,13 @@ RSpec.describe "GDS-SSO session data limitation", type: :request do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it "responds with 400 when HTML-escapable characters inflate the serialised cookie size" do
+      # ActiveSupport::JSON escapes '&' to \u0026 (6 bytes); JSON.generate doesn't
+      get "/auth/gds", headers: { "HTTP_REFERER" => "https://example.com/p?#{'bbb&' * 230}" }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
     it "does not write the oversized data into the session cookie" do
       get "/auth/gds?payload=#{'A' * 6000}"
 
