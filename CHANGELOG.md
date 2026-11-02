@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 22.3.1
 
 * Don't crash the failure app when a return-to path isn't available.
 
