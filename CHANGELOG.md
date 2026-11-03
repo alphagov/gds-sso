@@ -1,13 +1,13 @@
 # Changelog
 
-## Unreleased
+## 23.1.0
 
-Measure session data with the same serialiser the session cookie store uses
-(`ActiveSupport::JSON`). It escapes HTML-escapable characters (`&`, `<`, `>`) as
-6-byte `\uXXXX` sequences, so measuring with `JSON.generate` undercounted
-`&`-heavy URLs (query strings, Referer/origin headers) by up to 6x, letting
-requests through that still overflowed the session cookie with
-`ActionDispatch::Cookies::CookieOverflow`.
+* Measure session data with the same serialiser the session cookie store uses
+  (`ActiveSupport::JSON`). It escapes HTML-escapable characters (`&`, `<`, `>`)
+  as 6-byte `\uXXXX` sequences, so measuring with `JSON.generate` undercounted
+  `&`-heavy URLs (query strings, Referer/origin headers) by up to 6x, letting
+  requests through that still overflowed the session cookie with
+  `ActionDispatch::Cookies::CookieOverflow`.
 
 ## 23.0.0
 
