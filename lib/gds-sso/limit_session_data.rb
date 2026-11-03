@@ -1,3 +1,5 @@
+require "active_support/json"
+
 module GDS
   module SSO
     class LimitSessionData
@@ -33,7 +35,7 @@ module GDS
       end
 
       def serialized_bytesize(value)
-        JSON.generate(value).bytesize
+        ActiveSupport::JSON.encode(value).bytesize
       rescue StandardError
         # If we can't serialise it to measure it, assume it's too large
         Float::INFINITY
