@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+* Fix a regression introduced in v23.0.0: `LimitSessionData` forced the session
+  to load on every request, causing Rails' cookie store to emit a `Set-Cookie`
+  header even for responses that never used it. This inflated response headers
+  for clients with large session cookies and in the case of asset-manager whose
+  nginx proxy was using the default buffer size of 4K it has caused 502 errors.
+
 ## 23.1.0
 
 * Measure session data with the same serialiser the session cookie store uses
