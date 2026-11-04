@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 23.1.1
 
 * Fix a regression introduced in v23.0.0: `LimitSessionData` forced the session
   to load on every request, causing Rails' cookie store to emit a `Set-Cookie`
