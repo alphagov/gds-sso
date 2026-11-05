@@ -13,11 +13,9 @@ module GDS
 
       def call(env)
         status, headers, body = @app.call(env)
-
         session = env["rack.session"]
-        return [status, headers, body] unless session.respond_to?(:to_hash)
 
-        if gds_sso_session_bytesize(session) > MAX_SESSION_DATA_SIZE
+        if session_in_use?(session) && session_exceeds_limit?(session)
           Rails.logger.warn("[gds-sso] Rejecting request: data added to the session by gds-sso exceeds #{MAX_SESSION_DATA_SIZE} bytes")
           purge_gds_sso_session_data!(session)
           return bad_request
@@ -27,6 +25,16 @@ module GDS
       end
 
     private
+
+      # Only inspect sessions the app has already loaded. Forcing a load
+      # would otherwise emit a Set-Cookie on responses that never used it.
+      def session_in_use?(session)
+        session.respond_to?(:loaded?) && session.loaded?
+      end
+
+      def session_exceeds_limit?(session)
+        gds_sso_session_bytesize(session) > MAX_SESSION_DATA_SIZE
+      end
 
       def gds_sso_session_bytesize(session)
         session.to_hash.sum do |key, value|

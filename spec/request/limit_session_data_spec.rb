@@ -1,6 +1,21 @@
 require "spec_helper"
 
 RSpec.describe "GDS-SSO session data limitation", type: :request do
+  context "when the application does not use the session" do
+    it "does not read the session, so no session cookie is emitted in the response" do
+      # Obtain a valid, under-limit session cookie
+      get "/restricted"
+      expect(response).to redirect_to("/auth/gds")
+
+      session_cookie = response.headers["Set-Cookie"]
+      expect(session_cookie).to be_present
+
+      # Access an endpoint that never touches the session
+      get "/not-restricted", headers: { "Cookie" => session_cookie.split(";").first }
+      expect(response).to have_http_status(:success)
+      expect(response.headers["Set-Cookie"]).to be_nil
+    end
+  end
   context "when a request would overflow the session cookie" do
     it "responds with 400 when the query string is oversized" do
       get "/auth/gds?payload=#{'A' * 6000}"
