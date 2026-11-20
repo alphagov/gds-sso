@@ -74,7 +74,7 @@ RSpec.describe "GDS-SSO session data limitation", type: :request do
       expect(response).to have_http_status(:redirect)
       expect(URI.parse(response.location).path).to eq("/oauth/authorize")
       expect(session["omniauth.params"]).to eq("app_param" => "1")
-      expect(session["omniauth.origin"]).to eq("https://example.com/some-page")
+      expect(session["omniauth.sign_ins"].values.first["origin"]).to eq("https://example.com/some-page")
       expect(session["omniauth.state"]).to be_present
     end
 
