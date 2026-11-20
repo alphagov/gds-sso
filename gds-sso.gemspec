@@ -29,8 +29,8 @@ Gem::Specification.new do |s|
   s.require_paths = %w[lib]
 
   s.add_dependency "oauth2", "~> 2.0"
-  s.add_dependency "omniauth", "~> 2.1"
-  s.add_dependency "omniauth-oauth2", "~> 1.8"
+  s.add_dependency "omniauth", "~> 2.1", ">= 2.4.1"
+  s.add_dependency "omniauth-oauth2", "~> 1.8", ">= 1.10.0"
   s.add_dependency "plek", ">= 5"
   s.add_dependency "rack"
   s.add_dependency "rails", ">= 7"
