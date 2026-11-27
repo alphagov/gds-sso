@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 24.0.0
 
 * BREAKING: Drop support for Rails 7 and 8.0
 
