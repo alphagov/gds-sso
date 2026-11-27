@@ -1,5 +1,12 @@
 # Changelog
 
+## 24.0.0
+
+* BREAKING: Drop support for Rails 7 and 8.0
+
+  No dependent alphagov repos are using these, so this is only breaking in
+  theory
+
 ## 23.1.1
 
 * Fix a regression introduced in v23.0.0: `LimitSessionData` forced the session
